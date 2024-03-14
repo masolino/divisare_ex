@@ -37,20 +37,28 @@ defmodule Divisare.MixProject do
       {:ecto_sql, "~> 3.11"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 3.3"},
-      {:phoenix_live_reload, "~> 1.5", only: :dev},
       {:phoenix_live_view, "~> 0.18.3"},
       {:heroicons, "~> 0.5"},
-      {:floki, ">= 0.36.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.7.2"},
-      {:esbuild, "~> 0.5", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:swoosh, "~> 1.15"},
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.24"},
       {:jason, "~> 1.4"},
-      {:plug_cowboy, "~> 2.7"}
+      {:plug_cowboy, "~> 2.7"},
+      {:timex, "~> 3.7.11"},
+      {:bcrypt_elixir, "~> 3.0"},
+      {:stripity_stripe, ">= 3.1.1"},
+
+      # Development
+      {:phoenix_live_reload, "~> 1.5", only: :dev},
+      {:esbuild, "~> 0.5", runtime: Mix.env() == :dev},
+      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
+      {:dotenvy, "~> 0.8.0"},
+
+      # Testing
+      {:floki, ">= 0.36.0", only: :test}
     ]
   end
 

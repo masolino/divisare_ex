@@ -5,7 +5,7 @@ config :divisare, Divisare.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "divisare_dev",
+  database: "divisare_development",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10

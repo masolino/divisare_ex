@@ -1,0 +1,25 @@
+<.header>
+  New Onboarding
+  <:subtitle>Use this form to manage onboarding records in your database.</:subtitle>
+
+  <script src="https://js.stripe.com/v3/"></script>
+
+</.header>
+
+<h2>Enroll into Divisare</h2>
+
+<p>You will be charged <strong>75€</strong>, tax included</p>
+<p>
+  You will be sent directly to the site after the payment and you will
+  receive an email with your credentials at the email you will write
+  below. After the payment, you can ask for a receipt or a VAT invoice
+  directly in the user preferences site, a link to which will also be in
+  the email you will receive.
+</p>
+<p>
+  Email helpme@divisare.com if you have problems with the form or you want more information
+</p>
+
+<.onboarding_form data={@data} action={~p"/onboarding"} />
+
+<.back navigate={~p"/onboarding"}>Back to people</.back>

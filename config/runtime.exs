@@ -1,4 +1,7 @@
 import Config
+import Dotenvy
+
+source!([".env", System.get_env()])
 
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
@@ -19,6 +22,9 @@ import Config
 if System.get_env("PHX_SERVER") do
   config :divisare, DivisareWeb.Endpoint, server: true
 end
+
+# config :stripity_stripe, api_key: env!("STRIPE_SECRET")
+config :stripity_stripe, api_key: env!("STRIPE_SECRET")
 
 if config_env() == :prod do
   database_url =
