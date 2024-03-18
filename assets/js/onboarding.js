@@ -115,6 +115,7 @@ function initializeStripe() {
   }
 
   function handleError(error) {
+    const submitBtn = document.querySelector('#submit')
     const messageContainer = document.querySelector('#payment-message')
     messageContainer.textContent = error.message
     submitBtn.disabled = false

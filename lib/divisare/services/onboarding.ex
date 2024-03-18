@@ -32,7 +32,7 @@ defmodule Divisare.Services.Onboarding do
 
   defp extract_client_secret_from_subscription(subscription) do
     client_secret =
-      case subscription.pending_setup_intent do
+      case Map.get(subscription, :pending_setup_intent) do
         nil -> subscription.latest_invoice.payment_intent.client_secret
         _ -> subscription.pending_setup_intent.client_secret
       end

@@ -23,8 +23,9 @@ if System.get_env("PHX_SERVER") do
   config :divisare, DivisareWeb.Endpoint, server: true
 end
 
-# config :stripity_stripe, api_key: env!("STRIPE_SECRET")
 config :stripity_stripe, api_key: env!("STRIPE_SECRET")
+
+config :divisare, stripe_webhook_secret: env!("STRIPE_WEBHOOK_SECRET")
 
 if config_env() == :prod do
   database_url =

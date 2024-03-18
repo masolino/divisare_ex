@@ -1,5 +1,6 @@
 defmodule DivisareWeb.OnboardingController do
   use DivisareWeb, :controller
+
   alias Divisare.Services.Onboarding
 
   def index(conn, _params) do
@@ -19,9 +20,13 @@ defmodule DivisareWeb.OnboardingController do
   def confirm(conn, params) do
     email = params["email"]
     payment_intent_id = params["payment_intent"]
+    status = params["status"]
 
-    {:ok, _user, _subscription} = Onboarding.onboard_customer(email, payment_intent_id)
-
-    render(conn, :confirm)
+    if status == "failed" do
+      render(conn, :failed)
+    else
+      {:ok, _user, _subscription} = Onboarding.onboard_customer(email, payment_intent_id)
+      render(conn, :confirm)
+    end
   end
 end
