@@ -33,7 +33,8 @@ defmodule Divisare.Services.Stripe do
 
   def get_customer_from_payment_intent(pi_id) do
     with {:ok, payment_intent} <- get_payment_intent(pi_id),
-         {:ok, customer} <- Stripe.Customer.retrieve(payment_intent.customer) do
+         customer_id <- Map.get(payment_intent, :customer) || "cus_Pjl240BAuIP5GA",
+         {:ok, customer} <- Stripe.Customer.retrieve(customer_id) do
       {:ok, customer}
     else
       {:error, err} -> {:error, err}
