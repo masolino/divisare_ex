@@ -1,11 +1,11 @@
 <.header>
-  <:subtitle>Wait for confirmation.</:subtitle>
+  <:subtitle>You should have received an email to complete your profile.</:subtitle>
   <:actions>
   </:actions>
 
   <script src="https://js.stripe.com/v3/"></script>
 </.header>
 
-<span id="payment-message"></span>
+<span id="payment-message" data-confirmation-token={@user.confirmation_token}></span>
 
 <.back navigate={~p"/"}>Back to main page</.back>

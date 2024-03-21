@@ -7,8 +7,7 @@ defmodule Divisare.Services.Stripe do
          {:ok, subscription} <- create_stripe_subscription(price_id, customer_id) do
       {:ok, subscription}
     else
-      {:error, reason} ->
-        {:error, reason}
+      {:error, reason} -> {:error, reason}
     end
   end
 

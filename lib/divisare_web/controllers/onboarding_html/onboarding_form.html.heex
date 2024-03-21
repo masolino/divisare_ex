@@ -1,12 +1,4 @@
-<%!-- <.simple_form :let={f} for={@changeset} action={@action} id="payment-form"> --%>
 <.simple_form :let={f} for={@data} action={@action} id="payment-form">
-  <%!-- <.error :if={@changeset.action}>
-    Oops, something went wrong! Please check the errors below.
-  </.error> --%>
-
-
-  <%!-- <.input field={{f, :email}} type="email" label="Email" /> --%>
-
   <div id="link-authentication-element">
     <!--Stripe.js injects the Link Authentication Element-->
   </div>

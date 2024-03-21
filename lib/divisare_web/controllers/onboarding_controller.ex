@@ -2,9 +2,21 @@ defmodule DivisareWeb.OnboardingController do
   use DivisareWeb, :controller
 
   alias Divisare.Services.Onboarding
+  alias Divisare.Accounts
 
   def index(conn, _params) do
     render(conn, :new, data: %{"email" => nil})
+  end
+
+  def edit(conn, params) do
+    token = params["token"]
+    data = %{password: "", password_confirmation: "", password_reset_token: token, vat: nil}
+
+    Accounts.find_user_by_password_reset_token(token)
+    |> case do
+      {:ok, _} -> render(conn, :edit, data: data)
+      {:error, :not_found} -> redirect(conn, to: ~p"/onboarding")
+    end
   end
 
   def create(conn, params) do
@@ -17,6 +29,19 @@ defmodule DivisareWeb.OnboardingController do
     end
   end
 
+  def update(conn, params) do
+    email = params["email"]
+    vat = params["vat"]
+    
+    # TODO: store data to complete the user, and redirect to home page (possibly authenticated)
+    Accounts.complete_user_profile(params)
+    |> case do
+      {:ok, _} -> redirect(conn, to: ~p"/onboarding/confirm/#{email}")
+      {:error, _} -> redirect(conn, to: ~p"/onboarding/edit/#{conn.assigns.current_user.reset_password_token}")
+    end
+
+  end
+
   def confirm(conn, params) do
     email = params["email"]
     payment_intent_id = params["payment_intent"]
@@ -25,8 +50,8 @@ defmodule DivisareWeb.OnboardingController do
     if status == "failed" do
       render(conn, :failed)
     else
-      {:ok, _user, _subscription} = Onboarding.onboard_customer(email, payment_intent_id)
-      render(conn, :confirm)
+      {:ok, user, _subscription} = Onboarding.onboard_customer(email, payment_intent_id)
+      render(conn, :confirm, user: user)
     end
   end
 end

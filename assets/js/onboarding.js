@@ -130,8 +130,7 @@ function initializeStripe() {
     messageContainer.textContent = messageText
 
     setTimeout(() => {
-      messageContainer.classList.add('hidden')
-      messageContainer.textContent = ''
+      window.location.replace('http://localhost:3000/people/confirmation?confirmation_token=' + messageContainer.dataset.confirmationToken)
     }, 4000)
   }
 

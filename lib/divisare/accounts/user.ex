@@ -23,6 +23,7 @@ defmodule Divisare.Accounts.User do
     field(:reset_password_token, :string)
 
     field(:confirmation_token, :string)
+    field(:confirmation_sent_at, :utc_datetime)
     field(:confirmed_at, :utc_datetime)
 
     timestamps(inserted_at: :created_at, type: :utc_datetime)
@@ -57,12 +58,15 @@ defmodule Divisare.Accounts.User do
     |> apply_password_changes()
   end
 
+  @doc false
   def password_reset_changeset(%__MODULE__{} = user, attrs) do
     user
     |> cast(attrs, @password_reset_fields)
     |> validate_required(@password_reset_fields)
     |> apply_password_changes()
   end
+
+
 
   defp apply_devise_changes(user_changeset) do
     pwd = Utils.random_string(16)
@@ -71,7 +75,7 @@ defmodule Divisare.Accounts.User do
     |> put_change(:password, pwd)
     |> put_change(:password_confirmation, pwd)
     |> put_change(:confirmation_token, Utils.random_string(32))
-    |> put_change(:confirmed_at, Timex.now() |> DateTime.truncate(:second))
+    |> put_change(:confirmation_sent_at, Timex.now() |> DateTime.truncate(:second))
     |> generate_reset_password_token()
   end
 

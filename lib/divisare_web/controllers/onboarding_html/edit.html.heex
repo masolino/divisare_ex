@@ -1,0 +1,13 @@
+<.header>
+  Complete your onboarding
+  <:subtitle></:subtitle>
+</.header>
+
+<.simple_form :let={f} for={@data} action={~p"/onboarding"} method="put" id="complete-onboarding-form">
+  <.input field={{f, :email}} type="email" label="Email" />
+
+  <:actions>
+    <.button id="submit"><span id="button-text">Pay now</span></.button>
+  </:actions>
+  <div id="payment-message" class="hidden"></div>
+</.simple_form>
