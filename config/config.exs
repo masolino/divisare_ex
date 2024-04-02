@@ -10,6 +10,12 @@ import Config
 config :divisare,
   ecto_repos: [Divisare.Repo]
 
+config :divisare, Divisare.Repo,
+  # The App was started from Rails which used the `schema_migrations` table with the same name but different schema
+  # To continue with migrations from ecto from now on, we use choose a custom name for the ecto migrations
+  # !!! From now on, migrations should only be done from Ecto !!!
+  migration_source: "ecto_schema_migrations"
+
 # Configures the endpoint
 config :divisare, DivisareWeb.Endpoint,
   url: [host: "localhost"],

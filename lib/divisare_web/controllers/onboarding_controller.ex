@@ -10,12 +10,26 @@ defmodule DivisareWeb.OnboardingController do
 
   def edit(conn, params) do
     token = params["token"]
-    data = %{password: "", password_confirmation: "", password_reset_token: token, vat: nil}
+
+    errors = []
+    data = %{reset_password_token: token}
+    countries = Divisare.Utils.Countries.all()
+    subdivisions = Divisare.Utils.Countries.countries_subdivisions() |> Enum.into(%{})
+    eu_countries = Divisare.Utils.Countries.by_region("Europe") |> Enum.map(&elem(&1, 1))
 
     Accounts.find_user_by_password_reset_token(token)
     |> case do
-      {:ok, _} -> render(conn, :edit, data: data)
-      {:error, :not_found} -> redirect(conn, to: ~p"/onboarding")
+      {:ok, _} ->
+        render(conn, :edit,
+          data: data,
+          countries: countries,
+          subdivisions: subdivisions,
+          eu_countries: eu_countries,
+          errors: errors
+        )
+
+      {:error, :not_found} ->
+        redirect(conn, to: ~p"/onboarding")
     end
   end
 
@@ -30,16 +44,32 @@ defmodule DivisareWeb.OnboardingController do
   end
 
   def update(conn, params) do
-    email = params["email"]
-    vat = params["vat"]
-    
-    # TODO: store data to complete the user, and redirect to home page (possibly authenticated)
-    Accounts.complete_user_profile(params)
+    Onboarding.complete_user_profile(params)
     |> case do
-      {:ok, _} -> redirect(conn, to: ~p"/onboarding/confirm/#{email}")
-      {:error, _} -> redirect(conn, to: ~p"/onboarding/edit/#{conn.assigns.current_user.reset_password_token}")
-    end
+      {:ok, _} ->
+        redirect(conn, to: ~p"/")
 
+      {:error, %Ecto.Changeset{errors: errs}} ->
+        errors = Enum.map(errs, fn {k, {e, _}} -> "#{k}: #{e}" end)
+
+        data = %{reset_password_token: params["reset_password_token"]}
+        countries = Divisare.Utils.Countries.all()
+        subdivisions = Divisare.Utils.Countries.countries_subdivisions() |> Enum.into(%{})
+        eu_countries = Divisare.Utils.Countries.by_region("Europe") |> Enum.map(&elem(&1, 1))
+
+        render(conn, :edit,
+          data: data,
+          countries: countries,
+          subdivisions: subdivisions,
+          eu_countries: eu_countries,
+          errors: errors
+        )
+        # redirect(conn, to: ~p"/onboarding/edit/#{params["reset_password_token"]}")
+
+      {:error, err} ->
+        Logger.error(inspect(err))
+        redirect(conn, to: ~p"/onboarding/edit/#{params["reset_password_token"]}")
+    end
   end
 
   def confirm(conn, params) do

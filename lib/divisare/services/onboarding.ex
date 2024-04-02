@@ -1,8 +1,11 @@
 defmodule Divisare.Services.Onboarding do
   alias Divisare.Accounts
   alias Divisare.Subscriptions
+  alias Divisare.Billings
   alias Divisare.Services.Stripe, as: StripeService
   alias Divisare.Accounts.UserNotifier
+
+  alias Divisare.Repo
 
   def get_stripe_subscription_client_secret(email, price_id) do
     case StripeService.subscribe_customer(email, price_id) do
@@ -14,7 +17,7 @@ defmodule Divisare.Services.Onboarding do
   def onboard_customer(email, payment_intent_id) do
     with {:ok, payment_intent} = StripeService.get_payment_intent(payment_intent_id),
          true <- payment_intent.receipt_email == email,
-         {:ok, is_new, user} <- Accounts.find_or_onboard_user(email),
+         {:ok, is_new, user} <- find_or_onboard_user(email),
          {:ok, subscription} <-
            Subscriptions.find_or_create_subscription(%{
              payment_intent: payment_intent_id,
@@ -33,6 +36,35 @@ defmodule Divisare.Services.Onboarding do
     end
   end
 
+  def complete_user_profile(params) do
+    # %{                                                                                                   16:24:07 [25/2889]
+    #   "billing" => %{
+    #     "address" => "Some street out there, 23",
+    #     "business" => "true",
+    #     "cf" => "XXXXXXXXXXXXXXXXXXXXX",
+    #     "city" => "Rome",
+    #     "country_code" => "IT",
+    #     "heading" => "Some Company",
+    #     "pec" => "some@pec.it",
+    #     "postal_code" => "00192",
+    #     "sdi" => "XXXXXXXXXXXX",
+    #     "state_code" => "RM",
+    #     "vat" => "XXXXXXXXXXXXXX"
+    #   },
+    #   "reset_password_token" => "XXXXXXXXXXXXXXXXXXX",
+    #   "user" => %{"password" => "XXXXXXXX", "password_confirmation" => "XXXXXXXXX"}
+    # }
+
+    with {:ok, user} <-
+           Accounts.find_user_by_password_reset_token(params["reset_password_token"]),
+         {:ok, _} <- Accounts.update_user_password(user, params["user"]),
+         {:ok, _} <- Billings.add_billing_info(user, params["billing"]) do
+      {:ok, user}
+    else
+      {:error, err} -> {:error, err}
+    end
+  end
+
   defp extract_client_secret_from_subscription(subscription) do
     client_secret =
       case Map.get(subscription, :pending_setup_intent) do
@@ -45,4 +77,19 @@ defmodule Divisare.Services.Onboarding do
 
   defp send_welcome_email(false, _user), do: {:ok, nil}
   defp send_welcome_email(true, user), do: UserNotifier.deliver_welcome_email(user)
+
+  defp find_or_onboard_user(email) do
+    case Accounts.find_user_by_email(email) do
+      nil -> onboard_user(email)
+      user -> {:ok, false, user}
+    end
+  end
+
+  defp onboard_user(email) do
+    name = String.split(email, "@") |> List.first()
+    params = %{email: email, name: name}
+
+    {:ok, user} = User.onboarding_changeset(params) |> Repo.insert()
+    {:ok, true, user}
+  end
 end

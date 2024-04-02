@@ -1,4 +1,10 @@
 function initializeStripe() {
+  let paymentForm = document.querySelector('#payment-form')
+
+  if (!!!paymentForm) {
+    return
+  }
+
   const stripe = Stripe('pk_test_XL8zlPWp169aVSyuB8HF9ABq00qFjFrupo')
 
   let elements
@@ -8,8 +14,6 @@ function initializeStripe() {
   checkStatus()
 
   async function initializeNoIntent() {
-    let paymentForm = document.querySelector('#payment-form')
-
     if (!!paymentForm) {
       paymentForm.addEventListener('submit', handleSubmit)
     } else {
@@ -101,9 +105,11 @@ function initializeStripe() {
     switch (paymentIntent.status) {
       case 'succeeded':
         showMessage('Payment succeeded!')
+        redirectToConfirmation()
         break
       case 'processing':
         showMessage('Your payment is processing.')
+        redirectToConfirmation()
         break
       case 'requires_payment_method':
         showMessage('Your payment was not successful, please try again.')
@@ -123,15 +129,22 @@ function initializeStripe() {
 
   function showMessage(messageText) {
     const messageContainer = document.querySelector('#payment-message')
-
     if (!!!messageContainer) return
 
     messageContainer.classList.remove('hidden')
     messageContainer.textContent = messageText
+  }
+
+  function redirectToConfirmation() {
+    const messageContainer = document.querySelector('#payment-message')
+    if (!!!messageContainer) return
 
     setTimeout(() => {
-      window.location.replace('http://localhost:3000/people/confirmation?confirmation_token=' + messageContainer.dataset.confirmationToken)
-    }, 4000)
+      window.location.replace(
+        'http://localhost:3000/people/confirmation?confirmation_token=' +
+          messageContainer.dataset.confirmationToken,
+      )
+    }, 3000)
   }
 
   function setLoading(isLoading) {
@@ -145,4 +158,86 @@ function initializeStripe() {
   }
 }
 
+function completeOnboarding() {
+  const mainForm = document.querySelector('#complete-onboarding-form')
+  let isEu = false
+  let isIta = false
+
+  if (!!!mainForm) {
+    return
+  }
+
+  const countryCodes = document.querySelector(
+    '#complete-onboarding-form_country_code',
+  )
+  const stateCodes = document.querySelector(
+    '#complete-onboarding-form_state_code',
+  )
+  const stateCodesOpts = JSON.parse(stateCodes.getAttribute('data-opts'))
+  const euCountries = JSON.parse(countryCodes.getAttribute('data-eu-countries'))
+
+  const isBusiness = document.querySelector(
+    '#complete-onboarding-form_business',
+  )
+  const isBusinessLabel = isBusiness.closest('label')
+
+  const businessForm = document.querySelector('#business-form')
+  const italianForm = document.querySelector('#italian-form')
+  const italianBusinessForm = document.querySelector('#ita-business-form')
+
+  loadStateCodesOpts(countryCodes.value)
+
+  // show business checkbox if country is in EU
+  toggleForm(isEu, isBusinessLabel)
+  toggleForm(isEu && isBusiness.checked, businessForm)
+  // toggle italian fields for italian non-business
+  toggleForm(isIta && !isBusiness.checked, italianForm)
+  // toggle italian fields for italian business
+  toggleForm(isIta && isBusiness.checked, italianBusinessForm)
+
+  countryCodes.addEventListener('change', (e) => {
+    isEu = euCountries.includes(e.target.value)
+    isIta = e.target.value === 'IT'
+
+    loadStateCodesOpts(e.target.value)
+    toggleForm(isEu, isBusinessLabel)
+    toggleForm(isIta && !isBusiness.checked, italianForm)
+    toggleForm(isIta && isBusiness.checked, italianBusinessForm)
+  })
+
+
+  stateCodes.addEventListener('change', (e) => {
+    console.log('STATE CODE', e.target.value)
+  })
+
+  isBusiness.addEventListener('change', (e) => {
+    toggleForm(isEu && isBusiness.checked, businessForm)
+    toggleForm(isIta && isBusiness.checked, italianBusinessForm)
+    toggleForm(isIta && !isBusiness.checked, italianForm)
+  })
+
+  function loadStateCodesOpts(country) {
+    stateCodes.innerText = null
+
+    stateCodesOpts[country].forEach((state) => {
+      let [key, value] = Object.entries(state).flat()
+      let option = document.createElement('option')
+      option.text = key
+      option.value = value
+      stateCodes.appendChild(option)
+    })
+
+    stateCodes.value = stateCodesOpts[country][0].value
+  }
+
+  function toggleForm(condition, form) {
+    if (condition) {
+      form.classList.remove('hidden')
+    } else {
+      form.classList.add('hidden')
+    }
+  }
+}
+
 initializeStripe()
+completeOnboarding()

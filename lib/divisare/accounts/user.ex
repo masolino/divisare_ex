@@ -8,8 +8,6 @@ defmodule Divisare.Accounts.User do
 
   import DivisareWeb.Gettext
 
-  import Divisare.Utils.Ecto
-
   alias Divisare.Utils.Passwords
   alias Divisare.Utils
 
@@ -32,7 +30,6 @@ defmodule Divisare.Accounts.User do
   @required_fields ~w(email name)a
   @optional_fields ~w()a
   @password_fields ~w(password password_confirmation)a
-  @password_reset_fields @password_fields ++ ~w(reset_password_token)a
 
   @doc false
   def changeset(%__MODULE__{} = user, attrs) do
@@ -59,14 +56,22 @@ defmodule Divisare.Accounts.User do
   end
 
   @doc false
-  def password_reset_changeset(%__MODULE__{} = user, attrs) do
+  def password_changeset(%__MODULE__{} = user, attrs) do
     user
-    |> cast(attrs, @password_reset_fields)
-    |> validate_required(@password_reset_fields)
+    |> cast(attrs, @password_fields)
+    |> validate_required(@password_fields)
     |> apply_password_changes()
   end
 
+  defp downcase_email(changeset) do
+    case changeset do
+      %Ecto.Changeset{changes: %{email: email}} ->
+        put_change(changeset, :email, String.downcase(email))
 
+      _ ->
+        changeset
+    end
+  end
 
   defp apply_devise_changes(user_changeset) do
     pwd = Utils.random_string(16)

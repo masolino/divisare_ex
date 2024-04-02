@@ -50,6 +50,8 @@ defmodule Divisare.MixProject do
       {:timex, "~> 3.7.11"},
       {:bcrypt_elixir, "~> 3.0"},
       {:stripity_stripe, ">= 3.1.1"},
+      {:countries, "~> 1.6"},
+      {:viex, "~> 0.1.0"},
 
       # Development
       {:phoenix_live_reload, "~> 1.5", only: :dev},

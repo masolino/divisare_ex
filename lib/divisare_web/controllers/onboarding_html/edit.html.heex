@@ -3,11 +3,38 @@
   <:subtitle></:subtitle>
 </.header>
 
-<.simple_form :let={f} for={@data} action={~p"/onboarding"} method="put" id="complete-onboarding-form">
-  <.input field={{f, :email}} type="email" label="Email" />
+  <.error :for={error <- @errors}><%= error %></.error>
+
+<.simple_form :let={f} for={%{}} action={~p"/onboarding"} method="put" id="complete-onboarding-form">
+  <.input field={{f, :reset_password_token}} type="hidden" value={@data.reset_password_token} />
+  <.input field={{f, :password}} name="user[password]" type="password" label="Password" />
+  <.input field={{f, :password_confirmation}} name="user[password_confirmation]"  type="password" label="Password confirm" />
+
+  <.input field={{f, :country_code}} name="billing[country_code]" type="select" label="Country", options={@countries} data-eu-countries={Jason.encode!(@eu_countries)} />
+  <.input field={{f, :state_code}} name="billing[state_code]" type="select" label="State", data-opts={Jason.encode!(@subdivisions)} options={[]} />
+
+  <.input field={{f, :heading}} name="billing[heading]" type="text" label="Name or Company" />
+  <.input field={{f, :address}} name="billing[address]" type="text" label="Address" />
+  <.input field={{f, :postal_code}} name="billing[postal_code]" type="text" label="Postal Code" />
+  <.input field={{f, :city}} name="billing[city]" type="text" label="City" />
+
+  <.input field={{f, :business}} name="billing[business]" type="checkbox" label="Are you a business?" />
+  <div id="business-form">
+    <.input field={{f, :vat}} name="billing[vat]" type="text" label="P.IVA / VAT (VIES)" />
+  </div>
+
+  <div id="italian-form">
+    <.input field={{f, :cf}} name="billing[cf]" type="text" label="CF" />
+  </div>
+
+  <div id="ita-business-form">
+    <.input field={{f, :pec}} name="billing[pec]" type="email" label="PEC" />
+    <.input field={{f, :sdi_code}} name="billing[sdi]" type="text" label="SDI" />
+  </div>
+
 
   <:actions>
-    <.button id="submit"><span id="button-text">Pay now</span></.button>
+    <.button id="submit"><span id="button-text">Continue</span></.button>
   </:actions>
   <div id="payment-message" class="hidden"></div>
 </.simple_form>

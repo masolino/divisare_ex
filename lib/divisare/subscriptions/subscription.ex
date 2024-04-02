@@ -8,7 +8,6 @@ defmodule Divisare.Subscriptions.Subscription do
   import Ecto.Query, warn: false
 
   alias Divisare.Utils
-  import Divisare.Utils.Ecto
 
   schema "divisare_subscriptions" do
     field(:payment_intent, :string, source: :token)
@@ -55,7 +54,6 @@ defmodule Divisare.Subscriptions.Subscription do
   def by_customer_id(query \\ __MODULE__, customer_id) do
     from(q in query, where: q.stripe_customer_id == ^customer_id)
   end
-
 
   def by_payment_intent(query \\ __MODULE__, payment_intent) do
     from(q in query, where: q.payment_intent == ^payment_intent)

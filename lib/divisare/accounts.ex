@@ -6,21 +6,22 @@ defmodule Divisare.Accounts do
   alias Divisare.Accounts.User
   alias Divisare.Repo
 
-  def find_or_onboard_user(email) do
-    case Repo.get_by(User, email: email) do
-      nil -> onboard_user(email)
-      user -> {:ok, false, user}
-    end
+
+  def update_user(%User{} = user, attrs) do
+    user
+    |> User.changeset(attrs)
+    |> Repo.update()
   end
 
-  def onboard_user(email) do
-    name = String.split(email, "@") |> List.first()
-    params = %{email: email, name: name}
-
-    {:ok, user} = %User{} |> User.onboarding_changeset(params) |> Repo.insert()
-    {:ok, true, user}
+  def update_user_password(%User{} = user, attrs) do
+    user
+    |> User.password_changeset(attrs)
+    |> Repo.update()
   end
 
+  def find_user_by_email(email) do
+    Repo.get_by(User, email: email)
+  end
 
   def find_user_by_password_reset_token(token) do
     case Repo.get_by(User, reset_password_token: token) do
