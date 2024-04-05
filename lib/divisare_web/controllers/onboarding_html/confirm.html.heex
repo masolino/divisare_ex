@@ -2,10 +2,10 @@
   <:subtitle>You should have received an email to complete your profile.</:subtitle>
   <:actions>
   </:actions>
-
-  <script src="https://js.stripe.com/v3/"></script>
 </.header>
 
-<span id="payment-message" data-confirmation-token={@user.confirmation_token}></span>
+<.stripe api_key={Application.get_env(:divisare, :stripe_publishable_key)} />
+
+<span id="payment-message" data-confirmation-token={@user.confirmation_token} data-redirect-host={Application.get_env(:divisare, :main_host)}></span>
 
 <.back navigate={~p"/"}>Back to main page</.back>

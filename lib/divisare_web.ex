@@ -85,6 +85,7 @@ defmodule DivisareWeb do
       import Phoenix.HTML
       # Core UI components and translation
       import DivisareWeb.CoreComponents
+      import DivisareWeb.DivisareComponents
       import DivisareWeb.Gettext
 
       # Shortcut for generating JS commands

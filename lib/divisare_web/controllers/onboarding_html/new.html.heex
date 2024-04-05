@@ -1,12 +1,9 @@
 <.header>
-  Onboarding
-  <:subtitle>Use this form to manage onboarding records in your database.</:subtitle>
-
-  <script src="https://js.stripe.com/v3/"></script>
-
+  Enroll into Divisare.
+  <:subtitle>Onboarding</:subtitle>
 </.header>
 
-<h2>Enroll into Divisare</h2>
+<.stripe api_key={Application.get_env(:divisare, :stripe_publishable_key)} />
 
 <p>You will be charged <strong>75€</strong>, tax included</p>
 <p>
@@ -21,5 +18,3 @@
 </p>
 
 <.onboarding_form data={@data} action={~p"/onboarding"} />
-
-<.back navigate={~p"/onboarding"}>Back to people</.back>

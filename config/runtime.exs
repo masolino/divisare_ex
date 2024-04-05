@@ -24,8 +24,10 @@ if System.get_env("PHX_SERVER") do
 end
 
 config :stripity_stripe, api_key: env!("STRIPE_SECRET")
-
 config :divisare, stripe_webhook_secret: env!("STRIPE_WEBHOOK_SECRET")
+config :divisare, stripe_publishable_key: env!("STRIPE_PUBLISHABLE")
+
+config :divisare, main_host: env!("DIVISARE_MAIN_HOST") || "http://localhost:3000"
 
 if config_env() == :prod do
   database_url =
@@ -55,7 +57,7 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "example.com"
+  host = System.get_env("PHX_HOST") || "divisare.com"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :divisare, DivisareWeb.Endpoint,

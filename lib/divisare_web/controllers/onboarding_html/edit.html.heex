@@ -1,17 +1,15 @@
 <.header>
-  Complete your onboarding
+  Complete your onboarding with billing information
   <:subtitle></:subtitle>
 </.header>
 
-  <.error :for={error <- @errors}><%= error %></.error>
+<.error :for={error <- @errors}><%= error %></.error>
 
 <.simple_form :let={f} for={%{}} action={~p"/onboarding"} method="put" id="complete-onboarding-form">
-  <.input field={{f, :reset_password_token}} type="hidden" value={@data.reset_password_token} />
-  <.input field={{f, :password}} name="user[password]" type="password" label="Password" />
-  <.input field={{f, :password_confirmation}} name="user[password_confirmation]"  type="password" label="Password confirm" />
+  <.input field={{f, :token}} type="hidden" value={@data.token} />
 
-  <.input field={{f, :country_code}} name="billing[country_code]" type="select" label="Country", options={@countries} data-eu-countries={Jason.encode!(@eu_countries)} />
-  <.input field={{f, :state_code}} name="billing[state_code]" type="select" label="State", data-opts={Jason.encode!(@subdivisions)} options={[]} />
+  <.input field={{f, :country_code}} name="billing[country_code]" type="select" label="Country" options={@countries} data-eu-countries={Jason.encode!(@eu_countries)} />
+  <.input field={{f, :state_code}} name="billing[state_code]" type="select" label="State" data-opts={Jason.encode!(@subdivisions)} options={[]} />
 
   <.input field={{f, :heading}} name="billing[heading]" type="text" label="Name or Company" />
   <.input field={{f, :address}} name="billing[address]" type="text" label="Address" />
@@ -36,5 +34,4 @@
   <:actions>
     <.button id="submit"><span id="button-text">Continue</span></.button>
   </:actions>
-  <div id="payment-message" class="hidden"></div>
 </.simple_form>

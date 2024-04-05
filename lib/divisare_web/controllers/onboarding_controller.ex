@@ -4,6 +4,8 @@ defmodule DivisareWeb.OnboardingController do
   alias Divisare.Services.Onboarding
   alias Divisare.Accounts
 
+  require Logger
+
   def index(conn, _params) do
     render(conn, :new, data: %{"email" => nil})
   end
@@ -12,7 +14,7 @@ defmodule DivisareWeb.OnboardingController do
     token = params["token"]
 
     errors = []
-    data = %{reset_password_token: token}
+    data = %{token: token}
     countries = Divisare.Utils.Countries.all()
     subdivisions = Divisare.Utils.Countries.countries_subdivisions() |> Enum.into(%{})
     eu_countries = Divisare.Utils.Countries.by_region("Europe") |> Enum.map(&elem(&1, 1))
@@ -47,12 +49,12 @@ defmodule DivisareWeb.OnboardingController do
     Onboarding.complete_user_profile(params)
     |> case do
       {:ok, _} ->
-        redirect(conn, to: ~p"/")
+        redirect(conn, external: Application.get_env(:divisare, :main_host))
 
       {:error, %Ecto.Changeset{errors: errs}} ->
         errors = Enum.map(errs, fn {k, {e, _}} -> "#{k}: #{e}" end)
 
-        data = %{reset_password_token: params["reset_password_token"]}
+        data = %{token: params["token"]}
         countries = Divisare.Utils.Countries.all()
         subdivisions = Divisare.Utils.Countries.countries_subdivisions() |> Enum.into(%{})
         eu_countries = Divisare.Utils.Countries.by_region("Europe") |> Enum.map(&elem(&1, 1))
@@ -64,11 +66,10 @@ defmodule DivisareWeb.OnboardingController do
           eu_countries: eu_countries,
           errors: errors
         )
-        # redirect(conn, to: ~p"/onboarding/edit/#{params["reset_password_token"]}")
 
       {:error, err} ->
         Logger.error(inspect(err))
-        redirect(conn, to: ~p"/onboarding/edit/#{params["reset_password_token"]}")
+        redirect(conn, to: ~p"/onboarding/edit/#{params["token"]}")
     end
   end
 

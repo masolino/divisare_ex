@@ -1,5 +1,6 @@
 defmodule Divisare.Services.Onboarding do
   alias Divisare.Accounts
+  alias Divisare.Accounts.User
   alias Divisare.Subscriptions
   alias Divisare.Billings
   alias Divisare.Services.Stripe, as: StripeService
@@ -51,13 +52,11 @@ defmodule Divisare.Services.Onboarding do
     #     "state_code" => "RM",
     #     "vat" => "XXXXXXXXXXXXXX"
     #   },
-    #   "reset_password_token" => "XXXXXXXXXXXXXXXXXXX",
-    #   "user" => %{"password" => "XXXXXXXX", "password_confirmation" => "XXXXXXXXX"}
+    #   "token" => "XXXXXXXXXXXXXXXXXXX",
     # }
 
     with {:ok, user} <-
-           Accounts.find_user_by_password_reset_token(params["reset_password_token"]),
-         {:ok, _} <- Accounts.update_user_password(user, params["user"]),
+           Accounts.find_user_by_password_reset_token(params["token"]),
          {:ok, _} <- Billings.add_billing_info(user, params["billing"]) do
       {:ok, user}
     else

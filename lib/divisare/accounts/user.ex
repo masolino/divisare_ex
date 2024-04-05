@@ -32,7 +32,7 @@ defmodule Divisare.Accounts.User do
   @password_fields ~w(password password_confirmation)a
 
   @doc false
-  def changeset(%__MODULE__{} = user, attrs) do
+  def changeset(%__MODULE__{} = user \\ %__MODULE__{}, attrs) do
     user
     |> cast(attrs, @required_fields ++ @password_fields ++ @optional_fields)
     |> validate_required(@required_fields)
@@ -43,7 +43,7 @@ defmodule Divisare.Accounts.User do
   end
 
   @doc false
-  def onboarding_changeset(%__MODULE__{} = user, attrs) do
+  def onboarding_changeset(%__MODULE__{} = user \\ %__MODULE__{}, attrs) do
     user
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
@@ -56,7 +56,7 @@ defmodule Divisare.Accounts.User do
   end
 
   @doc false
-  def password_changeset(%__MODULE__{} = user, attrs) do
+  def password_changeset(%__MODULE__{} = user \\ %__MODULE__{}, attrs) do
     user
     |> cast(attrs, @password_fields)
     |> validate_required(@password_fields)
