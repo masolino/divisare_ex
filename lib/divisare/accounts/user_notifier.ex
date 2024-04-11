@@ -41,7 +41,12 @@ defmodule Divisare.Accounts.UserNotifier do
   end
 
   def deliver_welcome_email(user) do
-    url = url(~p"/onboarding/edit/#{user.reset_password_token}")
+    url =
+      Application.get_env(:divisare, :main_host)
+      |> URI.parse()
+      |> URI.merge("/people/edit")
+      |> to_string
+
     template = welcome_content(%{url: url})
     html = heex_to_html(template)
     text = html_to_text(html)
