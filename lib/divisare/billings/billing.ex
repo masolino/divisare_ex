@@ -61,7 +61,7 @@ defmodule Divisare.Billings.Billing do
   end
 
   defp validate_ita_vat(%Ecto.Changeset{changes: %{vat: vat}} = changeset) do
-    if String.length(vat) == 11 do
+    if String.length(vat) == 13 do
       changeset
     else
       add_error(changeset, :vat, "invalid")
@@ -83,6 +83,8 @@ defmodule Divisare.Billings.Billing do
   defp validate_required_inclusion(changeset, fields) do
     if Enum.any?(fields, &present?(changeset, &1)) do
       changeset
+      |> validate_sdi_length()
+      |> validate_cf_length()
     else
       # Add the error to the first field only since Ecto requires a field name for each error.
       add_error(changeset, hd(fields), "One of these fields must be present: #{inspect(fields)}")
@@ -92,5 +94,25 @@ defmodule Divisare.Billings.Billing do
   defp present?(changeset, field) do
     value = get_field(changeset, field)
     value && value != ""
+  end
+
+  defp validate_sdi_length(changeset) do
+    with sdi_code when not is_nil(sdi_code) <- get_field(changeset, :sdi_code),
+         true <- String.length(sdi_code) == 7 do
+      changeset
+    else
+      nil -> changeset
+      false -> add_error(changeset, :sdi_code, "invalid length")
+    end
+  end
+
+  defp validate_cf_length(changeset) do
+    with cf when not is_nil(cf) <- get_field(changeset, :cf),
+         true <- String.length(cf) == 16 or String.length(cf) == 11 do
+      changeset
+    else
+      nil -> changeset
+      false -> add_error(changeset, :cf, "invalid length")
+    end
   end
 end
