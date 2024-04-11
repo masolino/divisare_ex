@@ -6,7 +6,7 @@ defmodule Divisare.Billings.Billing do
   import Ecto.Changeset
   import Ecto.Query, warn: false
 
-  schema "divisare_billings" do
+  schema "billing_informations" do
     field(:heading, :string)
     field(:address, :string)
     field(:postal_code, :string)

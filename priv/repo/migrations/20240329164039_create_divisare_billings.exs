@@ -1,8 +1,8 @@
-defmodule Divisare.Repo.Migrations.CreateDivisareBillings do
+defmodule Divisare.Repo.Migrations.CreateBillingInformations do
   use Ecto.Migration
 
   def change do
-    create table(:divisare_billings) do
+    create table(:billing_informations) do
       add(:heading, :string, null: false)
       add(:address, :string, null: false)
       add(:postal_code, :string, null: false)
