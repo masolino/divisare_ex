@@ -25,6 +25,9 @@ defmodule Divisare.Subscriptions.Subscription do
     field(:country_code, :string)
     field(:auto_renew, :boolean)
 
+    # for Rails STI
+    field(:type, :string)
+
     field(:paid_at, :utc_datetime)
 
     belongs_to :user, Divisare.Accounts.User, foreign_key: :person_id, references: :id
@@ -33,7 +36,7 @@ defmodule Divisare.Subscriptions.Subscription do
   end
 
   @required_fields ~w(stripe_customer_id payment_intent expire_on amount person_id)a
-  @optional_fields ~w(business invoiced vat_number country_code tax_rate address paid_at auto_renew)a
+  @optional_fields ~w(business invoiced type vat_number country_code tax_rate address paid_at auto_renew)a
 
   @doc false
   def changeset(%__MODULE__{} = subscription, attrs) do

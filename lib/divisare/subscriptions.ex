@@ -12,11 +12,15 @@ defmodule Divisare.Subscriptions do
     |> Repo.all()
     |> List.first()
     |> case do
-      nil -> 
+      nil ->
+        params = Map.merge(params, %{type: "ReaderSubscription"})
+
         %Subscription{}
         |> Subscription.changeset(params)
         |> Repo.insert()
-      subscription -> {:ok, subscription}
+
+      subscription ->
+        {:ok, subscription}
     end
   end
 
