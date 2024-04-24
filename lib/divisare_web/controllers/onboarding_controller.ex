@@ -2,37 +2,11 @@ defmodule DivisareWeb.OnboardingController do
   use DivisareWeb, :controller
 
   alias Divisare.Services.Onboarding
-  alias Divisare.Accounts
 
   require Logger
 
-  def index(conn, _params) do
+  def new(conn, _params) do
     render(conn, :new, data: %{"email" => nil})
-  end
-
-  def edit(conn, params) do
-    token = params["token"]
-
-    errors = []
-    data = %{token: token}
-    countries = Divisare.Utils.Countries.all()
-    subdivisions = Divisare.Utils.Countries.countries_subdivisions() |> Enum.into(%{})
-    eu_countries = Divisare.Utils.Countries.by_region("Europe") |> Enum.map(&elem(&1, 1))
-
-    Accounts.find_user_by_password_reset_token(token)
-    |> case do
-      {:ok, _} ->
-        render(conn, :edit,
-          data: data,
-          countries: countries,
-          subdivisions: subdivisions,
-          eu_countries: eu_countries,
-          errors: errors
-        )
-
-      {:error, :not_found} ->
-        redirect(conn, to: ~p"/onboarding")
-    end
   end
 
   def create(conn, params) do
@@ -42,34 +16,6 @@ defmodule DivisareWeb.OnboardingController do
     case Onboarding.get_stripe_subscription_client_secret(email, price_id) do
       {:ok, client_secret} -> json(conn, %{client_secret: client_secret})
       {:error, reason} -> conn |> put_status(:bad_request) |> json(%{error: reason})
-    end
-  end
-
-  def update(conn, params) do
-    Onboarding.complete_user_profile(params)
-    |> case do
-      {:ok, _} ->
-        redirect(conn, external: Application.get_env(:divisare, :main_host))
-
-      {:error, %Ecto.Changeset{errors: errs}} ->
-        errors = Enum.map(errs, fn {k, {e, _}} -> "#{k}: #{e}" end)
-
-        data = %{token: params["token"]}
-        countries = Divisare.Utils.Countries.all()
-        subdivisions = Divisare.Utils.Countries.countries_subdivisions() |> Enum.into(%{})
-        eu_countries = Divisare.Utils.Countries.by_region("Europe") |> Enum.map(&elem(&1, 1))
-
-        render(conn, :edit,
-          data: data,
-          countries: countries,
-          subdivisions: subdivisions,
-          eu_countries: eu_countries,
-          errors: errors
-        )
-
-      {:error, err} ->
-        Logger.error(inspect(err))
-        redirect(conn, to: ~p"/onboarding/edit/#{params["token"]}")
     end
   end
 

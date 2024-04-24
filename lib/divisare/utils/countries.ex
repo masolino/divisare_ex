@@ -29,7 +29,6 @@ defmodule Divisare.Utils.Countries do
     Countries.filter_by(:region, region)
     |> Enum.reduce([], fn c, acc -> [{String.to_atom(c.name), c.alpha2} | acc] end)
     |> List.keysort(0)
-    
   end
 
   def countries_subdivisions() do

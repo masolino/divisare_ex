@@ -1,11 +1,11 @@
 <.header>
-  Complete your onboarding with billing information
-  <:subtitle></:subtitle>
+  Your billing information
+  <:subtitle>This is only necessary if you are a business and want to receive invoices.</:subtitle>
 </.header>
 
 <.error :for={error <- @errors}><%= error %></.error>
 
-<.simple_form :let={f} for={%{}} action={~p"/onboarding"} method="put" id="complete-onboarding-form">
+<.simple_form :let={f} for={%{}} action={~p"/billing"} method="put" id="billing-form">
   <.input field={{f, :token}} type="hidden" value={@data.token} />
 
   <.input field={{f, :country_code}} name="billing[country_code]" type="select" label="Country" options={@countries} data-eu-countries={Jason.encode!(@eu_countries)} />
@@ -32,6 +32,6 @@
 
 
   <:actions>
-    <.button id="submit"><span id="button-text">Continue</span></.button>
+    <.button id="submit"><span id="button-text">Save</span></.button>
   </:actions>
 </.simple_form>

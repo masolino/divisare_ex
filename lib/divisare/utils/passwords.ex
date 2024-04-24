@@ -18,9 +18,9 @@ defmodule Divisare.Utils.Passwords do
   end
 
   @doc """
-  Generates a new password reset token. Not compatible with Ruby's `devise` gem, but we will reset password from this app.
+  Generates a new token. Not compatible with Ruby's `devise` gem.
   """
-  def generate_reset_password_token() do
+  def generate_random_token() do
     raw_token = :crypto.strong_rand_bytes(32) |> Base.encode64()
     encrypted_token = digest_token(raw_token)
 

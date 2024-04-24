@@ -1,0 +1,67 @@
+<.header>
+  Your billing information
+  <:subtitle></:subtitle>
+</.header>
+
+
+<div>
+  <strong>Heading</strong>
+  <p><%= @billing.heading %></p>
+</div>
+
+<div>
+  <strong>Address</strong>
+  <p><%= @billing.address %></p>
+</div>
+
+<div>
+  <strong>Postal code</strong>
+  <p><%= @billing.postal_code %></p>
+</div>
+
+<div>
+  <strong>Country</strong>
+  <p><%= @billing.country_code %></p>
+</div>
+
+<div>
+  <strong>State</strong>
+  <p><%= @billing.state_code %></p>
+</div>
+
+<div>
+  <strong>City</strong>
+  <p><%= @billing.city %></p>
+</div>
+
+
+<%= if @billing.business do %>
+  <div>
+    <strong>VAT</strong>
+    <p><%= @billing.vat %></p>
+  </div>
+
+  <%= if @billing.country_code == "IT" do %>
+    <div>
+      <strong>Pec</strong>
+      <p><%= @billing.pec %></p>
+    </div>
+
+    <div>
+      <strong>SDI</strong>
+      <p><%= @billing.sdi_code %></p>
+    </div>
+  <% end %>
+<% else %>
+  <%= if @billing.country_code == "IT" do %>
+    <div>
+      <strong>CF</strong>
+      <p><%= @billing.cf %></p>
+    </div>
+  <% end %>
+<% end %>
+
+
+
+
+<.back navigate={"#{Application.get_env(:divisare, :main_host)}/people/edit"}>Back to account</.back>

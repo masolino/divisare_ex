@@ -25,7 +25,7 @@ defmodule DivisareWeb.StripeHandler do
   end
 
   @impl true
-  def handle_event(%Stripe.Event{type: evt} = event) do
+  def handle_event(%Stripe.Event{type: evt} = _event) do
     Logger.info("Unhandled Stripe event: #{evt}")
     :ok
   end

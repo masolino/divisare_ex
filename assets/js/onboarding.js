@@ -1,4 +1,4 @@
-function initializeStripe() {
+function onboardingForm() {
   const stripeKey = document.querySelector("#stripe-key");
   if (!!!stripeKey) {
     return;
@@ -10,10 +10,10 @@ function initializeStripe() {
   let elements;
   let emailAddress = "";
 
-  initializeNoIntent();
+  initializePaymentForm();
   checkStatus();
 
-  async function initializeNoIntent() {
+  async function initializePaymentForm() {
     let paymentForm = document.querySelector("#payment-form");
 
     if (!!paymentForm) {
@@ -163,8 +163,8 @@ function initializeStripe() {
   }
 }
 
-function completeOnboarding() {
-  const mainForm = document.querySelector("#complete-onboarding-form");
+function billingForm() {
+  const mainForm = document.querySelector("#billing-form");
   let isEu = false;
   let isIta = false;
 
@@ -172,20 +172,14 @@ function completeOnboarding() {
     return;
   }
 
-  const countryCodes = document.querySelector(
-    "#complete-onboarding-form_country_code"
-  );
-  const stateCodes = document.querySelector(
-    "#complete-onboarding-form_state_code"
-  );
+  const countryCodes = document.querySelector("#billing-form_country_code");
+  const stateCodes = document.querySelector("#billing-form_state_code");
   const stateCodesOpts = JSON.parse(stateCodes.getAttribute("data-opts"));
   const euCountries = JSON.parse(
     countryCodes.getAttribute("data-eu-countries")
   );
 
-  const isBusiness = document.querySelector(
-    "#complete-onboarding-form_business"
-  );
+  const isBusiness = document.querySelector("#billing-form_business");
   const isBusinessLabel = isBusiness.closest("label");
 
   const businessForm = document.querySelector("#business-form");
@@ -245,5 +239,5 @@ function completeOnboarding() {
   }
 }
 
-initializeStripe();
-completeOnboarding();
+onboardingForm();
+billingForm();

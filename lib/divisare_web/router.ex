@@ -18,11 +18,12 @@ defmodule DivisareWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
-    get "/onboarding", OnboardingController, :index
+    get "/onboarding", OnboardingController, :new
     post "/onboarding", OnboardingController, :create
-    get "/onboarding/edit/:token", OnboardingController, :edit
-    put "/onboarding/", OnboardingController, :update
     get "/onboarding/confirm/:email", OnboardingController, :confirm
+
+    get "/billing/:token", AccountController, :billing
+    put "/billing/", AccountController, :update_billing
   end
 
   # Other scopes may use custom stacks.

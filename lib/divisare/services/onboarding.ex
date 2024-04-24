@@ -2,7 +2,6 @@ defmodule Divisare.Services.Onboarding do
   alias Divisare.Accounts
   alias Divisare.Accounts.User
   alias Divisare.Subscriptions
-  alias Divisare.Billings
   alias Divisare.Services.Stripe, as: StripeService
   alias Divisare.Accounts.UserNotifier
 
@@ -34,33 +33,6 @@ defmodule Divisare.Services.Onboarding do
     else
       false -> {:error, "Receipt email does not match Stripe email"}
       {:error, error} -> error
-    end
-  end
-
-  def complete_user_profile(params) do
-    # %{                                                                                                   16:24:07 [25/2889]
-    #   "billing" => %{
-    #     "address" => "Some street out there, 23",
-    #     "business" => "true",
-    #     "cf" => "XXXXXXXXXXXXXXXXXXXXX",
-    #     "city" => "Rome",
-    #     "country_code" => "IT",
-    #     "heading" => "Some Company",
-    #     "pec" => "some@pec.it",
-    #     "postal_code" => "00192",
-    #     "sdi" => "XXXXXXXXXXXX",
-    #     "state_code" => "RM",
-    #     "vat" => "XXXXXXXXXXXXXX"
-    #   },
-    #   "token" => "XXXXXXXXXXXXXXXXXXX",
-    # }
-
-    with {:ok, user} <-
-           Accounts.find_user_by_password_reset_token(params["token"]),
-         {:ok, _} <- Billings.add_billing_info(user, params["billing"]) do
-      {:ok, user}
-    else
-      {:error, err} -> {:error, err}
     end
   end
 

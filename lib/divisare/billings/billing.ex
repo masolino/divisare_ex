@@ -50,7 +50,8 @@ defmodule Divisare.Billings.Billing do
         |> validate_required_inclusion([:pec, :sdi_code])
         |> validate_ita_vat()
 
-      %Ecto.Changeset{valid?: true, changes: %{business: true, country_code: cd}} when cd in @eu_countries and cd != "IT" ->
+      %Ecto.Changeset{valid?: true, changes: %{business: true, country_code: cd}}
+      when cd in @eu_countries and cd != "IT" ->
         changeset
         |> validate_required([:vat], message: "is required")
         |> validate_vies_vat()

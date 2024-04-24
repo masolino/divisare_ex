@@ -18,7 +18,7 @@ defmodule Divisare.Accounts.User do
     field(:password, :string, virtual: true)
     field(:password_confirmation, :string, virtual: true)
     field(:encrypted_password, :string)
-    field(:reset_password_token, :string)
+    field(:token, :string)
 
     field(:confirmation_token, :string)
     field(:confirmation_sent_at, :utc_datetime)
@@ -81,7 +81,7 @@ defmodule Divisare.Accounts.User do
     |> put_change(:password_confirmation, pwd)
     |> put_change(:confirmation_token, Utils.random_string(32))
     |> put_change(:confirmation_sent_at, Timex.now() |> DateTime.truncate(:second))
-    |> generate_reset_password_token()
+    |> generate_user_token()
   end
 
   defp apply_password_changes(user_changeset) do
@@ -103,11 +103,11 @@ defmodule Divisare.Accounts.User do
     end
   end
 
-  defp generate_reset_password_token(user_changeset) do
+  defp generate_user_token(user_changeset) do
     case user_changeset do
       %Ecto.Changeset{valid?: true} ->
-        {_, password_token} = Passwords.generate_reset_password_token()
-        put_change(user_changeset, :reset_password_token, password_token)
+        {_, user_token} = Passwords.generate_random_token()
+        put_change(user_changeset, :token, user_token)
 
       _ ->
         user_changeset

@@ -31,9 +31,19 @@ defmodule Divisare.Accounts.UserNotifier do
     <.email_layout>
       <h1>Welcome to Divisare!</h1>
 
-      <p>Please use this link complete your profile:</p>
+      <p>
+        Click on the link below to access your account page where you can set up your password for site access.
+      </p>
+
+      <p>
+        From there, you can also check your subscription status, cancel automatic renewal,
+        fill out your information to receive a receipt or invoice for payment,
+        update or change your subscription method, or delete your account.
+      </p>
 
       <a href={@url}><%= @url %></a>
+
+      <p>We're here to help you with anything you need!</p>
 
       <p>Divisare team</p>
     </.email_layout>
