@@ -9,8 +9,18 @@
     <div class="small-12 columns">
       <div class="sections">
         <ul class="inline-list">
-          <li><a href="#{Application.get_env(:divisare, :main_host)}/people/edit">Account Details</a></li>
-          <li><a href="#{Application.get_env(:divisare, :main_host)}/subscription/status">Subscription</a></li>
+          <li>
+            <.link href={URI.parse("#{Application.get_env(:divisare, :main_host)}/people/edit")}>
+              Account Details
+            </.link>
+          </li>
+          <li>
+            <.link href={
+              URI.parse("#{Application.get_env(:divisare, :main_host)}/subscription/status")
+            }>
+              Subscription
+            </.link>
+          </li>
           <li>Billing information</li>
         </ul>
       </div>
@@ -22,7 +32,6 @@
       <strong>Heading</strong>
       <p><%= @billing.heading %></p>
     </div>
-
 
     <div class="small-12 columns">
       <strong>Address</strong>

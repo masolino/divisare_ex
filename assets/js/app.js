@@ -39,4 +39,4 @@ import "phoenix_html";
 // >> liveSocket.disableLatencySim()
 // window.liveSocket = liveSocket
 
-import onboarding from "./onboarding";
+import "./onboarding";

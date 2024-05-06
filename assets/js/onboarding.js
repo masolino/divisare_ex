@@ -11,6 +11,7 @@ function onboardingForm() {
   let emailAddress = "";
 
   initializePaymentForm();
+  accordize();
   checkStatus();
 
   async function initializePaymentForm() {
@@ -95,7 +96,7 @@ function onboardingForm() {
 
   async function checkStatus() {
     const clientSecret = new URLSearchParams(window.location.search).get(
-      "payment_intent_client_secret"
+      "payment_intent_client_secret",
     );
 
     if (!clientSecret) {
@@ -147,7 +148,7 @@ function onboardingForm() {
       window.location.replace(
         main_app_host +
           "/people/confirmation?confirmation_token=" +
-          messageContainer.dataset.confirmationToken
+          messageContainer.dataset.confirmationToken,
       );
     }, 3000);
   }
@@ -160,6 +161,16 @@ function onboardingForm() {
     submitBtn.disabled = isLoading;
     spinner.classList.toggle("hide", !isLoading);
     buttonText.classList.toggle("hide", isLoading);
+  }
+
+  function accordize() {
+    console.log("==== accordize ====");
+    let all = document.querySelectorAll(".accordize");
+
+    for (let i = 0; i < all.length; i++) {
+      all[i].onclick = () =>
+        all[i].querySelector(".accordize-body").classList.toggle("open");
+    }
   }
 }
 
@@ -176,7 +187,7 @@ function billingForm() {
   const stateCodes = document.querySelector("#billing-form_state_code");
   const stateCodesOpts = JSON.parse(stateCodes.getAttribute("data-opts"));
   const euCountries = JSON.parse(
-    countryCodes.getAttribute("data-eu-countries")
+    countryCodes.getAttribute("data-eu-countries"),
   );
 
   const isBusiness = document.querySelector("#billing-form_business");

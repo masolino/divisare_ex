@@ -1,3 +1,46 @@
+/* custom CSS */
+ul.onboarding-links {
+  list-style: none;
+  margin-left: 0;
+}
+
+/* ul.onboarding-links > li > p {
+  margin-bottom: 10px;
+} */
+/* ACCORDION */
+.accordize {
+  padding: 0;
+}
+
+.accordize-body {
+  cursor: pointer;
+}
+
+.accordize-body:after {
+  position: absolute;
+  margin-left: 10px;
+  content: "\25b6";
+  color: #555;
+}
+
+.accordize-body.open:after {
+  transform: rotate(90deg);
+}
+
+.accordize-toggle {
+  overflow: hidden;
+  transition: all 0.3s ease-out;
+  max-height: 0;
+  height: auto;
+  margin-bottom: 0;
+}
+
+.accordize-body.open + .accordize-toggle {
+  max-height: 600px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+}
+
 /* @charset "UTF-8"; */
 @import url(//fonts.googleapis.com/css?family=Montserrat);
 @import url(//fonts.googleapis.com/css?family=Montserrat);
@@ -4212,11 +4255,21 @@ textarea {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  -webkit-transition: border-color 0.15s linear, background 0.15s linear;
-  -moz-transition: border-color 0.15s linear, background 0.15s linear;
-  -ms-transition: border-color 0.15s linear, background 0.15s linear;
-  -o-transition: border-color 0.15s linear, background 0.15s linear;
-  transition: border-color 0.15s linear, background 0.15s linear;
+  -webkit-transition:
+    border-color 0.15s linear,
+    background 0.15s linear;
+  -moz-transition:
+    border-color 0.15s linear,
+    background 0.15s linear;
+  -ms-transition:
+    border-color 0.15s linear,
+    background 0.15s linear;
+  -o-transition:
+    border-color 0.15s linear,
+    background 0.15s linear;
+  transition:
+    border-color 0.15s linear,
+    background 0.15s linear;
 }
 
 input:not([type]):focus,
@@ -7164,12 +7217,18 @@ meta.foundation-mq-topbar {
   margin-top: -8px;
   top: 50%;
   right: 0.9375rem;
-  box-shadow: 0 0 0 1px #ffffff, 0 7px 0 1px #ffffff, 0 14px 0 1px #ffffff;
+  box-shadow:
+    0 0 0 1px #ffffff,
+    0 7px 0 1px #ffffff,
+    0 14px 0 1px #ffffff;
   width: 16px;
 }
 
 .top-bar .toggle-topbar.menu-icon a span:hover:after {
-  box-shadow: 0 0 0 1px "", 0 7px 0 1px "", 0 14px 0 1px "";
+  box-shadow:
+    0 0 0 1px "",
+    0 7px 0 1px "",
+    0 14px 0 1px "";
 }
 
 .top-bar.expanded {
@@ -7186,7 +7245,10 @@ meta.foundation-mq-topbar {
 }
 
 .top-bar.expanded .toggle-topbar a span::after {
-  box-shadow: 0 0 0 1px #888888, 0 7px 0 1px #888888, 0 14px 0 1px #888888;
+  box-shadow:
+    0 0 0 1px #888888,
+    0 7px 0 1px #888888,
+    0 14px 0 1px #888888;
 }
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .top-bar.expanded .top-bar-section .has-dropdown.moved > .dropdown,
@@ -8577,12 +8639,18 @@ blockquote p {
   top: 50%;
   margin-top: -0.5rem;
   left: 0.90625rem;
-  box-shadow: 0 0 0 1px #ffffff, 0 7px 0 1px #ffffff, 0 14px 0 1px #ffffff;
+  box-shadow:
+    0 0 0 1px #ffffff,
+    0 7px 0 1px #ffffff,
+    0 14px 0 1px #ffffff;
   width: 1rem;
 }
 
 .tab-bar .menu-icon span:hover:after {
-  box-shadow: 0 0 0 1px #b3b3b3, 0 7px 0 1px #b3b3b3, 0 14px 0 1px #b3b3b3;
+  box-shadow:
+    0 0 0 1px #b3b3b3,
+    0 7px 0 1px #b3b3b3,
+    0 14px 0 1px #b3b3b3;
 }
 
 .left-off-canvas-menu {
@@ -8736,7 +8804,9 @@ ul.off-canvas-list li a:active {
 
 .move-right .exit-off-canvas {
   -webkit-backface-visibility: hidden;
-  box-shadow: -4px 0 4px rgba(0, 0, 0, 0.5), 4px 0 4px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    -4px 0 4px rgba(0, 0, 0, 0.5),
+    4px 0 4px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: background 300ms ease;
   -webkit-tap-highlight-color: transparent;
@@ -8765,7 +8835,9 @@ ul.off-canvas-list li a:active {
 
 .move-left .exit-off-canvas {
   -webkit-backface-visibility: hidden;
-  box-shadow: -4px 0 4px rgba(0, 0, 0, 0.5), 4px 0 4px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    -4px 0 4px rgba(0, 0, 0, 0.5),
+    4px 0 4px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: background 300ms ease;
   -webkit-tap-highlight-color: transparent;
@@ -8794,7 +8866,9 @@ ul.off-canvas-list li a:active {
 
 .move-top .exit-off-canvas {
   -webkit-backface-visibility: hidden;
-  box-shadow: -4px 0 4px rgba(0, 0, 0, 0.5), 4px 0 4px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    -4px 0 4px rgba(0, 0, 0, 0.5),
+    4px 0 4px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: background 300ms ease;
   -webkit-tap-highlight-color: transparent;
@@ -8823,7 +8897,9 @@ ul.off-canvas-list li a:active {
 
 .move-bottom .exit-off-canvas {
   -webkit-backface-visibility: hidden;
-  box-shadow: -4px 0 4px rgba(0, 0, 0, 0.5), 4px 0 4px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    -4px 0 4px rgba(0, 0, 0, 0.5),
+    4px 0 4px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: background 300ms ease;
   -webkit-tap-highlight-color: transparent;
@@ -8856,7 +8932,9 @@ ul.off-canvas-list li a:active {
 
 .offcanvas-overlap .exit-off-canvas {
   -webkit-backface-visibility: hidden;
-  box-shadow: -4px 0 4px rgba(0, 0, 0, 0.5), 4px 0 4px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    -4px 0 4px rgba(0, 0, 0, 0.5),
+    4px 0 4px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: background 300ms ease;
   -webkit-tap-highlight-color: transparent;
@@ -8886,7 +8964,9 @@ ul.off-canvas-list li a:active {
 
 .offcanvas-overlap-left .exit-off-canvas {
   -webkit-backface-visibility: hidden;
-  box-shadow: -4px 0 4px rgba(0, 0, 0, 0.5), 4px 0 4px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    -4px 0 4px rgba(0, 0, 0, 0.5),
+    4px 0 4px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: background 300ms ease;
   -webkit-tap-highlight-color: transparent;
@@ -8916,7 +8996,9 @@ ul.off-canvas-list li a:active {
 
 .offcanvas-overlap-right .exit-off-canvas {
   -webkit-backface-visibility: hidden;
-  box-shadow: -4px 0 4px rgba(0, 0, 0, 0.5), 4px 0 4px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    -4px 0 4px rgba(0, 0, 0, 0.5),
+    4px 0 4px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: background 300ms ease;
   -webkit-tap-highlight-color: transparent;
@@ -8946,7 +9028,9 @@ ul.off-canvas-list li a:active {
 
 .offcanvas-overlap-top .exit-off-canvas {
   -webkit-backface-visibility: hidden;
-  box-shadow: -4px 0 4px rgba(0, 0, 0, 0.5), 4px 0 4px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    -4px 0 4px rgba(0, 0, 0, 0.5),
+    4px 0 4px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: background 300ms ease;
   -webkit-tap-highlight-color: transparent;
@@ -8976,7 +9060,9 @@ ul.off-canvas-list li a:active {
 
 .offcanvas-overlap-bottom .exit-off-canvas {
   -webkit-backface-visibility: hidden;
-  box-shadow: -4px 0 4px rgba(0, 0, 0, 0.5), 4px 0 4px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    -4px 0 4px rgba(0, 0, 0, 0.5),
+    4px 0 4px rgba(0, 0, 0, 0.5);
   cursor: pointer;
   transition: background 300ms ease;
   -webkit-tap-highlight-color: transparent;
@@ -10737,7 +10823,8 @@ th.hide-for-touch {
 @font-face {
   font-family: "FontAwesome";
   src: url("/assets/font-awesome/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot?v=4.7.0");
-  src: url("/assets/font-awesome/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot?v=4.7.0#iefix")
+  src:
+    url("/assets/font-awesome/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot?v=4.7.0#iefix")
       format("embedded-opentype"),
     url("/assets/font-awesome/fontawesome-webfont-2adefcbc041e7d18fcf2d417879dc5a09997aa64d675b7a3c4b6ce33da13f3fe.woff2?v=4.7.0")
       format("woff2"),
@@ -13874,7 +13961,10 @@ th.hide-for-touch {
   }
 
   .top-bar.expanded .toggle-topbar.menu-icon a span::after {
-    box-shadow: 0 0 0 1px #888888, 0 7px 0 1px #888888, 0 14px 0 1px #888888;
+    box-shadow:
+      0 0 0 1px #888888,
+      0 7px 0 1px #888888,
+      0 14px 0 1px #888888;
     content: "'";
   }
 
@@ -13883,7 +13973,10 @@ th.hide-for-touch {
   }
 
   .top-bar .toggle-topbar.menu-icon a span::after {
-    box-shadow: 0 0 0 1px #000000, 0 7px 0 1px #000000, 0 14px 0 1px #000000;
+    box-shadow:
+      0 0 0 1px #000000,
+      0 7px 0 1px #000000,
+      0 14px 0 1px #000000;
     content: "'";
   }
 
@@ -17598,7 +17691,8 @@ body.people.edit .belongs_to .name {
 @font-face {
   font-family: "FontAwesome";
   src: url("/assets/font-awesome/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot?v=4.7.0");
-  src: url("/assets/font-awesome/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot?v=4.7.0#iefix")
+  src:
+    url("/assets/font-awesome/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot?v=4.7.0#iefix")
       format("embedded-opentype"),
     url("/assets/font-awesome/fontawesome-webfont-2adefcbc041e7d18fcf2d417879dc5a09997aa64d675b7a3c4b6ce33da13f3fe.woff2?v=4.7.0")
       format("woff2"),
@@ -20735,7 +20829,10 @@ body.people.edit .belongs_to .name {
   }
 
   .top-bar.expanded .toggle-topbar.menu-icon a span::after {
-    box-shadow: 0 0 0 1px #888888, 0 7px 0 1px #888888, 0 14px 0 1px #888888;
+    box-shadow:
+      0 0 0 1px #888888,
+      0 7px 0 1px #888888,
+      0 14px 0 1px #888888;
     content: "'";
   }
 
@@ -20744,7 +20841,10 @@ body.people.edit .belongs_to .name {
   }
 
   .top-bar .toggle-topbar.menu-icon a span::after {
-    box-shadow: 0 0 0 1px #000000, 0 7px 0 1px #000000, 0 14px 0 1px #000000;
+    box-shadow:
+      0 0 0 1px #000000,
+      0 7px 0 1px #000000,
+      0 14px 0 1px #000000;
     content: "'";
   }
 
@@ -24551,7 +24651,8 @@ body.guillotine-dragging * {
 @font-face {
   font-family: "lg";
   src: url("projectile/projects/lg/fonts/lg.eot?n1z373");
-  src: url("projectile/projects/lg/fonts/lg.eot?#iefixn1z373")
+  src:
+    url("projectile/projects/lg/fonts/lg.eot?#iefixn1z373")
       format("embedded-opentype"),
     url("projectile/projects/lg/fonts/lg.woff?n1z373") format("woff"),
     url("projectile/projects/lg/fonts/lg.ttf?n1z373") format("truetype"),
@@ -24795,14 +24896,22 @@ body.guillotine-dragging * {
 .lg-prev,
 .lg-next {
   opacity: 1;
-  -webkit-transition: -webkit-transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
-    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s, color 0.2s linear;
-  -moz-transition: -moz-transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
-    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s, color 0.2s linear;
-  -o-transition: -o-transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
-    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s, color 0.2s linear;
-  transition: transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
-    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s, color 0.2s linear;
+  -webkit-transition:
+    -webkit-transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    color 0.2s linear;
+  -moz-transition:
+    -moz-transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    color 0.2s linear;
+  -o-transition:
+    -o-transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    color 0.2s linear;
+  transition:
+    transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    color 0.2s linear;
 }
 
 .lg-hide-items .lg-prev {
@@ -24827,13 +24936,17 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-object {
   -webkit-transform: scale3d(0.5, 0.5, 0.5);
   transform: scale3d(0.5, 0.5, 0.5);
   opacity: 0;
-  -webkit-transition: -webkit-transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
+  -webkit-transition:
+    -webkit-transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 250ms cubic-bezier(0, 0, 0.25, 1) !important;
-  -moz-transition: -moz-transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
+  -moz-transition:
+    -moz-transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 250ms cubic-bezier(0, 0, 0.25, 1) !important;
-  -o-transition: -o-transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
+  -o-transition:
+    -o-transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 250ms cubic-bezier(0, 0, 0.25, 1) !important;
-  transition: transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
+  transition:
+    transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 250ms cubic-bezier(0, 0, 0.25, 1) !important;
   -webkit-transform-origin: 50% 50%;
   -moz-transform-origin: 50% 50%;
@@ -25122,13 +25235,17 @@ body:not(.lg-from-hash)
 }
 
 .lg-outer.lg-use-left-for-zoom .lg-item.lg-complete.lg-zoomable .lg-img-wrap {
-  -webkit-transition: left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -webkit-transition:
+    left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
     top 0.3s cubic-bezier(0, 0, 0.25, 1) 0s;
-  -moz-transition: left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -moz-transition:
+    left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
     top 0.3s cubic-bezier(0, 0, 0.25, 1) 0s;
-  -o-transition: left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -o-transition:
+    left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
     top 0.3s cubic-bezier(0, 0, 0.25, 1) 0s;
-  transition: left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+  transition:
+    left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
     top 0.3s cubic-bezier(0, 0, 0.25, 1) 0s;
 }
 
@@ -25143,12 +25260,18 @@ body:not(.lg-from-hash)
 .lg-outer .lg-item.lg-complete.lg-zoomable .lg-image {
   -webkit-transform: scale3d(1, 1, 1);
   transform: scale3d(1, 1, 1);
-  -webkit-transition: -webkit-transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -webkit-transition:
+    -webkit-transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 0.15s !important;
-  -moz-transition: -moz-transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -moz-transition:
+    -moz-transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 0.15s !important;
-  -o-transition: -o-transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.15s !important;
-  transition: transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.15s !important;
+  -o-transition:
+    -o-transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.15s !important;
+  transition:
+    transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.15s !important;
   -webkit-transform-origin: 0 0;
   -moz-transform-origin: 0 0;
   -ms-transform-origin: 0 0;
@@ -25230,10 +25353,18 @@ body:not(.lg-from-hash)
   position: absolute;
   width: 120px;
   border-radius: 3px;
-  -webkit-transition: opacity 0.15s ease 0s, -webkit-transform 0.15s ease 0s;
-  -moz-transition: opacity 0.15s ease 0s, -moz-transform 0.15s ease 0s;
-  -o-transition: opacity 0.15s ease 0s, -o-transform 0.15s ease 0s;
-  transition: opacity 0.15s ease 0s, transform 0.15s ease 0s;
+  -webkit-transition:
+    opacity 0.15s ease 0s,
+    -webkit-transform 0.15s ease 0s;
+  -moz-transition:
+    opacity 0.15s ease 0s,
+    -moz-transform 0.15s ease 0s;
+  -o-transition:
+    opacity 0.15s ease 0s,
+    -o-transform 0.15s ease 0s;
+  transition:
+    opacity 0.15s ease 0s,
+    transform 0.15s ease 0s;
   -webkit-transform: translate3d(0, 5px, 0);
   transform: translate3d(0, 5px, 0);
 }
@@ -25293,9 +25424,15 @@ body:not(.lg-from-hash)
   z-index: 1081;
   opacity: 0;
   visibility: hidden;
-  -webkit-transition: visibility 0s linear 0.18s, opacity 0.18s linear 0s;
-  -o-transition: visibility 0s linear 0.18s, opacity 0.18s linear 0s;
-  transition: visibility 0s linear 0.18s, opacity 0.18s linear 0s;
+  -webkit-transition:
+    visibility 0s linear 0.18s,
+    opacity 0.18s linear 0s;
+  -o-transition:
+    visibility 0s linear 0.18s,
+    opacity 0.18s linear 0s;
+  transition:
+    visibility 0s linear 0.18s,
+    opacity 0.18s linear 0s;
 }
 
 .lg-outer.lg-dropdown-active .lg-dropdown,
@@ -25333,13 +25470,21 @@ body:not(.lg-from-hash)
   -ms-transform: translate3d(0, 5px, 0);
   -webkit-transform: translate3d(0, 5px, 0);
   transform: translate3d(0, 5px, 0);
-  -webkit-transition: -webkit-transform 0.18s linear 0s,
-    visibility 0s linear 0.5s, opacity 0.18s linear 0s;
-  -moz-transition: -moz-transform 0.18s linear 0s, visibility 0s linear 0.5s,
+  -webkit-transition:
+    -webkit-transform 0.18s linear 0s,
+    visibility 0s linear 0.5s,
     opacity 0.18s linear 0s;
-  -o-transition: -o-transform 0.18s linear 0s, visibility 0s linear 0.5s,
+  -moz-transition:
+    -moz-transform 0.18s linear 0s,
+    visibility 0s linear 0.5s,
     opacity 0.18s linear 0s;
-  transition: transform 0.18s linear 0s, visibility 0s linear 0.5s,
+  -o-transition:
+    -o-transform 0.18s linear 0s,
+    visibility 0s linear 0.5s,
+    opacity 0.18s linear 0s;
+  transition:
+    transform 0.18s linear 0s,
+    visibility 0s linear 0.5s,
     opacity 0.18s linear 0s;
 }
 
@@ -25681,13 +25826,18 @@ body:not(.lg-from-hash)
 .lg-css3.lg-slide.lg-use-css3 .lg-item.lg-prev-slide,
 .lg-css3.lg-slide.lg-use-css3 .lg-item.lg-next-slide,
 .lg-css3.lg-slide.lg-use-css3 .lg-item.lg-current {
-  -webkit-transition: -webkit-transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -webkit-transition:
+    -webkit-transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 0.1s ease 0s;
-  -moz-transition: -moz-transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -moz-transition:
+    -moz-transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 0.1s ease 0s;
-  -o-transition: -o-transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -o-transition:
+    -o-transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 0.1s ease 0s;
-  transition: transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s;
+  transition:
+    transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.1s ease 0s;
 }
 
 .lg-css3.lg-slide.lg-use-left .lg-item {
@@ -25712,17 +25862,25 @@ body:not(.lg-from-hash)
 .lg-css3.lg-slide.lg-use-left .lg-item.lg-prev-slide,
 .lg-css3.lg-slide.lg-use-left .lg-item.lg-next-slide,
 .lg-css3.lg-slide.lg-use-left .lg-item.lg-current {
-  -webkit-transition: left 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -webkit-transition:
+    left 1s cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 0.1s ease 0s;
-  -moz-transition: left 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s;
-  -o-transition: left 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s;
-  transition: left 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s;
+  -moz-transition:
+    left 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.1s ease 0s;
+  -o-transition:
+    left 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.1s ease 0s;
+  transition:
+    left 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.1s ease 0s;
 }
 
 @font-face {
   font-family: "lg";
   src: url(/assets/projectile/projects/lg/fonts/lg-0970881145aecce7668909140fc2f552c680007c147905bae6bf87d0fca9df6c.eot?n1z373);
-  src: url(/assets/projectile/projects/lg/fonts/lg-0970881145aecce7668909140fc2f552c680007c147905bae6bf87d0fca9df6c.eot?#iefixn1z373)
+  src:
+    url(/assets/projectile/projects/lg/fonts/lg-0970881145aecce7668909140fc2f552c680007c147905bae6bf87d0fca9df6c.eot?#iefixn1z373)
       format("embedded-opentype"),
     url(/assets/projectile/projects/lg/fonts/lg-78e558964f6a4d4970dad55bc53bf6a7cdc0437d228ee2c60bc6d1dc9e0beefd.woff?n1z373)
       format("woff"),
@@ -25876,7 +26034,8 @@ body:not(.lg-from-hash)
 @font-face {
   font-family: "FontAwesome";
   src: url("/assets/font-awesome/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot?v=4.7.0");
-  src: url("/assets/font-awesome/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot?v=4.7.0#iefix")
+  src:
+    url("/assets/font-awesome/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot?v=4.7.0#iefix")
       format("embedded-opentype"),
     url("/assets/font-awesome/fontawesome-webfont-2adefcbc041e7d18fcf2d417879dc5a09997aa64d675b7a3c4b6ce33da13f3fe.woff2?v=4.7.0")
       format("woff2"),
@@ -29013,7 +29172,10 @@ body:not(.lg-from-hash)
   }
 
   .top-bar.expanded .toggle-topbar.menu-icon a span::after {
-    box-shadow: 0 0 0 1px #888888, 0 7px 0 1px #888888, 0 14px 0 1px #888888;
+    box-shadow:
+      0 0 0 1px #888888,
+      0 7px 0 1px #888888,
+      0 14px 0 1px #888888;
     content: "'";
   }
 
@@ -29022,7 +29184,10 @@ body:not(.lg-from-hash)
   }
 
   .top-bar .toggle-topbar.menu-icon a span::after {
-    box-shadow: 0 0 0 1px #000000, 0 7px 0 1px #000000, 0 14px 0 1px #000000;
+    box-shadow:
+      0 0 0 1px #000000,
+      0 7px 0 1px #000000,
+      0 14px 0 1px #000000;
     content: "'";
   }
 
@@ -32829,7 +32994,8 @@ body.guillotine-dragging * {
 @font-face {
   font-family: "lg";
   src: url("projectile/projects/lg/fonts/lg.eot?n1z373");
-  src: url("projectile/projects/lg/fonts/lg.eot?#iefixn1z373")
+  src:
+    url("projectile/projects/lg/fonts/lg.eot?#iefixn1z373")
       format("embedded-opentype"),
     url("projectile/projects/lg/fonts/lg.woff?n1z373") format("woff"),
     url("projectile/projects/lg/fonts/lg.ttf?n1z373") format("truetype"),
@@ -33073,14 +33239,22 @@ body.guillotine-dragging * {
 .lg-prev,
 .lg-next {
   opacity: 1;
-  -webkit-transition: -webkit-transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
-    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s, color 0.2s linear;
-  -moz-transition: -moz-transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
-    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s, color 0.2s linear;
-  -o-transition: -o-transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
-    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s, color 0.2s linear;
-  transition: transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
-    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s, color 0.2s linear;
+  -webkit-transition:
+    -webkit-transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    color 0.2s linear;
+  -moz-transition:
+    -moz-transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    color 0.2s linear;
+  -o-transition:
+    -o-transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    color 0.2s linear;
+  transition:
+    transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+    color 0.2s linear;
 }
 
 .lg-hide-items .lg-prev {
@@ -33105,13 +33279,17 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-object {
   -webkit-transform: scale3d(0.5, 0.5, 0.5);
   transform: scale3d(0.5, 0.5, 0.5);
   opacity: 0;
-  -webkit-transition: -webkit-transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
+  -webkit-transition:
+    -webkit-transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 250ms cubic-bezier(0, 0, 0.25, 1) !important;
-  -moz-transition: -moz-transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
+  -moz-transition:
+    -moz-transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 250ms cubic-bezier(0, 0, 0.25, 1) !important;
-  -o-transition: -o-transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
+  -o-transition:
+    -o-transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 250ms cubic-bezier(0, 0, 0.25, 1) !important;
-  transition: transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
+  transition:
+    transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 250ms cubic-bezier(0, 0, 0.25, 1) !important;
   -webkit-transform-origin: 50% 50%;
   -moz-transform-origin: 50% 50%;
@@ -33400,13 +33578,17 @@ body:not(.lg-from-hash)
 }
 
 .lg-outer.lg-use-left-for-zoom .lg-item.lg-complete.lg-zoomable .lg-img-wrap {
-  -webkit-transition: left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -webkit-transition:
+    left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
     top 0.3s cubic-bezier(0, 0, 0.25, 1) 0s;
-  -moz-transition: left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -moz-transition:
+    left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
     top 0.3s cubic-bezier(0, 0, 0.25, 1) 0s;
-  -o-transition: left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -o-transition:
+    left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
     top 0.3s cubic-bezier(0, 0, 0.25, 1) 0s;
-  transition: left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+  transition:
+    left 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
     top 0.3s cubic-bezier(0, 0, 0.25, 1) 0s;
 }
 
@@ -33421,12 +33603,18 @@ body:not(.lg-from-hash)
 .lg-outer .lg-item.lg-complete.lg-zoomable .lg-image {
   -webkit-transform: scale3d(1, 1, 1);
   transform: scale3d(1, 1, 1);
-  -webkit-transition: -webkit-transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -webkit-transition:
+    -webkit-transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 0.15s !important;
-  -moz-transition: -moz-transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -moz-transition:
+    -moz-transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 0.15s !important;
-  -o-transition: -o-transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.15s !important;
-  transition: transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.15s !important;
+  -o-transition:
+    -o-transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.15s !important;
+  transition:
+    transform 0.3s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.15s !important;
   -webkit-transform-origin: 0 0;
   -moz-transform-origin: 0 0;
   -ms-transform-origin: 0 0;
@@ -33508,10 +33696,18 @@ body:not(.lg-from-hash)
   position: absolute;
   width: 120px;
   border-radius: 3px;
-  -webkit-transition: opacity 0.15s ease 0s, -webkit-transform 0.15s ease 0s;
-  -moz-transition: opacity 0.15s ease 0s, -moz-transform 0.15s ease 0s;
-  -o-transition: opacity 0.15s ease 0s, -o-transform 0.15s ease 0s;
-  transition: opacity 0.15s ease 0s, transform 0.15s ease 0s;
+  -webkit-transition:
+    opacity 0.15s ease 0s,
+    -webkit-transform 0.15s ease 0s;
+  -moz-transition:
+    opacity 0.15s ease 0s,
+    -moz-transform 0.15s ease 0s;
+  -o-transition:
+    opacity 0.15s ease 0s,
+    -o-transform 0.15s ease 0s;
+  transition:
+    opacity 0.15s ease 0s,
+    transform 0.15s ease 0s;
   -webkit-transform: translate3d(0, 5px, 0);
   transform: translate3d(0, 5px, 0);
 }
@@ -33571,9 +33767,15 @@ body:not(.lg-from-hash)
   z-index: 1081;
   opacity: 0;
   visibility: hidden;
-  -webkit-transition: visibility 0s linear 0.18s, opacity 0.18s linear 0s;
-  -o-transition: visibility 0s linear 0.18s, opacity 0.18s linear 0s;
-  transition: visibility 0s linear 0.18s, opacity 0.18s linear 0s;
+  -webkit-transition:
+    visibility 0s linear 0.18s,
+    opacity 0.18s linear 0s;
+  -o-transition:
+    visibility 0s linear 0.18s,
+    opacity 0.18s linear 0s;
+  transition:
+    visibility 0s linear 0.18s,
+    opacity 0.18s linear 0s;
 }
 
 .lg-outer.lg-dropdown-active .lg-dropdown,
@@ -33611,13 +33813,21 @@ body:not(.lg-from-hash)
   -ms-transform: translate3d(0, 5px, 0);
   -webkit-transform: translate3d(0, 5px, 0);
   transform: translate3d(0, 5px, 0);
-  -webkit-transition: -webkit-transform 0.18s linear 0s,
-    visibility 0s linear 0.5s, opacity 0.18s linear 0s;
-  -moz-transition: -moz-transform 0.18s linear 0s, visibility 0s linear 0.5s,
+  -webkit-transition:
+    -webkit-transform 0.18s linear 0s,
+    visibility 0s linear 0.5s,
     opacity 0.18s linear 0s;
-  -o-transition: -o-transform 0.18s linear 0s, visibility 0s linear 0.5s,
+  -moz-transition:
+    -moz-transform 0.18s linear 0s,
+    visibility 0s linear 0.5s,
     opacity 0.18s linear 0s;
-  transition: transform 0.18s linear 0s, visibility 0s linear 0.5s,
+  -o-transition:
+    -o-transform 0.18s linear 0s,
+    visibility 0s linear 0.5s,
+    opacity 0.18s linear 0s;
+  transition:
+    transform 0.18s linear 0s,
+    visibility 0s linear 0.5s,
     opacity 0.18s linear 0s;
 }
 
@@ -33959,13 +34169,18 @@ body:not(.lg-from-hash)
 .lg-css3.lg-slide.lg-use-css3 .lg-item.lg-prev-slide,
 .lg-css3.lg-slide.lg-use-css3 .lg-item.lg-next-slide,
 .lg-css3.lg-slide.lg-use-css3 .lg-item.lg-current {
-  -webkit-transition: -webkit-transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -webkit-transition:
+    -webkit-transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 0.1s ease 0s;
-  -moz-transition: -moz-transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -moz-transition:
+    -moz-transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 0.1s ease 0s;
-  -o-transition: -o-transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -o-transition:
+    -o-transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 0.1s ease 0s;
-  transition: transform 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s;
+  transition:
+    transform 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.1s ease 0s;
 }
 
 .lg-css3.lg-slide.lg-use-left .lg-item {
@@ -33990,17 +34205,25 @@ body:not(.lg-from-hash)
 .lg-css3.lg-slide.lg-use-left .lg-item.lg-prev-slide,
 .lg-css3.lg-slide.lg-use-left .lg-item.lg-next-slide,
 .lg-css3.lg-slide.lg-use-left .lg-item.lg-current {
-  -webkit-transition: left 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+  -webkit-transition:
+    left 1s cubic-bezier(0, 0, 0.25, 1) 0s,
     opacity 0.1s ease 0s;
-  -moz-transition: left 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s;
-  -o-transition: left 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s;
-  transition: left 1s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.1s ease 0s;
+  -moz-transition:
+    left 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.1s ease 0s;
+  -o-transition:
+    left 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.1s ease 0s;
+  transition:
+    left 1s cubic-bezier(0, 0, 0.25, 1) 0s,
+    opacity 0.1s ease 0s;
 }
 
 @font-face {
   font-family: "lg";
   src: url(/assets/projectile/projects/lg/fonts/lg-0970881145aecce7668909140fc2f552c680007c147905bae6bf87d0fca9df6c.eot?n1z373);
-  src: url(/assets/projectile/projects/lg/fonts/lg-0970881145aecce7668909140fc2f552c680007c147905bae6bf87d0fca9df6c.eot?#iefixn1z373)
+  src:
+    url(/assets/projectile/projects/lg/fonts/lg-0970881145aecce7668909140fc2f552c680007c147905bae6bf87d0fca9df6c.eot?#iefixn1z373)
       format("embedded-opentype"),
     url(/assets/projectile/projects/lg/fonts/lg-78e558964f6a4d4970dad55bc53bf6a7cdc0437d228ee2c60bc6d1dc9e0beefd.woff?n1z373)
       format("woff"),
@@ -35065,7 +35288,8 @@ body:not(.lg-from-hash)
 @font-face {
   font-family: "FontAwesome";
   src: url("/assets/font-awesome/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot?v=4.7.0");
-  src: url("/assets/font-awesome/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot?v=4.7.0#iefix")
+  src:
+    url("/assets/font-awesome/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot?v=4.7.0#iefix")
       format("embedded-opentype"),
     url("/assets/font-awesome/fontawesome-webfont-2adefcbc041e7d18fcf2d417879dc5a09997aa64d675b7a3c4b6ce33da13f3fe.woff2?v=4.7.0")
       format("woff2"),
@@ -38202,7 +38426,10 @@ body:not(.lg-from-hash)
   }
 
   .top-bar.expanded .toggle-topbar.menu-icon a span::after {
-    box-shadow: 0 0 0 1px #888888, 0 7px 0 1px #888888, 0 14px 0 1px #888888;
+    box-shadow:
+      0 0 0 1px #888888,
+      0 7px 0 1px #888888,
+      0 14px 0 1px #888888;
     content: "'";
   }
 
@@ -38211,7 +38438,10 @@ body:not(.lg-from-hash)
   }
 
   .top-bar .toggle-topbar.menu-icon a span::after {
-    box-shadow: 0 0 0 1px #000000, 0 7px 0 1px #000000, 0 14px 0 1px #000000;
+    box-shadow:
+      0 0 0 1px #000000,
+      0 7px 0 1px #000000,
+      0 14px 0 1px #000000;
     content: "'";
   }
 
@@ -39805,7 +40035,8 @@ input::-webkit-input-placeholder {
 @font-face {
   font-family: "FontAwesome";
   src: url("/assets/font-awesome/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot?v=4.7.0");
-  src: url("/assets/font-awesome/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot?v=4.7.0#iefix")
+  src:
+    url("/assets/font-awesome/fontawesome-webfont-7bfcab6db99d5cfbf1705ca0536ddc78585432cc5fa41bbd7ad0f009033b2979.eot?v=4.7.0#iefix")
       format("embedded-opentype"),
     url("/assets/font-awesome/fontawesome-webfont-2adefcbc041e7d18fcf2d417879dc5a09997aa64d675b7a3c4b6ce33da13f3fe.woff2?v=4.7.0")
       format("woff2"),
@@ -42942,7 +43173,10 @@ input::-webkit-input-placeholder {
   }
 
   .top-bar.expanded .toggle-topbar.menu-icon a span::after {
-    box-shadow: 0 0 0 1px #888888, 0 7px 0 1px #888888, 0 14px 0 1px #888888;
+    box-shadow:
+      0 0 0 1px #888888,
+      0 7px 0 1px #888888,
+      0 14px 0 1px #888888;
     content: "'";
   }
 
@@ -42951,7 +43185,10 @@ input::-webkit-input-placeholder {
   }
 
   .top-bar .toggle-topbar.menu-icon a span::after {
-    box-shadow: 0 0 0 1px #000000, 0 7px 0 1px #000000, 0 14px 0 1px #000000;
+    box-shadow:
+      0 0 0 1px #000000,
+      0 7px 0 1px #000000,
+      0 14px 0 1px #000000;
     content: "'";
   }
 
