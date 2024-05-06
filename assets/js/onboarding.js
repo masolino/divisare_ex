@@ -133,7 +133,7 @@ function onboardingForm() {
     const messageContainer = document.querySelector("#payment-message");
     if (!!!messageContainer) return;
 
-    messageContainer.classList.remove("hidden");
+    messageContainer.classList.remove("hide");
     messageContainer.textContent = messageText;
   }
 
@@ -158,8 +158,8 @@ function onboardingForm() {
     const buttonText = document.querySelector("#button-text");
 
     submitBtn.disabled = isLoading;
-    spinner.classList.toggle("hidden", !isLoading);
-    buttonText.classList.toggle("hidden", isLoading);
+    spinner.classList.toggle("hide", !isLoading);
+    buttonText.classList.toggle("hide", isLoading);
   }
 }
 
@@ -232,9 +232,9 @@ function billingForm() {
 
   function toggleForm(condition, form) {
     if (condition) {
-      form.classList.remove("hidden");
+      form.classList.remove("hide");
     } else {
-      form.classList.add("hidden");
+      form.classList.add("hide");
     }
   }
 }

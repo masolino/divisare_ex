@@ -1,17 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" style="scrollbar-gutter: stable;">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title suffix=" · Phoenix Framework">
-      <%= assigns[:page_title] || "Divisare" %>
-    </.live_title>
-    <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content={get_csrf_token()} />
+  <title>Your account · Divisare </title>
+  <link rel="stylesheet" media="all" href="/assets/application.self-d6624cad02a4c8f01326863b44bb366e6a982e16058ce09e39039e709ce1e287.css?body=1" data-turbolinks-track="reload" />
+  <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
     <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
     </script>
-  </head>
-  <body class="bg-white antialiased">
-    <%= @inner_content %>
-  </body>
+
+</head>
+<body>
+    <script>
+    function ga () {
+      var params = Array.prototype.slice.call(arguments, ga.length);
+      // console.log("GoogleAnalytics: " + params);
+    };
+  </script>
+
+  <%= @inner_content %>
+
+</body>
 </html>

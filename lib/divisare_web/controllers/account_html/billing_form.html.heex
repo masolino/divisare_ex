@@ -1,37 +1,87 @@
-<.header>
-  Your billing information
-  <:subtitle>This is only necessary if you are a business and want to receive invoices.</:subtitle>
-</.header>
-
-<.error :for={error <- @errors}><%= error %></.error>
-
-<.simple_form :let={f} for={%{}} action={~p"/billing"} method="put" id="billing-form">
-  <.input field={{f, :token}} type="hidden" value={@data.token} />
-
-  <.input field={{f, :country_code}} name="billing[country_code]" type="select" label="Country" options={@countries} data-eu-countries={Jason.encode!(@eu_countries)} />
-  <.input field={{f, :state_code}} name="billing[state_code]" type="select" label="State" data-opts={Jason.encode!(@subdivisions)} options={[]} />
-
-  <.input field={{f, :heading}} name="billing[heading]" type="text" label="Name or Company" />
-  <.input field={{f, :address}} name="billing[address]" type="text" label="Address" />
-  <.input field={{f, :postal_code}} name="billing[postal_code]" type="text" label="Postal Code" />
-  <.input field={{f, :city}} name="billing[city]" type="text" label="City" />
-
-  <.input field={{f, :business}} name="billing[business]" type="checkbox" label="Are you a business?" />
-  <div id="business-form">
-    <.input field={{f, :vat}} name="billing[vat]" type="text" label="P.IVA / VAT (VIES)" />
+<div class="account">
+  <div class="row">
+    <div class="small-12 columns">
+      <h1>Your account</h1>
+    </div>
   </div>
 
-  <div id="italian-form">
-    <.input field={{f, :cf}} name="billing[cf]" type="text" label="CF" />
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="sections">
+        <ul class="inline-list">
+          <li>
+            <.link href={URI.parse("#{Application.get_env(:divisare, :main_host)}/people/edit")}>Account Details</.link>
+          </li>
+          <li>
+            <.link href={URI.parse("#{Application.get_env(:divisare, :main_host)}/subscription/status")}>Subscription</.link>
+          </li>
+          <li>Billing information</li>
+        </ul>
+      </div>
+    </div>
   </div>
 
-  <div id="ita-business-form">
-    <.input field={{f, :pec}} name="billing[pec]" type="email" label="PEC" />
-    <.input field={{f, :sdi_code}} name="billing[sdi]" type="text" label="SDI" />
+  <div class="row">
+    <div class="small-12 columns">
+      <.error :for={error <- @errors}><%= error %></.error>
+    </div>
   </div>
 
+  <div class="row">
+    <div class="small-12 columns">
+      <.simple_form :let={f} for={%{}} action={~p"/billing"} method="put" id="billing-form">
+        <.input field={{f, :token}} type="hidden" value={@data.token} />
 
-  <:actions>
-    <.button id="submit"><span id="button-text">Save</span></.button>
-  </:actions>
-</.simple_form>
+        <.input
+          field={{f, :country_code}}
+          name="billing[country_code]"
+          type="select"
+          label="Country"
+          options={@countries}
+          data-eu-countries={Jason.encode!(@eu_countries)}
+        />
+        <.input
+          field={{f, :state_code}}
+          name="billing[state_code]"
+          type="select"
+          label="State"
+          data-opts={Jason.encode!(@subdivisions)}
+          options={[]}
+        />
+
+        <.input field={{f, :heading}} name="billing[heading]" type="text" label="Name or Company" />
+        <.input field={{f, :address}} name="billing[address]" type="text" label="Address" />
+        <.input
+          field={{f, :postal_code}}
+          name="billing[postal_code]"
+          type="text"
+          label="Postal Code"
+        />
+        <.input field={{f, :city}} name="billing[city]" type="text" label="City" />
+
+        <.input
+          field={{f, :business}}
+          name="billing[business]"
+          type="checkbox"
+          label="Are you a business?"
+        />
+        <div id="business-form">
+          <.input field={{f, :vat}} name="billing[vat]" type="text" label="P.IVA / VAT (VIES)" />
+        </div>
+
+        <div id="italian-form">
+          <.input field={{f, :cf}} name="billing[cf]" type="text" label="CF" />
+        </div>
+
+        <div id="ita-business-form">
+          <.input field={{f, :pec}} name="billing[pec]" type="email" label="PEC" />
+          <.input field={{f, :sdi_code}} name="billing[sdi]" type="text" label="SDI" />
+        </div>
+
+        <:actions>
+          <.button id="submit"><span id="button-text">Save</span></.button>
+        </:actions>
+      </.simple_form>
+    </div>
+  </div>
+</div>

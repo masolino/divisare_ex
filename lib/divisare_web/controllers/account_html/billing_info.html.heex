@@ -1,67 +1,81 @@
-<.header>
-  Your billing information
-  <:subtitle></:subtitle>
-</.header>
-
-
-<div>
-  <strong>Heading</strong>
-  <p><%= @billing.heading %></p>
-</div>
-
-<div>
-  <strong>Address</strong>
-  <p><%= @billing.address %></p>
-</div>
-
-<div>
-  <strong>Postal code</strong>
-  <p><%= @billing.postal_code %></p>
-</div>
-
-<div>
-  <strong>Country</strong>
-  <p><%= @billing.country_code %></p>
-</div>
-
-<div>
-  <strong>State</strong>
-  <p><%= @billing.state_code %></p>
-</div>
-
-<div>
-  <strong>City</strong>
-  <p><%= @billing.city %></p>
-</div>
-
-
-<%= if @billing.business do %>
-  <div>
-    <strong>VAT</strong>
-    <p><%= @billing.vat %></p>
+<div class="account">
+  <div class="row">
+    <div class="small-12 columns">
+      <h1>Your billing information</h1>
+    </div>
   </div>
 
-  <%= if @billing.country_code == "IT" do %>
-    <div>
-      <strong>Pec</strong>
-      <p><%= @billing.pec %></p>
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="sections">
+        <ul class="inline-list">
+          <li><a href="#{Application.get_env(:divisare, :main_host)}/people/edit">Account Details</a></li>
+          <li><a href="#{Application.get_env(:divisare, :main_host)}/subscription/status">Subscription</a></li>
+          <li>Billing information</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-12 columns">
+      <strong>Heading</strong>
+      <p><%= @billing.heading %></p>
     </div>
 
-    <div>
-      <strong>SDI</strong>
-      <p><%= @billing.sdi_code %></p>
+
+    <div class="small-12 columns">
+      <strong>Address</strong>
+      <p><%= @billing.address %></p>
     </div>
-  <% end %>
-<% else %>
-  <%= if @billing.country_code == "IT" do %>
-    <div>
-      <strong>CF</strong>
-      <p><%= @billing.cf %></p>
+
+    <div class="small-12 columns">
+      <strong>Postal code</strong>
+      <p><%= @billing.postal_code %></p>
     </div>
-  <% end %>
-<% end %>
 
+    <div class="small-12 columns">
+      <strong>Country</strong>
+      <p><%= @billing.country_code %></p>
+    </div>
 
+    <div class="small-12 columns">
+      <strong>State</strong>
+      <p><%= @billing.state_code %></p>
+    </div>
 
+    <div class="small-12 columns">
+      <strong>City</strong>
+      <p><%= @billing.city %></p>
+    </div>
 
-<.back navigate={"#{Application.get_env(:divisare, :main_host)}/people/edit"}>Back to account</.back>
+    <%= if @billing.business do %>
+      <div class="small-12 columns">
+        <strong>VAT</strong>
+        <p><%= @billing.vat %></p>
+      </div>
+
+      <%= if @billing.country_code == "IT" do %>
+        <div class="small-12 columns">
+          <strong>Pec</strong>
+          <p><%= @billing.pec %></p>
+        </div>
+
+        <div class="small-12 columns">
+          <strong>SDI</strong>
+          <p><%= @billing.sdi_code %></p>
+        </div>
+      <% end %>
+    <% else %>
+      <%= if @billing.country_code == "IT" do %>
+        <div class="small-12 columns">
+          <strong>CF</strong>
+          <p><%= @billing.cf %></p>
+        </div>
+      <% end %>
+    <% end %>
+    <div class="small-12 columns">
+      <a href={"#{Application.get_env(:divisare, :main_host)}/people/edit"}>Back to account</a>
+    </div>
+  </div>
+</div>
