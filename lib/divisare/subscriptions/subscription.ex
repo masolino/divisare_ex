@@ -7,8 +7,6 @@ defmodule Divisare.Subscriptions.Subscription do
   import Ecto.Changeset
   import Ecto.Query, warn: false
 
-  alias Divisare.Utils
-
   schema "divisare_subscriptions" do
     field(:payment_intent, :string, source: :token)
     field(:stripe_customer_id, :string, source: :stripe_customer_token)

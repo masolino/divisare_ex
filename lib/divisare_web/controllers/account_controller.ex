@@ -3,6 +3,7 @@ defmodule DivisareWeb.AccountController do
 
   alias Divisare.Accounts
   alias Divisare.Billings
+  alias Divisare.Utils
 
   require Logger
 
@@ -16,9 +17,9 @@ defmodule DivisareWeb.AccountController do
       {:error, :billing_not_found} ->
         assigns = %{
           data: %{token: token},
-          countries: Divisare.Utils.Countries.all(),
-          subdivisions: Divisare.Utils.Countries.countries_subdivisions() |> Enum.into(%{}),
-          eu_countries: Divisare.Utils.Countries.by_region("Europe") |> Enum.map(&elem(&1, 1)),
+          countries: Utils.Countries.all(),
+          subdivisions: Utils.Countries.countries_subdivisions() |> Enum.into(%{}),
+          eu_countries: Utils.Countries.by_region("Europe") |> Enum.map(&elem(&1, 1)),
           errors: []
         }
 
@@ -32,18 +33,18 @@ defmodule DivisareWeb.AccountController do
   def update_billing(conn, %{"token" => token} = params) do
     Accounts.add_billing_info(params)
     |> case do
-      {:ok, billing} ->
+      {:ok, _billing} ->
         render(conn, :billing_thanks, token: token)
 
       {:error, %Ecto.Changeset{errors: errs}} ->
         errors = Enum.map(errs, fn {k, {e, _}} -> "#{k}: #{e}" end)
 
         data = %{token: params["token"]}
-        countries = Divisare.Utils.Countries.all()
-        subdivisions = Divisare.Utils.Countries.countries_subdivisions() |> Enum.into(%{})
-        eu_countries = Divisare.Utils.Countries.by_region("Europe") |> Enum.map(&elem(&1, 1))
+        countries = Utils.Countries.all()
+        subdivisions = Utils.Countries.countries_subdivisions() |> Enum.into(%{})
+        eu_countries = Utils.Countries.by_region("Europe") |> Enum.map(&elem(&1, 1))
 
-        render(conn, :edit,
+        render(conn, :billing_form,
           data: data,
           countries: countries,
           subdivisions: subdivisions,

@@ -10,10 +10,16 @@
       <div class="sections">
         <ul class="inline-list">
           <li>
-            <.link href={URI.parse("#{Application.get_env(:divisare, :main_host)}/people/edit")}>Account Details</.link>
+            <.link href={URI.parse("#{Application.get_env(:divisare, :main_host)}/people/edit")}>
+              Account Details
+            </.link>
           </li>
           <li>
-            <.link href={URI.parse("#{Application.get_env(:divisare, :main_host)}/subscription/status")}>Subscription</.link>
+            <.link href={
+              URI.parse("#{Application.get_env(:divisare, :main_host)}/subscription/status")
+            }>
+              Subscription
+            </.link>
           </li>
           <li>Billing information</li>
         </ul>
@@ -79,7 +85,9 @@
         </div>
 
         <:actions>
-          <.button id="submit"><span id="button-text">Save</span></.button>
+          <.button id="submit" class="button secondary">
+            <span id="button-text">Save</span>
+          </.button>
         </:actions>
       </.simple_form>
     </div>
