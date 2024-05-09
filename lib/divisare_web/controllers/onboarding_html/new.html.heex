@@ -1,24 +1,22 @@
 <div class="account">
   <div class="row">
     <div class="small-12 columns">
-      <h1>Enroll into Divisare.</h1>
+      <h1>Subscribe for 75€/year VAT included</h1>
+      <h2 class="subtitle">
+        Subscribing you will have full access to divisare projects archive.
+      </h2>
     </div>
   </div>
 
   <div class="row">
-    <div class="small-12 columns">
+    <div class="small-12 medium-6 columns onboarding-description">
       <.stripe api_key={Application.get_env(:divisare, :stripe_publishable_key)} />
-
-      <p>You will be charged <strong>75€</strong>, tax included</p>
       <p>
         You will be sent directly to the site after the payment and you will
         receive an email with your credentials at the email you will write
         below. After the payment, you can ask for a receipt or a VAT invoice
         directly in the user preferences site, a link to which will also be in
         the email you will receive.
-      </p>
-      <p>
-        Email helpme@divisare.com if you have problems with the form or you want more information
       </p>
 
       <.onboarding_form data={@data} action={~p"/onboarding"} />
@@ -27,52 +25,12 @@
 
   <div class="row">
     <div class="small-12 columns">
-      <hr />
-      <ul class="onboarding-links">
-        <li>
-          <p>
-            Free for architecture
-            <.link href={
-              URI.parse("#{Application.get_env(:divisare, :main_host)}/signup?academic=teacher")
-            }>
-              teachers
-            </.link>
-            and
-            <.link href={
-              URI.parse("#{Application.get_env(:divisare, :main_host)}/signup?academic=student")
-            }>students</.link>.
-          </p>
-        </li>
-        <li>
-          <p>
-            Free for <.link href={
-              URI.parse("#{Application.get_env(:divisare, :main_host)}/associations")
-            }>selected architects associations</.link>.
-          </p>
-        </li>
-        <li class="accordize">
-          <p class="accordize-body">
-            Interested in a professional subscription for your team?
-          </p>
-          <p class="accordize-toggle">
-            We can allow Divisare unlimited access for any subscriber with your team email address (@your-team.com).<br />
-            <a href="mailto:divisare@divisare.com">Email us</a>
-            from the official team account with the number of your members. We'll answer with a commercial offer tailored for you.
-          </p>
-        </li>
-
-        <li class="accordize">
-          <p class="accordize-body">
-            Interested in a subscription for your association?
-          </p>
-          <p class="accordize-toggle">
-            We can allow Divisare unlimited access to all of your members. (500+ members).<br />
-            <a href="mailto:divisare@divisare.com">Email us</a>
-            from the official association account with the name of your association and the number of its members.
-            We'll answer with detailed information and a commercial offer tailored to your association.
-          </p>
-        </li>
-      </ul>
+      <.link
+        href={URI.parse("#{Application.get_env(:divisare, :main_host)}/subscriptions")}
+        class="subscription-options"
+      >
+        Other subscription options
+      </.link>
     </div>
   </div>
 </div>

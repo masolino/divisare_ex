@@ -25,8 +25,8 @@ config :divisare, DivisareWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "1SdaJ5vDk2zCDdFuNXmfg1sfDiVQSsCtKqiKAaA/BjB8VHuolvFvFl3sU4g9y84i",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+    # tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
 
 # ## SSL Support

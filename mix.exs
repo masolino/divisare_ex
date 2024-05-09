@@ -38,7 +38,7 @@ defmodule Divisare.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 3.3"},
       {:phoenix_live_view, "~> 0.18.3"},
-      {:heroicons, "~> 0.5"},
+      # {:heroicons, "~> 0.5"},
       {:phoenix_live_dashboard, "~> 0.7.2"},
       {:swoosh, "~> 1.15"},
       {:finch, "~> 0.13"},
@@ -56,7 +56,7 @@ defmodule Divisare.MixProject do
       # Development
       {:phoenix_live_reload, "~> 1.5", only: :dev},
       {:esbuild, "~> 0.5", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
+      # {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
       {:dotenvy, "~> 0.8.0"},
 
       # Testing
@@ -76,8 +76,10 @@ defmodule Divisare.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
+      "assets.setup": ["esbuild.install --if-missing"],
+      "assets.deploy": ["esbuild default --minify", "phx.digest"]
+      # "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
+      # "assets.deploy": ["tailwind default --minify", "esbuild default --minify", "phx.digest"]
     ]
   end
 end

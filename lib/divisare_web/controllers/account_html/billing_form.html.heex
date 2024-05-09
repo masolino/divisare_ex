@@ -28,13 +28,13 @@
   </div>
 
   <div class="row">
-    <div class="small-12 columns">
+    <div class="small-12 medium-6 columns">
       <.error :for={error <- @errors}><%= error %></.error>
     </div>
   </div>
 
   <div class="row">
-    <div class="small-12 columns">
+    <div class="small-12 medium-4 columns">
       <.simple_form :let={f} for={%{}} action={~p"/billing"} method="put" id="billing-form">
         <.input field={{f, :token}} type="hidden" value={@data.token} />
 
@@ -85,8 +85,8 @@
         </div>
 
         <:actions>
-          <.button id="submit" class="button secondary">
-            <span id="button-text">Save</span>
+          <.button id="submit" class="button secondary expand">
+            Save
           </.button>
         </:actions>
       </.simple_form>

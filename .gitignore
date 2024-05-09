@@ -23,7 +23,7 @@ erl_crash.dump
 divisare-*.tar
 
 # Ignore assets that are produced by build tools.
-/priv/static/assets/
+/priv/static/assets/app.*
 
 # Ignore digested assets cache.
 /priv/static/cache_manifest.json
@@ -31,4 +31,3 @@ divisare-*.tar
 # In case you use Node.js/npm, you want to ignore these.
 npm-debug.log
 /assets/node_modules/
-
