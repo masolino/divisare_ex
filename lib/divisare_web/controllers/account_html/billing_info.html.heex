@@ -29,51 +29,33 @@
 
   <div class="row">
     <div class="small-12 columns">
-      <strong>Heading</strong>
-      <p><%= @billing.heading %></p>
-    </div>
-
-    <div class="small-12 columns">
-      <strong>Address</strong>
-      <p><%= @billing.address %></p>
-    </div>
-
-    <div class="small-12 columns">
-      <strong>Postal code</strong>
-      <p><%= @billing.postal_code %></p>
-    </div>
-
-    <div class="small-12 columns">
-      <strong>Country</strong>
-      <p><%= @billing.country_code %></p>
-    </div>
-
-    <div class="small-12 columns">
-      <strong>State</strong>
-      <p><%= @billing.state_code %></p>
-    </div>
-
-    <div class="small-12 columns">
-      <strong>City</strong>
-      <p><%= @billing.city %></p>
+      <p>
+        <strong><%= @billing.heading %></strong> <br />
+        <%= @billing.address %><br />
+        <%= @billing.postal_code %> <%= @billing.city %>, <%= @billing.state_code %> (<%= @billing.country_code %>)
+      </p>
     </div>
 
     <%= if @billing.business do %>
       <div class="small-12 columns">
-        <strong>VAT</strong>
-        <p><%= @billing.vat %></p>
+        <strong>VAT:</strong>
+        <%= @billing.vat %>
       </div>
 
       <%= if @billing.country_code == "IT" do %>
-        <div class="small-12 columns">
-          <strong>Pec</strong>
-          <p><%= @billing.pec %></p>
-        </div>
+        <%= if not is_nil(@billing.pec) do %>
+          <div class="small-12 columns">
+            <strong>PEC:</strong>
+            <%= @billing.pec %>
+          </div>
+        <% end %>
 
-        <div class="small-12 columns">
-          <strong>SDI</strong>
-          <p><%= @billing.sdi_code %></p>
-        </div>
+        <%= if not is_nil(@billing.sdi_code) do %>
+          <div class="small-12 columns">
+            <strong>SDI:</strong>
+            <%= @billing.sdi_code %>
+          </div>
+        <% end %>
       <% end %>
     <% else %>
       <%= if @billing.country_code == "IT" do %>
@@ -83,7 +65,8 @@
         </div>
       <% end %>
     <% end %>
-    <div class="small-12 columns">
+
+    <div class="small-12 columns" style="margin-top: 3rem">
       <a href={"#{Application.get_env(:divisare, :main_host)}/people/edit"}>Back to account</a>
     </div>
   </div>
