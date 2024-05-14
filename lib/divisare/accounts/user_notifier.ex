@@ -14,7 +14,7 @@ defmodule Divisare.Accounts.UserNotifier do
     url =
       Application.get_env(:divisare, :main_host)
       |> URI.parse()
-      |> URI.merge("/people/edit")
+      |> URI.merge("/subscription/status")
       |> to_string
 
     email =
