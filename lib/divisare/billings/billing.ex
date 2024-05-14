@@ -43,12 +43,13 @@ defmodule Divisare.Billings.Billing do
       %Ecto.Changeset{valid?: true, changes: %{business: false, country_code: "IT"}} ->
         changeset
         |> validate_required([:cf], message: "is required")
+        |> validate_cf_length
 
       %Ecto.Changeset{valid?: true, changes: %{business: true, country_code: "IT"}} ->
         changeset
         |> validate_required([:vat], message: "is required")
-        |> validate_required_inclusion([:pec, :sdi_code])
         |> validate_ita_vat()
+        |> validate_sdi_length
 
       %Ecto.Changeset{valid?: true, changes: %{business: true, country_code: cd}}
       when cd in @eu_countries and cd != "IT" ->
@@ -80,17 +81,6 @@ defmodule Divisare.Billings.Billing do
   end
 
   defp validate_vies_vat(changeset), do: add_error(changeset, :vat, "invalid")
-
-  defp validate_required_inclusion(changeset, fields) do
-    if Enum.any?(fields, &present?(changeset, &1)) do
-      changeset
-      |> validate_sdi_length()
-      |> validate_cf_length()
-    else
-      # Add the error to the first field only since Ecto requires a field name for each error.
-      add_error(changeset, hd(fields), "One of these fields must be present: #{inspect(fields)}")
-    end
-  end
 
   defp present?(changeset, field) do
     value = get_field(changeset, field)
