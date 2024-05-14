@@ -40,6 +40,7 @@ import "phoenix_html";
 // window.liveSocket = liveSocket
 
 import "./onboarding";
+import "./billing";
 
 import "../css/divisare.css";
 import "../css/app.css";

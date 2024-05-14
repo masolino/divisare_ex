@@ -51,8 +51,8 @@ defmodule Divisare.Services.Onboarding do
 
   defp find_or_onboard_user(email) do
     case Accounts.find_user_by_email(email) do
-      nil -> onboard_user(email)
-      user -> {:ok, false, user}
+      {:error, _} -> onboard_user(email)
+      {:ok, user} -> {:ok, false, user}
     end
   end
 

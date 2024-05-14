@@ -20,7 +20,10 @@ defmodule Divisare.Accounts do
   end
 
   def find_user_by_email(email) do
-    Repo.get_by(User, email: email)
+    case Repo.get_by(User, email: email) do
+      nil -> {:error, :user_not_found}
+      user -> {:ok, user}
+    end
   end
 
   def find_user_by_token(token) do
