@@ -1,18 +1,17 @@
 # Divisare
 
-To start your Phoenix server:
+This is a companion app for the main Divisare app which includes onboarding and payment of new users, plus some other features to complement the main app.
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+## Development environment
+
+Follow these steps to start using it:
+
+- ensure PostgreSQL containing the main Divisare db is running
+- `mix setup` to install and setup dependencies
+- `ìex -S mix phx.server` to start the local development server (please note that this command will also give you a _console_ to run Elixir commands while the app is running)
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+### Testing emails
 
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+Go to [`localhost:4000/dev/mailbox`](http://localhost:4000/dev/mailbox) and wait for emails to come (or refresh the page)
