@@ -1,7 +1,7 @@
 <div class="account">
   <div class="row">
     <div class="small-12 columns">
-      <h1>Your account</h1>
+      <h1>Compile this form to receive a receipt or invoice</h1>
     </div>
   </div>
 
@@ -28,15 +28,9 @@
   </div>
 
   <div class="row">
-    <div class="small-12 medium-6 columns">
-      <.error :for={error <- @errors}><%= error %></.error>
-    </div>
-  </div>
-
-  <div class="row">
     <div class="small-12 medium-4 columns">
-      <.simple_form :let={f} for={%{}} action={~p"/billing"} method="put" id="billing-form">
-        <.input field={{f, :token}} type="hidden" value={@data.token} />
+      <.simple_form :let={f} for={@changeset} action={~p"/billing"} method="put" id="billing-form">
+        <input name="token" hidden type="hidden" value={@data.token} />
 
         <.input
           field={{f, :country_code}}

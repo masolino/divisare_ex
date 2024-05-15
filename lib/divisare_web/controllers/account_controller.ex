@@ -15,7 +15,10 @@ defmodule DivisareWeb.AccountController do
       render(conn, :billing_info, billing: billing)
     else
       {:error, :billing_not_found} ->
+        changeset = Billings.Billing.new_changeset()
+
         assigns = %{
+          changeset: changeset,
           data: %{token: token},
           countries: Utils.Countries.all(),
           subdivisions: Utils.Countries.countries_subdivisions() |> Enum.into(%{}),
@@ -30,21 +33,22 @@ defmodule DivisareWeb.AccountController do
     end
   end
 
-  def update_billing(conn, %{"token" => token} = params) do
+  def update_billing(conn, %{"billing" => _, "token" => token} = params) do
     Accounts.add_billing_info(params)
     |> case do
       {:ok, _billing} ->
         render(conn, :billing_thanks, token: token)
 
-      {:error, %Ecto.Changeset{errors: errs}} ->
+      {:error, %Ecto.Changeset{errors: errs} = changeset} ->
         errors = Enum.map(errs, fn {k, {e, _}} -> "#{k}: #{e}" end)
 
-        data = %{token: params["token"]}
+        data = %{token: token}
         countries = Utils.Countries.all()
         subdivisions = Utils.Countries.countries_subdivisions() |> Enum.into(%{})
         eu_countries = Utils.Countries.by_region("Europe") |> Enum.map(&elem(&1, 1))
 
         render(conn, :billing_form,
+          changeset: changeset,
           data: data,
           countries: countries,
           subdivisions: subdivisions,

@@ -3,8 +3,7 @@ defmodule DivisareWeb.CoreComponents do
   Provides core UI components.
   """
   use Phoenix.Component
-
-  alias DivisareWeb.Gettext
+  import DivisareWeb.Gettext
 
   @doc """
   Renders a simple form.
@@ -225,7 +224,7 @@ defmodule DivisareWeb.CoreComponents do
 
   def error(assigns) do
     ~H"""
-    <p class="phx-no-feedback:hidden mt-3 flex gap-3 text-sm leading-6 text-rose-600">
+    <p class="error_field">
       <%= render_slot(@inner_block) %>
     </p>
     """
@@ -301,9 +300,9 @@ defmodule DivisareWeb.CoreComponents do
     # should be written to the errors.po file. The :count option is
     # set by Ecto and indicates we should also apply plural rules.
     if count = opts[:count] do
-      Gettext.dngettext("errors", msg, msg, count, opts)
+      Gettext.dngettext(DivisareWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext("errors", msg, opts)
+      Gettext.dgettext(DivisareWeb.Gettext, "errors", msg, opts)
     end
   end
 

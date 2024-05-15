@@ -30,9 +30,13 @@ defmodule Divisare.Billings.Billing do
 
   @eu_countries Divisare.Utils.Countries.by_region("Europe") |> Enum.map(fn {_, v} -> v end)
 
+  def new_changeset() do
+    cast(%__MODULE__{}, %{}, @required_fields ++ @optional_fields)
+  end
+
   @doc false
-  def changeset(%__MODULE__{} = user \\ %__MODULE__{}, attrs) do
-    user
+  def changeset(%__MODULE__{} = billing \\ %__MODULE__{}, attrs) do
+    billing
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> apply_validations()
