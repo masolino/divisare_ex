@@ -23,6 +23,8 @@ defmodule DivisareWeb.Router do
     get "/onboarding/confirm/:email", OnboardingController, :confirm
 
     get "/billing/:token", AccountController, :billing
+    get "/billing/:token/edit", AccountController, :edit_billing
+    post "/billing/", AccountController, :add_billing
     put "/billing/", AccountController, :update_billing
   end
 

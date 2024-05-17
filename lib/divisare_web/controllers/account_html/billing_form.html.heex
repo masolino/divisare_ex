@@ -1,89 +1,44 @@
-<div class="account">
-  <div class="row">
-    <div class="small-12 columns">
-      <h1>Compile this form to receive a receipt or invoice</h1>
-    </div>
-  </div>
+<input name="token" hidden type="hidden" value={@data.token} />
 
-  <div class="row">
-    <div class="small-12 columns">
-      <div class="sections">
-        <ul class="inline-list">
-          <li>
-            <.link href={URI.parse("#{Application.get_env(:divisare, :main_host)}/people/edit")}>
-              Account Details
-            </.link>
-          </li>
-          <li>
-            <.link href={
-              URI.parse("#{Application.get_env(:divisare, :main_host)}/subscription/status")
-            }>
-              Subscription
-            </.link>
-          </li>
-          <li>Billing information</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+<.input
+  field={{@form, :country_code}}
+  name="billing[country_code]"
+  type="select"
+  label="Country"
+  options={@countries}
+  data-eu-countries={Jason.encode!(@eu_countries)}
+/>
 
-  <div class="row">
-    <div class="small-12 medium-4 columns">
-      <.simple_form :let={f} for={@changeset} action={~p"/billing"} method="put" id="billing-form">
-        <input name="token" hidden type="hidden" value={@data.token} />
+<.input
+  field={{@form, :state_code}}
+  name="billing[state_code]"
+  type="select"
+  label="State"
+  data-opts={Jason.encode!(@subdivisions)}
+  data-selected={@changeset.data.state_code}
+  options={[]}
+/>
 
-        <.input
-          field={{f, :country_code}}
-          name="billing[country_code]"
-          type="select"
-          label="Country"
-          options={@countries}
-          data-eu-countries={Jason.encode!(@eu_countries)}
-        />
-        <.input
-          field={{f, :state_code}}
-          name="billing[state_code]"
-          type="select"
-          label="State"
-          data-opts={Jason.encode!(@subdivisions)}
-          options={[]}
-        />
+<.input field={{@form, :heading}} name="billing[heading]" type="text" label="Name or Company" />
+<.input field={{@form, :address}} name="billing[address]" type="text" label="Address" />
+<.input field={{@form, :postal_code}} name="billing[postal_code]" type="text" label="Postal Code" />
+<.input field={{@form, :city}} name="billing[city]" type="text" label="City" />
 
-        <.input field={{f, :heading}} name="billing[heading]" type="text" label="Name or Company" />
-        <.input field={{f, :address}} name="billing[address]" type="text" label="Address" />
-        <.input
-          field={{f, :postal_code}}
-          name="billing[postal_code]"
-          type="text"
-          label="Postal Code"
-        />
-        <.input field={{f, :city}} name="billing[city]" type="text" label="City" />
+<.input
+  field={{@form, :business}}
+  name="billing[business]"
+  type="checkbox"
+  label="Are you a business?"
+/>
+<div id="business-form">
+  <.input field={{@form, :vat}} name="billing[vat]" type="text" label="P.IVA / VAT (VIES)" />
+</div>
 
-        <.input
-          field={{f, :business}}
-          name="billing[business]"
-          type="checkbox"
-          label="Are you a business?"
-        />
-        <div id="business-form">
-          <.input field={{f, :vat}} name="billing[vat]" type="text" label="P.IVA / VAT (VIES)" />
-        </div>
+<div id="italian-form">
+  <.input field={{@form, :cf}} name="billing[cf]" type="text" label="CF" />
+</div>
 
-        <div id="italian-form">
-          <.input field={{f, :cf}} name="billing[cf]" type="text" label="CF" />
-        </div>
-
-        <div id="ita-business-form">
-          <.input field={{f, :pec}} name="billing[pec]" type="email" label="PEC" />
-          <.input field={{f, :sdi_code}} name="billing[sdi]" type="text" label="SDI" />
-        </div>
-
-        <:actions>
-          <.button id="submit" class="button secondary expand">
-            Save
-          </.button>
-        </:actions>
-      </.simple_form>
-    </div>
-  </div>
+<div id="ita-business-form">
+  <.input field={{@form, :pec}} name="billing[pec]" type="email" label="PEC" />
+  <.input field={{@form, :sdi_code}} name="billing[sdi]" type="text" label="SDI" />
 </div>

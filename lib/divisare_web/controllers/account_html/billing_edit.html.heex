@@ -1,0 +1,51 @@
+<div class="account">
+  <div class="row">
+    <div class="small-12 columns">
+      <h1>Compile this form to receive a receipt or invoice</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="sections">
+        <ul class="inline-list">
+          <li>
+            <.link href={URI.parse("#{Application.get_env(:divisare, :main_host)}/people/edit")}>
+              Account Details
+            </.link>
+          </li>
+          <li>
+            <.link href={
+              URI.parse("#{Application.get_env(:divisare, :main_host)}/subscription/status")
+            }>
+              Subscription
+            </.link>
+          </li>
+          <li>Billing information</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-12 medium-4 columns">
+      <.simple_form :let={f} for={@changeset} action={~p"/billing"} method="put" id="billing-form">
+        <.billing_form
+          data={@data}
+          form={f}
+          countries={@countries}
+          changeset={@changeset}
+          subdivisions={@subdivisions}
+          eu_countries={@eu_countries}
+          action={~p"/onboarding"}
+        />
+
+        <:actions>
+          <.button id="submit" class="button secondary expand">
+            Save
+          </.button>
+        </:actions>
+      </.simple_form>
+    </div>
+  </div>
+</div>

@@ -30,8 +30,8 @@ defmodule Divisare.Billings.Billing do
 
   @eu_countries Divisare.Utils.Countries.by_region("Europe") |> Enum.map(fn {_, v} -> v end)
 
-  def new_changeset() do
-    cast(%__MODULE__{}, %{}, @required_fields ++ @optional_fields)
+  def new_changeset(%__MODULE__{} = billing \\ %__MODULE__{}) do
+    cast(billing, %{}, @required_fields ++ @optional_fields)
   end
 
   @doc false
@@ -85,11 +85,6 @@ defmodule Divisare.Billings.Billing do
   end
 
   defp validate_vies_vat(changeset), do: add_error(changeset, :vat, "invalid")
-
-  defp present?(changeset, field) do
-    value = get_field(changeset, field)
-    value && value != ""
-  end
 
   defp validate_sdi_length(changeset) do
     with sdi_code when not is_nil(sdi_code) <- get_field(changeset, :sdi_code),

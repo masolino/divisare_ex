@@ -13,6 +13,15 @@ defmodule Divisare.Billings do
     |> Repo.insert()
   end
 
+  def update_user_billing_info(%Divisare.Accounts.User{} = user, params) do
+    with {:ok, billing} <- find_user_billing_info(user.id),
+         {:ok, billing} <- Billing.changeset(billing, params) |> Repo.update() do
+      {:ok, billing}
+    else
+      err -> err
+    end
+  end
+
   def find_user_billing_info(user_id) do
     case Repo.get_by(Billing, user_id: user_id) do
       nil -> {:error, :billing_not_found}

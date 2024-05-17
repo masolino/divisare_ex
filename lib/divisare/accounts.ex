@@ -34,26 +34,18 @@ defmodule Divisare.Accounts do
   end
 
   def add_billing_info(params) do
-    # %{                                                                                                   16:24:07 [25/2889]
-    #   "billing" => %{
-    #     "address" => "Some street out there, 23",
-    #     "business" => "true",
-    #     "cf" => "XXXXXXXXXXXXXXXXXXXXX",
-    #     "city" => "Rome",
-    #     "country_code" => "IT",
-    #     "heading" => "Some Company",
-    #     "pec" => "some@pec.it",
-    #     "postal_code" => "00192",
-    #     "sdi" => "XXXXXXXXXXXX",
-    #     "state_code" => "RM",
-    #     "vat" => "XXXXXXXXXXXXXX"
-    #   },
-    #   "token" => "XXXXXXXXXXXXXXXXXXX",
-    # }
-
     with {:ok, user} <- find_user_by_token(params["token"]),
-         {:ok, _} <- Billings.add_user_billing_info(user, params["billing"]) do
-      {:ok, user}
+         {:ok, billing} <- Billings.add_user_billing_info(user, params["billing"]) do
+      {:ok, billing}
+    else
+      {:error, err} -> {:error, err}
+    end
+  end
+
+  def update_billing_info(params) do
+    with {:ok, user} <- find_user_by_token(params["token"]),
+         {:ok, billing} <- Billings.update_user_billing_info(user, params["billing"]) do
+      {:ok, billing}
     else
       {:error, err} -> {:error, err}
     end

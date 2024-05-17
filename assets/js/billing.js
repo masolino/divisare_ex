@@ -21,7 +21,12 @@ function billingForm() {
   const italianForm = document.querySelector("#italian-form");
   const italianBusinessForm = document.querySelector("#ita-business-form");
 
-  loadStateCodesOpts(countryCodes.value);
+  const currentCountry = countryCodes.value;
+
+  loadStateCodesOpts(currentCountry);
+  stateCodes.value = stateCodes.getAttribute("data-selected");
+
+  updateEuBusiness(currentCountry);
 
   // show business checkbox if country is in EU
   toggleForm(isEu, isBusinessLabel);
@@ -32,13 +37,7 @@ function billingForm() {
   toggleForm(isIta && isBusiness.checked, italianBusinessForm);
 
   countryCodes.addEventListener("change", (e) => {
-    isEu = euCountries.includes(e.target.value);
-    isIta = e.target.value === "IT";
-
-    loadStateCodesOpts(e.target.value);
-    toggleForm(isEu, isBusinessLabel);
-    toggleForm(isIta && !isBusiness.checked, italianForm);
-    toggleForm(isIta && isBusiness.checked, italianBusinessForm);
+    updateEuBusiness(e.target.value);
   });
 
   isBusiness.addEventListener("change", (e) => {
@@ -46,6 +45,17 @@ function billingForm() {
     toggleForm(isIta && isBusiness.checked, italianBusinessForm);
     toggleForm(isIta && !isBusiness.checked, italianForm);
   });
+
+  function updateEuBusiness(country) {
+    isEu = euCountries.includes(country);
+    isIta = country === "IT";
+
+    loadStateCodesOpts(country);
+    stateCodes.value = stateCodes.getAttribute("data-selected");
+    toggleForm(isEu, isBusinessLabel);
+    toggleForm(isIta && !isBusiness.checked, italianForm);
+    toggleForm(isIta && isBusiness.checked, italianBusinessForm);
+  }
 
   function loadStateCodesOpts(country) {
     stateCodes.innerText = null;
@@ -57,8 +67,6 @@ function billingForm() {
       option.value = value;
       stateCodes.appendChild(option);
     });
-
-    stateCodes.value = stateCodesOpts[country][0].value;
   }
 
   function toggleForm(condition, form) {
