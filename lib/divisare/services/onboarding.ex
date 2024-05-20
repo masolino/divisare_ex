@@ -16,6 +16,8 @@ defmodule Divisare.Services.Onboarding do
 
   def onboard_customer(email, payment_intent_id) do
     with {:ok, payment_intent} = StripeService.get_payment_intent(payment_intent_id),
+         {:ok, %Stripe.Invoice{subscription: subscription_id}} <-
+           StripeService.get_invoice(payment_intent.invoice),
          true <- payment_intent.receipt_email == email,
          {:ok, is_new, user} <- find_or_onboard_user(email),
          {:ok, subscription} <-
@@ -26,6 +28,7 @@ defmodule Divisare.Services.Onboarding do
              expire_on: Date.utc_today() |> Timex.shift(years: 1),
              amount: Decimal.from_float(payment_intent.amount / 100),
              stripe_customer_id: payment_intent.customer,
+             stripe_subscription_id: subscription_id,
              currency: payment_intent.currency
            }),
          {:ok, _} <- send_welcome_email(is_new, user) do

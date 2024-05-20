@@ -26,6 +26,8 @@ defmodule DivisareWeb.Router do
     get "/billing/:token/edit", AccountController, :edit_billing
     post "/billing/", AccountController, :add_billing
     put "/billing/", AccountController, :update_billing
+
+    get "/payments/:token", AccountController, :payment_method
   end
 
   # Other scopes may use custom stacks.

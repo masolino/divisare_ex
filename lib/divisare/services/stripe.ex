@@ -30,14 +30,8 @@ defmodule Divisare.Services.Stripe do
     end
   end
 
-  def get_customer_from_payment_intent(pi_id) do
-    with {:ok, payment_intent} <- get_payment_intent(pi_id),
-         customer_id <- Map.get(payment_intent, :customer) || "cus_Pjl240BAuIP5GA",
-         {:ok, customer} <- Stripe.Customer.retrieve(customer_id) do
-      {:ok, customer}
-    else
-      {:error, err} -> {:error, err}
-    end
+  def get_invoice(invoice_id) do
+    Stripe.Invoice.retrieve(invoice_id)
   end
 
   defp create_stripe_subscription(price_id, customer_id) do
@@ -58,5 +52,9 @@ defmodule Divisare.Services.Stripe do
       {:ok, subscription} -> {:ok, subscription}
       {:error, err} -> {:error, err}
     end
+  end
+
+  def cancel_stripe_subscription(subscription_id) do
+    Subscription.cancel(subscription_id)
   end
 end

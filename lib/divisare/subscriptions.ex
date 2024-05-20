@@ -6,9 +6,9 @@ defmodule Divisare.Subscriptions do
   alias Divisare.Subscriptions.Subscription
   alias Divisare.Repo
 
-  def find_or_create_subscription(%{payment_intent: payment_intent_id} = params) do
-    payment_intent_id
-    |> Subscription.by_payment_intent()
+  def find_or_create_subscription(%{stripe_customer_id: customer_id} = params) do
+    customer_id
+    |> Subscription.by_customer_id()
     |> Repo.all()
     |> List.first()
     |> case do
@@ -24,10 +24,8 @@ defmodule Divisare.Subscriptions do
     end
   end
 
-  def cancel_subscription_by_customer_id(customer_id) do
-    Subscription.by_customer_id(customer_id)
-    |> Subscription.by_most_recent()
-    |> Subscription.limit_by(1)
+  def cancel_subscription(subscription_id) do
+    Subscription.by_subscription_id(subscription_id)
     |> Repo.one()
     |> case do
       nil -> {:error, :not_found}

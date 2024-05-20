@@ -12,7 +12,7 @@ defmodule DivisareWeb.AccountController do
 
     with {:ok, user} <- Accounts.find_user_by_token(token),
          {:ok, billing} <- Billings.find_user_billing_info(user.id) do
-      render(conn, :billing_info, billing: billing)
+      render(conn, :billing_info, billing: billing, token: token)
     else
       {:error, :billing_not_found} ->
         changeset = Billings.Billing.new_changeset()
@@ -75,6 +75,10 @@ defmodule DivisareWeb.AccountController do
         Logger.error(inspect(err))
         redirect(conn, to: ~p"/billing/#{params["token"]}")
     end
+  end
+
+  def payment_method(conn, %{"token" => token} = _params) do
+    render(conn, :payment_method, token: token)
   end
 
   defp billing_form_assigns(changeset, token, errors) do

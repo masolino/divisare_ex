@@ -22,6 +22,11 @@
             </.link>
           </li>
           <li>Billing information</li>
+          <li>
+            <.link navigate={~p"/payments/#{@token}"}>
+              Payment Method
+            </.link>
+          </li>
         </ul>
       </div>
     </div>
@@ -60,14 +65,15 @@
     <% else %>
       <%= if @billing.country_code == "IT" do %>
         <div class="small-12 columns">
-          <strong>CF</strong>
-          <p><%= @billing.cf %></p>
+          <strong>CF:</strong>
+          <%= @billing.cf %>
         </div>
       <% end %>
     <% end %>
 
     <div class="small-12 columns" style="margin-top: 3rem">
-      <a href={"#{Application.get_env(:divisare, :main_host)}/people/edit"}>Back to account</a>
+      <.link navigate={~p"/billing/#{@token}/edit"}>Edit</.link>
+      | <a href={"#{Application.get_env(:divisare, :main_host)}/people/edit"}>Back to account</a>
     </div>
   </div>
 </div>

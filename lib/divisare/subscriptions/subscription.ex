@@ -8,9 +8,8 @@ defmodule Divisare.Subscriptions.Subscription do
   import Ecto.Query, warn: false
 
   schema "divisare_subscriptions" do
-    field(:payment_intent, :string, source: :token)
+    field(:stripe_subscription_id, :string, source: :token)
     field(:stripe_customer_id, :string, source: :stripe_customer_token)
-    field(:stripe_id, :string, source: :token)
     field(:expire_on, :date)
     field(:amount, :decimal)
 
@@ -33,7 +32,7 @@ defmodule Divisare.Subscriptions.Subscription do
     timestamps(inserted_at: :created_at, type: :utc_datetime)
   end
 
-  @required_fields ~w(stripe_customer_id payment_intent expire_on amount person_id)a
+  @required_fields ~w(stripe_customer_id stripe_subscription_id expire_on amount person_id)a
   @optional_fields ~w(business invoiced type vat_number country_code tax_rate address paid_at auto_renew)a
 
   @doc false
@@ -41,7 +40,7 @@ defmodule Divisare.Subscriptions.Subscription do
     subscription
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
-    |> unsafe_validate_unique([:payment_intent], Divisare.Repo)
+    |> unsafe_validate_unique([:stripe_subscription_id], Divisare.Repo)
     |> put_change(:auto_renew, true)
   end
 
@@ -52,19 +51,11 @@ defmodule Divisare.Subscriptions.Subscription do
     |> put_change(:auto_renew, false)
   end
 
+  def by_subscription_id(query \\ __MODULE__, subscription_id) do
+    from(q in query, where: q.stripe_subscription_id == ^subscription_id)
+  end
+
   def by_customer_id(query \\ __MODULE__, customer_id) do
     from(q in query, where: q.stripe_customer_id == ^customer_id)
-  end
-
-  def by_payment_intent(query \\ __MODULE__, payment_intent) do
-    from(q in query, where: q.payment_intent == ^payment_intent)
-  end
-
-  def by_most_recent(query \\ __MODULE__) do
-    order_by(query, desc: :created_at)
-  end
-
-  def limit_by(query \\ __MODULE__, limit) do
-    limit(query, ^limit)
   end
 end
