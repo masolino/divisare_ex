@@ -7,6 +7,8 @@ defmodule Divisare.Subscriptions.Subscription do
   import Ecto.Changeset
   import Ecto.Query, warn: false
 
+  alias Divisare.Accounts.User
+
   schema "divisare_subscriptions" do
     field(:stripe_subscription_id, :string, source: :token)
     field(:stripe_customer_id, :string, source: :stripe_customer_token)
@@ -27,7 +29,7 @@ defmodule Divisare.Subscriptions.Subscription do
 
     field(:paid_at, :utc_datetime)
 
-    belongs_to :user, Divisare.Accounts.User, foreign_key: :person_id, references: :id
+    belongs_to :user, User, foreign_key: :person_id, references: :id
 
     timestamps(inserted_at: :created_at, type: :utc_datetime)
   end
@@ -57,5 +59,9 @@ defmodule Divisare.Subscriptions.Subscription do
 
   def by_customer_id(query \\ __MODULE__, customer_id) do
     from(q in query, where: q.stripe_customer_id == ^customer_id)
+  end
+
+  def by_user_token(query \\ __MODULE__, user_token) do
+    from(q in query, join: u in User, on: u.id == q.person_id and u.token == ^user_token)
   end
 end

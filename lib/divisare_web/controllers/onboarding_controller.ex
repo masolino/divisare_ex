@@ -1,7 +1,7 @@
 defmodule DivisareWeb.OnboardingController do
   use DivisareWeb, :controller
 
-  alias Divisare.Services.Onboarding
+  alias Divisare.Onboarding
 
   require Logger
 

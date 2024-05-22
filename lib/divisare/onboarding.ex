@@ -1,8 +1,8 @@
-defmodule Divisare.Services.Onboarding do
+defmodule Divisare.Onboarding do
   alias Divisare.Accounts
   alias Divisare.Accounts.User
   alias Divisare.Subscriptions
-  alias Divisare.Services.Stripe, as: StripeService
+  alias Divisare.Stripe, as: StripeService
   alias Divisare.Accounts.UserNotifier
 
   alias Divisare.Repo

@@ -28,6 +28,7 @@ defmodule DivisareWeb.Router do
     put "/billing/", AccountController, :update_billing
 
     get "/payments/:token", AccountController, :payment_method
+    get "/payments/:token/complete", AccountController, :payment_method_complete
   end
 
   # Other scopes may use custom stacks.

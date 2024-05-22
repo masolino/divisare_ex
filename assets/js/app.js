@@ -41,6 +41,7 @@ import "phoenix_html";
 
 import "./onboarding";
 import "./billing";
+import "./payment_method";
 
 import "../css/divisare.css";
 import "../css/app.css";

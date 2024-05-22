@@ -3,8 +3,8 @@ defmodule DivisareWeb.StripeHandler do
 
   require Logger
 
-  alias Divisare.Services.Stripe, as: StripeService
   alias Divisare.Subscriptions
+  alias Divisare.PaymentMethods
 
   @impl true
   def handle_event(%Stripe.Event{
@@ -17,12 +17,19 @@ defmodule DivisareWeb.StripeHandler do
 
   @impl true
   def handle_event(%Stripe.Event{
+        type: "payment_method.attached",
+        data: %{object: %Stripe.PaymentMethod{id: pm_id, customer: customer_id}}
+      }) do
+    PaymentMethods.update_default_paymment_method(customer_id, pm_id)
+    :ok
+  end
+
+  @impl true
+  def handle_event(%Stripe.Event{
         type: "invoice.payment_failed",
         data: %{object: %Stripe.Invoice{subscription: subscription_id}}
       }) do
-    Logger.warn("Cancelling subscription : #{subscription_id}")
-
-    StripeService.cancel_stripe_subscription(subscription_id)
+    Logger.warn("Payment failed. Cancelling subscription : #{subscription_id}")
     Subscriptions.cancel_subscription(subscription_id)
 
     :ok
@@ -30,7 +37,7 @@ defmodule DivisareWeb.StripeHandler do
 
   @impl true
   def handle_event(%Stripe.Event{type: evt}) do
-    Logger.info("Unhandled Stripe event: #{evt}")
+    # Logger.info("Unhandled Stripe event: #{evt}")
     :ok
   end
 end

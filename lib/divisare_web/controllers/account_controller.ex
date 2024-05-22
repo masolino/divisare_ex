@@ -4,6 +4,7 @@ defmodule DivisareWeb.AccountController do
   alias Divisare.Accounts
   alias Divisare.Billings
   alias Divisare.Utils
+  alias Divisare.PaymentMethods
 
   require Logger
 
@@ -78,7 +79,19 @@ defmodule DivisareWeb.AccountController do
   end
 
   def payment_method(conn, %{"token" => token} = _params) do
-    render(conn, :payment_method, token: token)
+    case PaymentMethods.get_setup_intent(token) do
+      {:ok, %{client_secret: client_secret}} ->
+        render(conn, :payment_method, token: token, client_secret: client_secret)
+
+      _ ->
+        :ok
+    end
+
+    render(conn, :payment_method, token: token, client_secret: "NONE")
+  end
+
+  def payment_method_complete(conn, %{"token" => _token} = _params) do
+    render(conn, :payment_method_complete)
   end
 
   defp billing_form_assigns(changeset, token, errors) do

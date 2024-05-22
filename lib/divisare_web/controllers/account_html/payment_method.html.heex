@@ -1,0 +1,76 @@
+<div class="subscription status cancel">
+  <div class="row">
+    <div class="small-12 columns">
+      <h1>Payment Method</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="sections">
+        <ul class="inline-list">
+          <li>
+            <.link href={URI.parse("#{Application.get_env(:divisare, :main_host)}/people/edit")}>
+              Account Details
+            </.link>
+          </li>
+          <li>
+            <.link href={
+              URI.parse("#{Application.get_env(:divisare, :main_host)}/subscription/status")
+            }>
+              Subscription
+            </.link>
+          </li>
+          <li>
+            <.link navigate={~p"/billing/#{@token}"}>
+              Billing information
+            </.link>
+          </li>
+          <li>Payment Method</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="instructions">
+        <div class="row">
+          <div class="small-12 medium-6 columns">
+            <p>
+              Insert your payment details here:
+            </p>
+
+            <div class="payment">
+              <.stripe api_key={Application.get_env(:divisare, :stripe_publishable_key)} />
+
+              <.simple_form
+                :let={_f}
+                for={%{}}
+                action={~p"/payments/#{@token}"}
+                method="put"
+                id="payment-method-form"
+                data-secret={@client_secret}
+                data-token={@token}
+              >
+                <div id="payment-element">
+                  <!--Stripe.js injects the Payment Element-->
+                </div>
+
+                <div class="spinner hidden" id="spinner"></div>
+
+                <br />
+                <:actions>
+                  <.button id="submit" class="button secondary expand">
+                    <span id="button-text">Update paymment method</span>
+                  </.button>
+                </:actions>
+                <div id="message" class="hidden"></div>
+              </.simple_form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
