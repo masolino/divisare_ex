@@ -1,59 +1,58 @@
-defmodule DivisareWeb.AccountController do
+defmodule DivisareWeb.BillingController do
   use DivisareWeb, :controller
 
   alias Divisare.Accounts
   alias Divisare.Billings
   alias Divisare.Utils
-  alias Divisare.PaymentMethods
 
   require Logger
 
-  def billing(conn, params) do
+  def info(conn, params) do
     token = params["token"]
 
     with {:ok, user} <- Accounts.find_user_by_token(token),
          {:ok, billing} <- Billings.find_user_billing_info(user.id) do
-      render(conn, :billing_info, billing: billing, token: token)
+      render(conn, :info, billing: billing, token: token)
     else
       {:error, :billing_not_found} ->
         changeset = Billings.Billing.new_changeset()
-        assigns = billing_form_assigns(changeset, token, [])
-        render(conn, :billing_new, assigns)
+        assigns = form_assigns(changeset, token, [])
+        render(conn, :new, assigns)
 
       {:error, :user_not_found} ->
         redirect(conn, external: Application.get_env(:divisare, :main_host))
     end
   end
 
-  def edit_billing(conn, params) do
+  def edit(conn, params) do
     token = params["token"]
 
     with {:ok, user} <- Accounts.find_user_by_token(token),
          {:ok, billing} <- Billings.find_user_billing_info(user.id) do
       changeset = Billings.Billing.new_changeset(billing)
-      assigns = billing_form_assigns(changeset, token, [])
-      render(conn, :billing_edit, assigns)
+      assigns = form_assigns(changeset, token, [])
+      render(conn, :edit, assigns)
     else
       {:error, :billing_not_found} ->
         changeset = Billings.Billing.new_changeset()
-        assigns = billing_form_assigns(changeset, token, [])
-        render(conn, :billing_edit, assigns)
+        assigns = form_assigns(changeset, token, [])
+        render(conn, :edit, assigns)
 
       {:error, :user_not_found} ->
         redirect(conn, external: Application.get_env(:divisare, :main_host))
     end
   end
 
-  def add_billing(conn, %{"billing" => _, "token" => token} = params) do
-    Accounts.add_billing_info(params)
+  def add(conn, %{"billing" => _, "token" => token} = params) do
+    Billings.add_user_billing_info(params)
     |> case do
       {:ok, _billing} ->
-        render(conn, :billing_thanks, token: token)
+        render(conn, :thanks, token: token)
 
       {:error, %Ecto.Changeset{errors: errs} = changeset} ->
         errors = Enum.map(errs, fn {k, {e, _}} -> "#{k}: #{e}" end)
-        assigns = billing_form_assigns(changeset, token, errors)
-        render(conn, :billing_new, assigns)
+        assigns = form_assigns(changeset, token, errors)
+        render(conn, :new, assigns)
 
       {:error, err} ->
         Logger.error(inspect(err))
@@ -61,16 +60,16 @@ defmodule DivisareWeb.AccountController do
     end
   end
 
-  def update_billing(conn, %{"billing" => _, "token" => token} = params) do
-    Accounts.update_billing_info(params)
+  def update(conn, %{"billing" => _, "token" => token} = params) do
+    Billings.update_user_billing_info(params)
     |> case do
       {:ok, billing} ->
-        render(conn, :billing_info, billing: billing)
+        render(conn, :info, billing: billing)
 
       {:error, %Ecto.Changeset{errors: errs} = changeset} ->
         errors = Enum.map(errs, fn {k, {e, _}} -> "#{k}: #{e}" end)
-        assigns = billing_form_assigns(changeset, token, errors)
-        render(conn, :billing_edit, assigns)
+        assigns = form_assigns(changeset, token, errors)
+        render(conn, :edit, assigns)
 
       {:error, err} ->
         Logger.error(inspect(err))
@@ -78,23 +77,7 @@ defmodule DivisareWeb.AccountController do
     end
   end
 
-  def payment_method(conn, %{"token" => token} = _params) do
-    case PaymentMethods.get_setup_intent(token) do
-      {:ok, %{client_secret: client_secret}} ->
-        render(conn, :payment_method, token: token, client_secret: client_secret)
-
-      _ ->
-        :ok
-    end
-
-    render(conn, :payment_method, token: token, client_secret: "NONE")
-  end
-
-  def payment_method_complete(conn, %{"token" => _token} = _params) do
-    render(conn, :payment_method_complete)
-  end
-
-  defp billing_form_assigns(changeset, token, errors) do
+  defp form_assigns(changeset, token, errors) do
     %{
       changeset: changeset,
       data: %{token: token},

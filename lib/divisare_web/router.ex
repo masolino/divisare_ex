@@ -22,13 +22,13 @@ defmodule DivisareWeb.Router do
     post "/onboarding", OnboardingController, :create
     get "/onboarding/confirm/:email", OnboardingController, :confirm
 
-    get "/billing/:token", AccountController, :billing
-    get "/billing/:token/edit", AccountController, :edit_billing
-    post "/billing/", AccountController, :add_billing
-    put "/billing/", AccountController, :update_billing
+    get "/billing/:token", BillingController, :info
+    get "/billing/:token/edit", BillingController, :edit
+    post "/billing/", BillingController, :add
+    put "/billing/", BillingController, :update
 
-    get "/payments/:token", AccountController, :payment_method
-    get "/payments/:token/complete", AccountController, :payment_method_complete
+    get "/payments/:token", PaymentController, :info
+    get "/payments/:token/complete", PaymentController, :complete
   end
 
   # Other scopes may use custom stacks.

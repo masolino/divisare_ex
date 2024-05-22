@@ -4,21 +4,25 @@ defmodule Divisare.Billings do
   """
 
   alias Divisare.Billings.Billing
+  alias Divisare.Accounts
   alias Divisare.Repo
 
-  def add_user_billing_info(%Divisare.Accounts.User{} = user, attrs) do
-    params = Map.merge(attrs, %{"user_id" => user.id})
+  def add_user_billing_info(params) do
+    with {:ok, user} <- Accounts.find_user_by_token(params["token"]) do
+      billing_params = Map.merge(params["billing"], %{"user_id" => user.id})
 
-    Billing.changeset(params)
-    |> Repo.insert()
+      Billing.changeset(billing_params) |> Repo.insert()
+    else
+      {:error, err} -> {:error, err}
+    end
   end
 
-  def update_user_billing_info(%Divisare.Accounts.User{} = user, params) do
-    with {:ok, billing} <- find_user_billing_info(user.id),
-         {:ok, billing} <- Billing.changeset(billing, params) |> Repo.update() do
-      {:ok, billing}
+  def update_user_billing_info(params) do
+    with {:ok, user} <- Accounts.find_user_by_token(params["token"]),
+         {:ok, billing} <- find_user_billing_info(user.id) do
+      Billing.changeset(billing, params["billing"]) |> Repo.update()
     else
-      err -> err
+      {:error, err} -> {:error, err}
     end
   end
 
