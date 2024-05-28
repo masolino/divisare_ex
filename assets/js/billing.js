@@ -37,7 +37,22 @@ function billingForm() {
   toggleForm(isIta && isBusiness.checked, italianBusinessForm);
 
   countryCodes.addEventListener("change", (e) => {
-    updateEuBusiness(e.target.value);
+    let selectedCountry = e.target.value;
+    isEu = euCountries.includes(selectedCountry);
+    isIta = selectedCountry === "IT";
+
+    if (!isEu && isBusiness.checked) {
+      isBusiness.checked = false;
+      businessForm.querySelectorAll("input").forEach((i) => {
+        i.value = "";
+      });
+
+      italianBusinessForm.querySelectorAll("input").forEach((i) => {
+        i.value = "";
+      });
+    }
+
+    updateEuBusiness(selectedCountry);
   });
 
   isBusiness.addEventListener("change", (e) => {
@@ -52,6 +67,8 @@ function billingForm() {
 
     loadStateCodesOpts(country);
     stateCodes.value = stateCodes.getAttribute("data-selected");
+
+    toggleForm(isEu && isBusiness.checked, businessForm);
     toggleForm(isEu, isBusinessLabel);
     toggleForm(isIta && !isBusiness.checked, italianForm);
     toggleForm(isIta && isBusiness.checked, italianBusinessForm);
