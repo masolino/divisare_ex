@@ -64,7 +64,7 @@ defmodule DivisareWeb.BillingController do
     Billings.update_user_billing_info(params)
     |> case do
       {:ok, billing} ->
-        render(conn, :info, billing: billing)
+        render(conn, :info, billing: billing, token: token)
 
       {:error, %Ecto.Changeset{errors: errs} = changeset} ->
         errors = Enum.map(errs, fn {k, {e, _}} -> "#{k}: #{e}" end)
@@ -73,7 +73,7 @@ defmodule DivisareWeb.BillingController do
 
       {:error, err} ->
         Logger.error(inspect(err))
-        redirect(conn, to: ~p"/billing/#{params["token"]}")
+        redirect(conn, to: ~p"/billing/#{token}")
     end
   end
 
