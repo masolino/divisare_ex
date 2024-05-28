@@ -1,7 +1,7 @@
-<div class="subscription status cancel">
+<div class="account">
   <div class="row">
     <div class="small-12 columns">
-      <h1>Payment Method</h1>
+      <h1>YOUR ACOOUNT</h1>
     </div>
   </div>
 
@@ -37,9 +37,7 @@
       <div class="instructions">
         <div class="row">
           <div class="small-12 medium-6 columns">
-            <p>
-              Insert your payment details here:
-            </p>
+            <h3 class="subtilte">Insert your payment details here</h3>
 
             <div class="payment">
               <.stripe api_key={Application.get_env(:divisare, :stripe_publishable_key)} />
@@ -57,11 +55,10 @@
                   <!--Stripe.js injects the Payment Element-->
                 </div>
 
-                <div class="spinner hidden" id="spinner"></div>
-
                 <br />
                 <:actions>
                   <.button id="submit" class="button secondary expand">
+                    <div class="spinner hide" id="spinner"></div>
                     <span id="button-text">Update paymment method</span>
                   </.button>
                 </:actions>

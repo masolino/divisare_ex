@@ -1,7 +1,7 @@
 <div class="account">
   <div class="row">
     <div class="small-12 columns">
-      <h1>These are your billing informations</h1>
+      <h1>YOUR ACCOUNT</h1>
     </div>
   </div>
 
@@ -34,6 +34,7 @@
 
   <div class="row">
     <div class="small-12 columns">
+      <h3 class="subtilte">These are your billing informations</h3>
       <p>
         <strong><%= @billing.heading %></strong> <br />
         <%= @billing.address %><br />
@@ -73,7 +74,6 @@
 
     <div class="small-12 columns" style="margin-top: 3rem">
       <.link navigate={~p"/billing/#{@token}/edit"}>Edit</.link>
-      | <a href={"#{Application.get_env(:divisare, :main_host)}/people/edit"}>Back to account</a>
     </div>
   </div>
 </div>
