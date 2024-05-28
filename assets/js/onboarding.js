@@ -110,11 +110,15 @@ function onboardingForm() {
 
     switch (paymentIntent.status) {
       case "succeeded":
-        showMessage("Payment succeeded!");
+        showMessage(
+          "Payment succeeded! You should have received an email to complete your profile.",
+        );
         redirectToConfirmation();
         break;
       case "processing":
-        showMessage("Your payment is processing.");
+        showMessage(
+          "Your payment is still processing, but you can already use your account unless payment will fail.",
+        );
         redirectToConfirmation();
         break;
       case "requires_payment_method":

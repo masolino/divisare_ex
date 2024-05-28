@@ -1,15 +1,15 @@
 <div class="account">
   <div class="row">
     <div class="small-12 columns">
-      <h2>You should have received an email to complete your profile.</h2>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="small-12 columns">
       <.stripe api_key={Application.get_env(:divisare, :stripe_publishable_key)} />
 
-      <span id="payment-message" data-confirmation-token={@user.confirmation_token} data-redirect-host={Application.get_env(:divisare, :main_host)}></span>
+      <h1
+        id="payment-message"
+        data-confirmation-token={@user.confirmation_token}
+        data-redirect-host={Application.get_env(:divisare, :main_host)}
+      >
+        waiting for payment confirmation...
+      </h1>
 
       <.back navigate={~p"/"}>Back to main page</.back>
     </div>
