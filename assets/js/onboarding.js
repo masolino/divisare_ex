@@ -54,6 +54,7 @@ function onboardingForm() {
     const { error: submitError } = await elements.submit();
 
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+    const priceId = document.querySelector("#price_id").value;
 
     if (submitError) {
       handleError(submitError);
@@ -68,7 +69,7 @@ function onboardingForm() {
       },
       body: JSON.stringify({
         email: emailAddress,
-        price_id: "price_1Nt41dCoZsrgQwX9RcL1ILpJ",
+        price_id: priceId,
         _csrf_token: csrfToken,
       }),
     });

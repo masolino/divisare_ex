@@ -26,6 +26,7 @@ end
 config :stripity_stripe, api_key: env!("STRIPE_SECRET")
 config :divisare, stripe_webhook_secret: env!("STRIPE_WEBHOOK_SECRET")
 config :divisare, stripe_publishable_key: env!("STRIPE_PUBLISHABLE")
+config :divisare, stripe_price_id: env!("STRIPE_PRICE_ID")
 
 config :divisare, main_host: env!("DIVISARE_MAIN_HOST") || "http://localhost:3000"
 
