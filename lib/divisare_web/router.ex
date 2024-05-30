@@ -17,7 +17,7 @@ defmodule DivisareWeb.Router do
   scope "/", DivisareWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/", HomeController, :index
     get "/onboarding", OnboardingController, :new
     post "/onboarding", OnboardingController, :create
     get "/onboarding/confirm/:email", OnboardingController, :confirm
