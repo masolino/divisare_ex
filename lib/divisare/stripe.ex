@@ -13,6 +13,10 @@ defmodule Divisare.Stripe do
     end
   end
 
+  def get_subscription(subscription_id) do
+    Stripe.Subscription.retrieve(subscription_id)
+  end
+
   # TODO: when changing email on divisare, update on stripe too.
   def find_or_create_stripe_customer_by_email(email) do
     with {:ok, %{data: []}} <- Customer.search(%{query: "email:'#{email}'", limit: 1}),

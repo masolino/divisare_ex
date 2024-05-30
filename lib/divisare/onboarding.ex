@@ -16,7 +16,7 @@ defmodule Divisare.Onboarding do
 
   def onboard_customer(email, payment_intent_id) do
     with {:ok, payment_intent} = StripeService.get_payment_intent(payment_intent_id),
-         {:ok, %Stripe.Invoice{subscription: subscription_id}} <-
+         {:ok, %Stripe.Invoice{subscription: stripe_subscription_id}} <-
            StripeService.get_invoice(payment_intent.invoice),
          true <- payment_intent.receipt_email == email,
          {:ok, is_new, user} <- find_or_onboard_user(email),
@@ -28,18 +28,17 @@ defmodule Divisare.Onboarding do
              expire_on: Date.utc_today() |> Timex.shift(years: 1),
              amount: Decimal.from_float(payment_intent.amount / 100),
              stripe_customer_id: payment_intent.customer,
-             stripe_subscription_id: subscription_id,
+             stripe_subscription_id: stripe_subscription_id,
              currency: payment_intent.currency
            }),
          {:ok, _history_invoice} <-
-           Invoices.create_history_invoice(%{
-             user_id: user.id,
-             subscription_id: subscription.id,
-             stripe_customer_id: payment_intent.customer,
-             stripe_subscription_id: subscription_id
-           }),
-         {:ok, _} <-
-           send_welcome_email(is_new, user) do
+           insert_invoice_history(
+             subscription.id,
+             stripe_subscription_id,
+             user.id,
+             payment_intent.customer
+           ),
+         {:ok, _} <- send_welcome_email(is_new, user) do
       {:ok, user, subscription}
     else
       false -> {:error, "Receipt email does not match Stripe email"}
@@ -73,5 +72,25 @@ defmodule Divisare.Onboarding do
 
     {:ok, user} = Accounts.User.onboarding_changeset(params) |> Repo.insert()
     {:ok, true, user}
+  end
+
+  # we need to create history invoice using as much data as possible
+  # because webhook events are async and we can't guarantee the availability of all necessary data
+  defp insert_invoice_history(
+         subscription_id,
+         stripe_subscription_id,
+         user_id,
+         stripe_customer_id
+       ) do
+    with {:ok, subscription} <- StripeService.get_subscription(stripe_subscription_id) do
+      Invoices.create_history_invoice(%{
+        user_id: user_id,
+        subscription_id: subscription_id,
+        stripe_customer_id: stripe_customer_id,
+        stripe_subscription_id: stripe_subscription_id,
+        stripe_payment_method_id: subscription.default_payment_method,
+        paid_at: NaiveDateTime.utc_now()
+      })
+    end
   end
 end
