@@ -11,10 +11,8 @@ defmodule DivisareWeb.PaymentController do
         render(conn, :info, token: token, client_secret: client_secret)
 
       _ ->
-        :ok
+        :error
     end
-
-    render(conn, :payment_method, token: token, client_secret: "NONE")
   end
 
   def complete(conn, %{"token" => _token} = _params) do

@@ -1,7 +1,7 @@
 defmodule Divisare.Onboarding do
   alias Divisare.Accounts
-  alias Divisare.Accounts.User
   alias Divisare.Subscriptions
+  alias Divisare.Invoices
   alias Divisare.Stripe, as: StripeService
   alias Divisare.Accounts.UserNotifier
 
@@ -31,7 +31,15 @@ defmodule Divisare.Onboarding do
              stripe_subscription_id: subscription_id,
              currency: payment_intent.currency
            }),
-         {:ok, _} <- send_welcome_email(is_new, user) do
+         {:ok, _history_invoice} <-
+           Invoices.create_history_invoice(%{
+             user_id: user.id,
+             subscription_id: subscription.id,
+             stripe_customer_id: payment_intent.customer,
+             stripe_subscription_id: subscription_id
+           }),
+         {:ok, _} <-
+           send_welcome_email(is_new, user) do
       {:ok, user, subscription}
     else
       false -> {:error, "Receipt email does not match Stripe email"}
@@ -63,7 +71,7 @@ defmodule Divisare.Onboarding do
     name = String.split(email, "@") |> List.first()
     params = %{email: email, name: name}
 
-    {:ok, user} = User.onboarding_changeset(params) |> Repo.insert()
+    {:ok, user} = Accounts.User.onboarding_changeset(params) |> Repo.insert()
     {:ok, true, user}
   end
 end
