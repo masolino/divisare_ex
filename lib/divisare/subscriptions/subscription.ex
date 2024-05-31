@@ -46,6 +46,12 @@ defmodule Divisare.Subscriptions.Subscription do
     |> put_change(:auto_renew, true)
   end
 
+  def changeset_toggle(%__MODULE__{} = subscription) do
+    subscription
+    |> cast(%{}, [])
+    |> put_change(:auto_renew, not subscription.auto_renew)
+  end
+
   def changeset_cancel(%__MODULE__{} = subscription) do
     subscription
     |> cast(%{}, [])

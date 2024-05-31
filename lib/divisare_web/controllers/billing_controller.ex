@@ -7,9 +7,7 @@ defmodule DivisareWeb.BillingController do
 
   require Logger
 
-  def info(conn, params) do
-    token = params["token"]
-
+  def info(conn, %{"token" => token}) do
     with {:ok, user} <- Accounts.find_user_by_token(token),
          {:ok, billing} <- Billings.find_user_billing_info(user.id) do
       render(conn, :info, billing: billing, token: token)
@@ -24,9 +22,7 @@ defmodule DivisareWeb.BillingController do
     end
   end
 
-  def edit(conn, params) do
-    token = params["token"]
-
+  def edit(conn, %{"token" => token}) do
     with {:ok, user} <- Accounts.find_user_by_token(token),
          {:ok, billing} <- Billings.find_user_billing_info(user.id) do
       changeset = Billings.Billing.new_changeset(billing)
@@ -56,7 +52,7 @@ defmodule DivisareWeb.BillingController do
 
       {:error, err} ->
         Logger.error(inspect(err))
-        redirect(conn, to: ~p"/billing/#{params["token"]}")
+        redirect(conn, to: ~p"/billing/#{token}")
     end
   end
 

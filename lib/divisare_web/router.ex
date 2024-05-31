@@ -29,6 +29,9 @@ defmodule DivisareWeb.Router do
 
     get "/payments/:token", PaymentController, :info
     get "/payments/:token/complete", PaymentController, :complete
+
+    get "/subscription/:token", SubscriptionController, :info
+    post "/subscription/:token/toggle", SubscriptionController, :toggle
   end
 
   # Other scopes may use custom stacks.

@@ -36,6 +36,17 @@ defmodule Divisare.Subscriptions do
     StripeService.cancel_stripe_subscription(subscription_id)
   end
 
+  def toggle_subscription_auto_renew(token) do
+    with {:ok, subscription} <- find_subscription_by_user_token(token),
+         {:ok, updated} <- subscription |> Subscription.changeset_toggle() |> Repo.update(),
+         StripeService.toggle_subscription_auto_renew(
+           updated.stripe_subscription_id,
+           not updated.auto_renew
+         ) do
+      {:ok, updated}
+    end
+  end
+
   def find_subscription_by_user_token(user_token) do
     Subscription.by_user_token(user_token)
     |> Repo.one()

@@ -1,0 +1,77 @@
+<div class="subscription status">
+  <div class="row">
+    <div class="small-12 columns">
+      <h1>Your account</h1>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="sections">
+        <ul class="inline-list">
+          <li>
+            <.link href={URI.parse("#{Application.get_env(:divisare, :main_host)}/people/edit")}>
+              Account Details
+            </.link>
+          </li>
+          <li>Subscription</li>
+          <li>
+            <.link navigate={~p"/billing/#{@token}"}>
+              Billing information
+            </.link>
+          </li>
+          <li>
+            <.link navigate={~p"/payments/#{@token}"}>
+              Payment method
+            </.link>
+          </li>
+          <li class="edit-subscription">
+            <a href="/subscription/cancel">Cancel Your Subscription</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="current">
+        <p>Your subscription allows you to have full access to divisare projects archive.</p>
+        <p>
+          Your subscription is active and will auto-renew on <%= Calendar.strftime(
+            @subscription.expire_on,
+            "%B %d, %Y"
+          ) %>.
+        </p>
+
+        <div class="row">
+          <div class="auto_renew">
+            <div class="small-3 columns">
+              <.simple_form
+                :let={_f}
+                for={%{}}
+                action="/subscription/auto_renew"
+                action={~p"/subscription/#{@token}/toggle"}
+                class="button_to"
+                method="post"
+              >
+                <input
+                  data-confirm="Are you sure?"
+                  class="button secondary expand"
+                  type="submit"
+                  value={ "Turn " <> if @subscription.auto_renew, do: "OFF", else: "ON"  <> " Auto-Renew" }
+                />
+              </.simple_form>
+            </div>
+            <div class="small-4 columns end">
+              If you turn off auto-renew now, you can still access your subscription until <%= Calendar.strftime(
+                @subscription.expire_on,
+                "%B %d, %Y"
+              ) %>.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

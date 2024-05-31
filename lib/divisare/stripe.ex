@@ -17,6 +17,10 @@ defmodule Divisare.Stripe do
     Stripe.Subscription.retrieve(subscription_id)
   end
 
+  def toggle_subscription_auto_renew(subscription_id, disable_auto_renew) do
+    Subscription.update(subscription_id, %{cancel_at_period_end: disable_auto_renew})
+  end
+
   # TODO: when changing email on divisare, update on stripe too.
   def find_or_create_stripe_customer_by_email(email) do
     with {:ok, %{data: []}} <- Customer.search(%{query: "email:'#{email}'", limit: 1}),
