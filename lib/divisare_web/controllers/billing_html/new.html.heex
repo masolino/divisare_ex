@@ -15,9 +15,7 @@
             </.link>
           </li>
           <li>
-            <.link href={
-              URI.parse("#{Application.get_env(:divisare, :main_host)}/subscription/status")
-            }>
+            <.link navigate={~p"/subscription/#{@data.token}"}>
               Subscription
             </.link>
           </li>

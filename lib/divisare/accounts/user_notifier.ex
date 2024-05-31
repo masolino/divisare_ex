@@ -11,11 +11,7 @@ defmodule Divisare.Accounts.UserNotifier do
     statics: DivisareWeb.static_paths()
 
   def deliver_welcome_email(user) do
-    url =
-      Application.get_env(:divisare, :main_host)
-      |> URI.parse()
-      |> URI.merge("/subscription/status")
-      |> to_string
+    url = url(~p"/subscription/#{user.token}")
 
     email =
       new()
