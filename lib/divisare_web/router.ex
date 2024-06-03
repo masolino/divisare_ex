@@ -32,6 +32,7 @@ defmodule DivisareWeb.Router do
 
     get "/subscription/:token", SubscriptionController, :info
     post "/subscription/:token/toggle", SubscriptionController, :toggle
+    put "/subscription/:token/cancel", SubscriptionController, :cancel
   end
 
   # Other scopes may use custom stacks.

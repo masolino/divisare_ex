@@ -20,4 +20,10 @@ defmodule DivisareWeb.SubscriptionController do
       redirect(conn, to: ~p"/subscription/#{token}")
     end
   end
+
+  def cancel(conn, %{"token" => token}) do
+    with {:ok, _subscription} <- Subscriptions.interrupt_subscription(token) do
+      redirect(conn, to: ~p"/subscription/#{token}")
+    end
+  end
 end

@@ -25,24 +25,42 @@ defmodule Divisare.Subscriptions do
     end
   end
 
-  def cancel_subscription(subscription_id) do
-    Subscription.by_subscription_id(subscription_id)
+  @doc """
+  Cancel a subscription which might even not started yet. Usually called for payments gone wrong.
+  """
+  def cancel_subscription(stripe_subscription_id) do
+    Subscription.by_subscription_id(stripe_subscription_id)
     |> Repo.one()
     |> case do
       nil -> {:error, :subscription_not_found}
       subscription -> subscription |> Subscription.changeset_cancel() |> Repo.update()
     end
 
-    StripeService.cancel_stripe_subscription(subscription_id)
+    StripeService.cancel_stripe_subscription(stripe_subscription_id)
   end
 
+  @doc """
+  Toggle subscription auto-renew both on db and on Stripe service.
+  """
   def toggle_subscription_auto_renew(token) do
     with {:ok, subscription} <- find_subscription_by_user_token(token),
          {:ok, updated} <- subscription |> Subscription.changeset_toggle() |> Repo.update(),
-         StripeService.toggle_subscription_auto_renew(
-           updated.stripe_subscription_id,
-           not updated.auto_renew
-         ) do
+         {:ok, _} <-
+           StripeService.toggle_subscription_auto_renew(
+             updated.stripe_subscription_id,
+             not updated.auto_renew
+           ) do
+      {:ok, updated}
+    end
+  end
+
+  @doc """
+  Cancel a subscription which is already started. Usually called by subscriber.
+  """
+  def interrupt_subscription(token) do
+    with {:ok, subscription} <- find_subscription_by_user_token(token),
+         {:ok, updated} <- subscription |> Subscription.changeset_cancel() |> Repo.update(),
+         {:ok, _} <- StripeService.cancel_stripe_subscription(updated.stripe_subscription_id) do
       {:ok, updated}
     end
   end
