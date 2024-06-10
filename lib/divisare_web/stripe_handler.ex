@@ -3,17 +3,9 @@ defmodule DivisareWeb.StripeHandler do
 
   require Logger
 
+  alias Divisare.Invoices
   alias Divisare.Subscriptions
   alias Divisare.PaymentMethods
-
-  @impl true
-  def handle_event(%Stripe.Event{
-        type: "payment_intent.payment_failed",
-        data: %{object: %Stripe.PaymentIntent{id: pi_id}}
-      }) do
-    Logger.warn("Payment intent failed: #{pi_id}")
-    :ok
-  end
 
   @impl true
   def handle_event(%Stripe.Event{
@@ -31,7 +23,23 @@ defmodule DivisareWeb.StripeHandler do
       }) do
     Logger.warn("Payment failed. Cancelling subscription : #{subscription_id}")
     Subscriptions.cancel_subscription(subscription_id)
-    # TODO: should we remove the history-invoice too?
+    Invoices.remove_history_invoice_subscription(subscription_id)
+    :ok
+  end
+
+  @impl true
+  def handle_event(%Stripe.Event{
+        type: "invoice.payment_succeeded",
+        data: %{
+          object: %Stripe.Invoice{
+            billing_reason: "subscription_cycle",
+            subscription: subscription_id
+          }
+        }
+      }) do
+    Logger.info("Subscription: #{subscription_id} renewed")
+    Subscriptions.cycle_subscription(subscription_id)
+    Invoices.add_history_invoice(subscription_id)
     :ok
   end
 

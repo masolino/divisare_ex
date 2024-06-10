@@ -15,6 +15,8 @@ defmodule Divisare.Subscriptions.Subscription do
     field(:expire_on, :date)
     field(:amount, :decimal)
 
+    field(:academic_email, :string)
+
     # billing info
     field(:business, :boolean, default: false)
     field(:invoiced, :boolean, default: false)
@@ -57,6 +59,12 @@ defmodule Divisare.Subscriptions.Subscription do
     |> cast(%{}, [])
     |> put_change(:expire_on, Date.utc_today())
     |> put_change(:auto_renew, false)
+  end
+
+  def changeset_cycle(%__MODULE__{} = subscription) do
+    subscription
+    |> cast(%{}, [])
+    |> put_change(:expire_on, Timex.shift(Date.utc_today(), years: 1))
   end
 
   def by_subscription_id(query \\ __MODULE__, subscription_id) do

@@ -31,11 +31,11 @@ defmodule Divisare.Accounts.BoardMembership do
     from(q in query, where: q.status == ^status)
   end
 
+  def by_status(query, _status), do: query
+
   def preload_board(query \\ __MODULE__) do
     query
     |> join(:left, [q], s in assoc(q, :board))
     |> preload([q, b], board: b)
   end
-
-  def by_status(query, _status), do: query
 end

@@ -26,6 +26,18 @@ defmodule Divisare.Subscriptions do
   end
 
   @doc """
+  Renew a subscription.
+  """
+  def cycle_subscription(stripe_subscription_id) do
+    Subscription.by_subscription_id(stripe_subscription_id)
+    |> Repo.one()
+    |> case do
+      nil -> {:error, :subscription_not_found}
+      subscription -> subscription |> Subscription.changeset_cycle() |> Repo.update()
+    end
+  end
+
+  @doc """
   Cancel a subscription which might even not started yet. Usually called for payments gone wrong.
   """
   def cancel_subscription(stripe_subscription_id) do
