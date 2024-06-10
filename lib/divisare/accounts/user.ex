@@ -8,6 +8,7 @@ defmodule Divisare.Accounts.User do
 
   import DivisareWeb.Gettext
 
+  alias Divisare.Accounts.Board
   alias Divisare.Utils.Passwords
   alias Divisare.Utils
 
@@ -23,6 +24,8 @@ defmodule Divisare.Accounts.User do
     field(:confirmation_token, :string)
     field(:confirmation_sent_at, :utc_datetime)
     field(:confirmed_at, :utc_datetime)
+
+    has_one :board, {"divisare_board_members", Board}
 
     timestamps(inserted_at: :created_at, type: :utc_datetime)
   end

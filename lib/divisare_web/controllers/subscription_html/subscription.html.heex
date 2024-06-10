@@ -1,0 +1,38 @@
+<div class="row">
+  <div class="small-12 columns">
+    <div class="sections">
+      <ul class="inline-list">
+        <li>
+          <.link href={URI.parse("#{Application.get_env(:divisare, :main_host)}/people/edit")}>
+            Account Details
+          </.link>
+        </li>
+        <li>Subscription</li>
+        <%= if @subscription.type == "ReaderSubscription" do %>
+          <li>
+            <.link href={~p"/billing/#{@token}"}>
+              Billing information
+            </.link>
+          </li>
+          <li>
+            <.link href={~p"/payments/#{@token}"}>
+              Payment method
+            </.link>
+          </li>
+
+          <li class="edit-subscription">
+            <.cancel_subscription_link token={@token} />
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="small-12 columns">
+    <div class="current">
+      <.subscription_type subscription={@subscription} token={@token} />
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="small-12 columns">
+    <div class="sections">
+      <ul class="inline-list">
+        <li>
+          <.link href={URI.parse("#{Application.get_env(:divisare, :main_host)}/people/edit")}>
+            Account Details
+          </.link>
+        </li>
+        <li>Subscription</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="small-12 columns">
+    <div class="current">
+      <div class="membership status">
+        <div class="row">
+          <div class="small-12 columns">
+            <%= if @membership.status == :waiting do %>
+              <h1>Free Subscription offered by <%= @membership.board.name %></h1>
+              <h2>WE HAVE SENT YOUR SUBSCRIPTION REQUEST</h2>
+
+              <p class="explain">
+                A delegate of <%= @membership.board.name %> will check your data and activate your subscription in the next 48/72 hours. You will receive an email notification when your account is active.
+              </p>
+
+              <p>
+                For more information about your free subscription activation write to:
+                <.link href={"mailto:#{@membership.board.email}"}>
+                  <%= @membership.board.email %>
+                </.link>
+              </p>
+            <% end %>
+
+            <%= if @membership.status == :active do %>
+              <p>Your Free Subscription offered by <%= @membership.board.name %> is active.</p>
+            <% end %>
+
+            <%= if @membership.status == :suspended do %>
+              <p>Your Free Subscription offered by <%= @membership.board.name %> is suspended.</p>
+            <% end %>
+
+            <%= if @membership.status == :archived do %>
+              <p>
+                Your Free Subscription offered by <%= @membership.board.name %> is not active.
+              </p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
