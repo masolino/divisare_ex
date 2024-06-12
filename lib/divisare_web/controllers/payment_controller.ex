@@ -10,8 +10,9 @@ defmodule DivisareWeb.PaymentController do
       {:ok, %{client_secret: client_secret}} ->
         render(conn, :info, token: token, client_secret: client_secret)
 
-      _ ->
-        :error
+      {:error, err} ->
+        Logger.error(IO.inspect(err))
+        redirect(conn, external: Application.get_env(:divisare, :main_host))
     end
   end
 
