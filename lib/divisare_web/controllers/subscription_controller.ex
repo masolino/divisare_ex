@@ -55,7 +55,7 @@ defmodule DivisareWeb.SubscriptionController do
   defp find_user_board_membership(user) do
     case Accounts.find_user_board_membership(user.id) do
       {:ok, board} -> {:board, board}
-      _ -> find_user_board_membership(user)
+      _ -> redirect(conn, external: URI.parse("#{Application.get_env(:divisare, :main_host)}/subscriptions"))
     end
   end
 end
