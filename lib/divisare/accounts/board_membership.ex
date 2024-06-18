@@ -14,6 +14,8 @@ defmodule Divisare.Accounts.BoardMembership do
 
   schema "divisare_board_members" do
     field :status, Ecto.Enum, values: [waiting: 0, active: 1, suspended: 2, archived: 3]
+    field :name, :string
+    field :membership_number, :string
 
     belongs_to :user, User, foreign_key: :person_id, references: :id
     belongs_to :board, Board, foreign_key: :divisare_board_id, references: :id

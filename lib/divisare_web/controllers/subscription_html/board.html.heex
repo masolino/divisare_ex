@@ -37,15 +37,18 @@
 
             <%= if @membership.status == :active do %>
               <p>Your Free Subscription offered by <%= @membership.board.name %> is active.</p>
+              <p>You're a member of <%= @membership.board.name %> registered as <%= @membership.name %> with the number #<%= @membership.membership_number %>.</p>
             <% end %>
 
             <%= if @membership.status == :suspended do %>
               <p>Your Free Subscription offered by <%= @membership.board.name %> is suspended.</p>
+              <p>You're a member of <%= @membership.board.name %> registered as <%= @membership.name %> with the number #<%= @membership.membership_number %>.</p>
             <% end %>
 
             <%= if @membership.status == :archived do %>
               <p>
                 Your Free Subscription offered by <%= @membership.board.name %> is not active.
+                <p>You're a member of <%= @membership.board.name %> registered as <%= @membership.name %> with the number #<%= @membership.membership_number %>.</p>
               </p>
             <% end %>
           </div>
