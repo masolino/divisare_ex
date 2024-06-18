@@ -204,9 +204,11 @@ defmodule DivisareWeb.SubscriptionHTML do
         <.board membership={@membership} />
         """
 
-      {:team, _team} ->
+      {:team, team} ->
+        assigns = assign(assigns, :team, team)
+
         ~H"""
-        <.team />
+        <.team team={@team} />
         """
     end
   end
