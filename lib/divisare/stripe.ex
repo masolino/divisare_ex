@@ -4,8 +4,8 @@ defmodule Divisare.Stripe do
   alias Stripe.Invoice
   alias Stripe.SetupIntent
 
-  def subscribe_customer(email, price_id) do
-    with {:ok, customer_id} <- find_or_create_stripe_customer_by_email(email),
+  def subscribe_customer(name, email, price_id) do
+    with {:ok, customer_id} <- find_or_create_stripe_customer_by_email(name, email),
          {:ok, subscription} <- create_stripe_subscription(price_id, customer_id) do
       {:ok, subscription}
     else
@@ -22,9 +22,9 @@ defmodule Divisare.Stripe do
   end
 
   # TODO: when changing email on divisare, update on stripe too.
-  def find_or_create_stripe_customer_by_email(email) do
+  def find_or_create_stripe_customer_by_email(name, email) do
     with {:ok, %{data: []}} <- Customer.search(%{query: "email:'#{email}'", limit: 1}),
-         {:ok, customer} <- Customer.create(%{email: email}) do
+         {:ok, customer} <- Customer.create(%{name: name, email: email}) do
       {:ok, customer.id}
     else
       {:ok, %{data: [customer | _]}} -> {:ok, customer.id}

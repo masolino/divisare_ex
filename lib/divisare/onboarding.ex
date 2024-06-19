@@ -7,19 +7,19 @@ defmodule Divisare.Onboarding do
 
   alias Divisare.Repo
 
-  def get_stripe_subscription_client_secret(email, price_id) do
-    case StripeService.subscribe_customer(email, price_id) do
+  def get_stripe_subscription_client_secret(name, email, price_id) do
+    case StripeService.subscribe_customer(name, email, price_id) do
       {:ok, subscription} -> extract_client_secret_from_subscription(subscription)
       {:error, reason} -> {:error, reason}
     end
   end
 
-  def onboard_customer(email, payment_intent_id) do
+  def onboard_customer(name, email, payment_intent_id) do
     with {:ok, payment_intent} = StripeService.get_payment_intent(payment_intent_id),
          {:ok, %Stripe.Invoice{subscription: stripe_subscription_id}} <-
            StripeService.get_invoice(payment_intent.invoice),
          true <- payment_intent.receipt_email == email,
-         {:ok, is_new, user} <- find_or_onboard_user(email),
+         {:ok, is_new, user} <- find_or_onboard_user(name, email),
          {:ok, subscription} <-
            Subscriptions.find_or_create_subscription(%{
              payment_intent: payment_intent_id,
@@ -59,15 +59,14 @@ defmodule Divisare.Onboarding do
   defp send_welcome_email(false, _user), do: {:ok, nil}
   defp send_welcome_email(true, user), do: UserNotifier.deliver_welcome_email(user)
 
-  defp find_or_onboard_user(email) do
+  defp find_or_onboard_user(name, email) do
     case Accounts.find_user_by_email(email) do
-      {:error, _} -> onboard_user(email)
+      {:error, _} -> onboard_user(name, email)
       {:ok, user} -> {:ok, false, user}
     end
   end
 
-  defp onboard_user(email) do
-    name = String.split(email, "@") |> List.first()
+  defp onboard_user(name, email) do
     params = %{email: email, name: name}
 
     {:ok, user} = Accounts.User.onboarding_changeset(params) |> Repo.insert()

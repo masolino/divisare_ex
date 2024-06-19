@@ -9,6 +9,7 @@ function onboardingForm() {
 
   let elements;
   let emailAddress = "";
+  let customerName = "";
 
   initializePaymentForm();
   checkStatus();
@@ -32,6 +33,11 @@ function onboardingForm() {
     };
 
     elements = stripe.elements(options);
+
+    const customerNameField = document.querySelector("#payment-form_name");
+    customerNameField.addEventListener("change", (event) => {
+      customerName = event.target.value;
+    });
 
     const linkAuthenticationElement = elements.create("linkAuthentication");
     linkAuthenticationElement.mount("#link-authentication-element");
@@ -70,6 +76,7 @@ function onboardingForm() {
       body: JSON.stringify({
         email: emailAddress,
         price_id: priceId,
+        name: customerName,
         _csrf_token: csrfToken,
       }),
     });
@@ -83,7 +90,7 @@ function onboardingForm() {
       elements,
       clientSecret: client_secret,
       confirmParams: {
-        return_url: `${window.location.origin}/onboarding/confirm/${emailAddress}`,
+        return_url: `${window.location.origin}/onboarding/confirm?email=${emailAddress}&name=${customerName}`,
         receipt_email: emailAddress,
       },
     });
@@ -159,8 +166,8 @@ function onboardingForm() {
     setTimeout(() => {
       window.location.replace(
         main_app_host +
-          "/people/confirmation?confirmation_token=" +
-          messageContainer.dataset.confirmationToken,
+        "/people/confirmation?confirmation_token=" +
+        messageContainer.dataset.confirmationToken,
       );
     }, 3000);
   }

@@ -1,10 +1,13 @@
-<.simple_form :let={_f} for={@data} action={@action} id="payment-form">
+<.simple_form :let={f} for={@data} action={@action} id="payment-form">
   <input
     type="hidden"
     name="price_id"
     id="price_id"
     value={Application.get_env(:divisare, :stripe_price_id)}
   />
+
+  <.input field={{f, :name}} label="Name" required />
+
   <div id="link-authentication-element">
     <!--Stripe.js injects the Link Authentication Element-->
   </div>

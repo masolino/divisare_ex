@@ -9,7 +9,7 @@ defmodule DivisareWeb.SubscriptionController do
   def info(conn, %{"token" => token} = _params) do
     {:ok, user} = Accounts.find_user_by_token(token)
 
-    case find_user_enrollment(user) do
+    case find_user_enrollment(conn, user) do
       #  redirect to home page?
       {:error, _} -> redirect(conn, to: ~p"/subscription/#{token}")
       enrollment -> render(conn, :info, token: token, enrollment: enrollment)
@@ -30,11 +30,12 @@ defmodule DivisareWeb.SubscriptionController do
     end
   end
 
-  defp find_user_enrollment(user) do
+  defp find_user_enrollment(conn, user) do
     case find_user_subscription(user) do
       {:subscription, sub} -> {:subscription, sub}
       {:team, team} -> {:team, team}
       {:board, board} -> {:board, board}
+      :error -> redirect(conn, external: URI.parse("#{Application.get_env(:divisare, :main_host)}/subscriptions"))
     end
   end
 
@@ -55,7 +56,7 @@ defmodule DivisareWeb.SubscriptionController do
   defp find_user_board_membership(user) do
     case Accounts.find_user_board_membership(user.id) do
       {:ok, board} -> {:board, board}
-      _ -> redirect(conn, external: URI.parse("#{Application.get_env(:divisare, :main_host)}/subscriptions"))
+      _ -> :error
     end
   end
 end

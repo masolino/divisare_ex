@@ -20,7 +20,7 @@ defmodule DivisareWeb.Router do
     get "/", HomeController, :index
     get "/onboarding", OnboardingController, :new
     post "/onboarding", OnboardingController, :create
-    get "/onboarding/confirm/:email", OnboardingController, :confirm
+    get "/onboarding/confirm", OnboardingController, :confirm
 
     get "/billing/:token", BillingController, :info
     get "/billing/:token/edit", BillingController, :edit
