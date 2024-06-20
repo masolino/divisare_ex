@@ -1,7 +1,4 @@
 import Config
-import Dotenvy
-
-source!([".env", System.get_env()])
 
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
@@ -23,12 +20,12 @@ if System.get_env("PHX_SERVER") do
   config :divisare, DivisareWeb.Endpoint, server: true
 end
 
-config :stripity_stripe, api_key: env!("STRIPE_SECRET")
-config :divisare, stripe_webhook_secret: env!("STRIPE_WEBHOOK_SECRET")
-config :divisare, stripe_publishable_key: env!("STRIPE_PUBLISHABLE")
-config :divisare, stripe_price_id: env!("STRIPE_PRICE_ID")
+config :stripity_stripe, api_key: System.get_env("STRIPE_SECRET")
+config :divisare, stripe_webhook_secret: System.get_env("STRIPE_WEBHOOK_SECRET")
+config :divisare, stripe_publishable_key: System.get_env("STRIPE_PUBLISHABLE")
+config :divisare, stripe_price_id: System.get_env("STRIPE_PRICE_ID")
 
-config :divisare, main_host: env!("DIVISARE_MAIN_HOST") || "http://localhost:3000"
+config :divisare, main_host: System.get_env("DIVISARE_MAIN_HOST") || "http://localhost:3000"
 
 if config_env() == :prod do
   database_url =
