@@ -98,7 +98,7 @@ function onboardingForm() {
     if (error.type === "card_error" || error.type === "validation_error") {
       showMessage(error.message);
     } else {
-      showMessage("An unexpected error occurred.");
+      showMessage("An unexpected error occurred: " + error.message);
     }
 
     setLoading(false);
