@@ -18,7 +18,6 @@ defmodule Divisare.Onboarding do
     with {:ok, payment_intent} = StripeService.get_payment_intent(payment_intent_id),
          {:ok, %Stripe.Invoice{subscription: stripe_subscription_id}} <-
            StripeService.get_invoice(payment_intent.invoice),
-         true <- payment_intent.receipt_email == email,
          {:ok, is_new, user} <- find_or_onboard_user(name, email),
          {:ok, subscription} <-
            Subscriptions.find_or_create_subscription(%{
@@ -41,7 +40,6 @@ defmodule Divisare.Onboarding do
          {:ok, _} <- send_welcome_email(is_new, user) do
       {:ok, user, subscription}
     else
-      false -> {:error, "Receipt email does not match Stripe email"}
       {:error, error} -> error
     end
   end
