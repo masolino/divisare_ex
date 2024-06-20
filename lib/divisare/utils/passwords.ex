@@ -1,8 +1,6 @@
 defmodule Divisare.Utils.Passwords do
   @moduledoc "Utils for passwords handling."
 
-  @secret_key Application.compile_env(:divisare, DivisareWeb.Endpoint)[:secret_key_base]
-
   @doc """
   Generates a new password hash compatible with Ruby's `devise` gem.
   """
@@ -31,8 +29,9 @@ defmodule Divisare.Utils.Passwords do
   Verifies a password reset token.
   """
   def digest_token(raw_token) do
-    :hmac
-    |> :crypto.mac(:sha256, @secret_key, raw_token)
+    secret_key = Application.get_env(:divisare, DivisareWeb.Endpoint)[:secret_key_base]
+
+    :crypto.mac(:hmac, :sha256, secret_key, raw_token)
     |> Base.encode16()
     |> String.downcase()
   end
