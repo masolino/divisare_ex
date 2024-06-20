@@ -32,10 +32,17 @@ defmodule DivisareWeb.SubscriptionController do
 
   defp find_user_enrollment(conn, user) do
     case find_user_subscription(user) do
-      {:subscription, sub} -> {:subscription, sub}
-      {:team, team} -> {:team, team}
-      {:board, board} -> {:board, board}
-      :error -> redirect(conn, external: URI.parse("#{Application.get_env(:divisare, :main_host)}/subscriptions"))
+      {:subscription, sub} ->
+        {:subscription, sub}
+
+      {:team, team} ->
+        {:team, team}
+
+      {:board, board} ->
+        {:board, board}
+
+      :error ->
+        redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/subscriptions")
     end
   end
 
