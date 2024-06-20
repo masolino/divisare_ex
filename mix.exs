@@ -57,7 +57,7 @@ defmodule Divisare.MixProject do
       {:phoenix_live_reload, "~> 1.5", only: :dev},
       {:esbuild, "~> 0.5", runtime: Mix.env() == :dev},
       # {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
-      {:dotenvy, "~> 0.8.0"},
+      {:dotenvy, "~> 0.8.0", only: :dev},
 
       # Testing
       {:floki, ">= 0.36.0", only: :dev}
