@@ -16,12 +16,24 @@ defmodule DivisareWeb.OnboardingController do
     end
   end
 
-  def confirm(conn, %{
-        "email" => email,
-        "payment_intent" => payment_intent_id,
-        "name" => name,
-        "status" => status
-      }) do
+  %{
+    "email" => "hey@pavonz.com",
+    "name" => "Banco Pavoni",
+    "payment_intent" => "pi_3PTNCsCoZsrgQwX903xBLyhg",
+    "payment_intent_client_secret" =>
+      "pi_3PTNCsCoZsrgQwX903xBLyhg_secret_vs6GwTQ44q10PDaioklrNvX3Z",
+    "redirect_status" => "succeeded"
+  }
+
+  def confirm(
+        conn,
+        %{
+          "email" => email,
+          "payment_intent" => payment_intent_id,
+          "name" => name,
+          "redirect_status" => status
+        } = _params
+      ) do
     if status == "failed" do
       render(conn, :failed)
     else
