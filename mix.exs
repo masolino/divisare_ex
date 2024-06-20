@@ -60,7 +60,7 @@ defmodule Divisare.MixProject do
       {:dotenvy, "~> 0.8.0"},
 
       # Testing
-      {:floki, ">= 0.36.0"}
+      {:floki, ">= 0.36.0", only: :dev}
     ]
   end
 
