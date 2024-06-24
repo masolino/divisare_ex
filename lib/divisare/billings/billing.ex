@@ -40,7 +40,6 @@ defmodule Divisare.Billings.Billing do
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> apply_validations()
-    |> IO.inspect(label: "====== WHAT =====")
   end
 
   defp apply_validations(changeset) do

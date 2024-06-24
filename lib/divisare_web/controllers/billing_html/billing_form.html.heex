@@ -15,7 +15,7 @@
   type="select"
   label="State"
   data-opts={Jason.encode!(@subdivisions)}
-  data-selected={@changeset.data.state_code}
+  data-selected={Map.get(@changeset.changes, :state_code, Map.get(@changeset.data, :state_code))}
   options={[]}
 />
 

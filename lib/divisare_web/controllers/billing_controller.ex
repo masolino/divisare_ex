@@ -42,8 +42,8 @@ defmodule DivisareWeb.BillingController do
   def add(conn, %{"billing" => _, "token" => token} = params) do
     Billings.add_user_billing_info(params)
     |> case do
-      {:ok, _billing} ->
-        render(conn, :thanks, token: token)
+      {:ok, billing} ->
+        render(conn, :info, billing: billing, token: token)
 
       {:error, %Ecto.Changeset{errors: errs} = changeset} ->
         errors = Enum.map(errs, fn {k, {e, _}} -> "#{k}: #{e}" end)
