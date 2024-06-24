@@ -6,9 +6,11 @@ defmodule DivisareWeb.PaymentController do
   require Logger
 
   def info(conn, %{"token" => token} = _params) do
+    current = PaymentMethods.get_customer_current_payment_method(token)
+
     case PaymentMethods.get_setup_intent(token) do
       {:ok, %{client_secret: client_secret}} ->
-        render(conn, :info, token: token, client_secret: client_secret)
+        render(conn, :info, token: token, client_secret: client_secret, current: current)
 
       {:error, err} ->
         Logger.error(IO.inspect(err))

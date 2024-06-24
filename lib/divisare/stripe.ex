@@ -13,6 +13,10 @@ defmodule Divisare.Stripe do
     end
   end
 
+  def get_customer_payment_method(customer_id, payment_method_id) do
+    Customer.retrieve_payment_method(customer_id, payment_method_id)
+  end
+
   def get_subscription(subscription_id) do
     Stripe.Subscription.retrieve(subscription_id)
   end

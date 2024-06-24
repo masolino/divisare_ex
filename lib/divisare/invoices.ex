@@ -8,6 +8,18 @@ defmodule Divisare.Invoices do
   alias Divisare.Repo
 
   @doc """
+  Retrieve latest history invoice regardless if it has either been invoiced or not.
+  """
+  def get_user_current_history_invoice(user_id) do
+    HistoryInvoice.by_user_id(user_id)
+    |> Repo.one()
+    |> case do
+      nil -> {:error, :history_invoice_not_found}
+      hi -> {:ok, hi}
+    end
+  end
+
+  @doc """
   Adds a new history invoice based on the previous one and the actual billing info. This is used when a subscription is renewed.
   """
   def add_history_invoice(sub_id) do
