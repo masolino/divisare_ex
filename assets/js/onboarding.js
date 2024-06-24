@@ -90,7 +90,7 @@ function onboardingForm() {
       elements,
       clientSecret: client_secret,
       confirmParams: {
-        return_url: `${window.location.origin}/onboarding/confirm?email=${emailAddress}&name=${customerName}`,
+        return_url: `${window.location.origin}/onboarding/confirm?email=${encodeURIComponent(emailAddress)}&name=${customerName}`,
         receipt_email: emailAddress,
       },
     });
