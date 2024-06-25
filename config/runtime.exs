@@ -108,9 +108,25 @@ if config_env() == :prod do
   # Also, you may need to configure the Swoosh API client of your choice if you
   # are not using SMTP. Here is an example of the configuration:
   #
+
   config :divisare, Divisare.Mailer,
-    adapter: Swoosh.Adapters.Mandrill,
-    api_key: System.get_env("MANDRILL_API_KEY")
+    adapter: Swoosh.Adapters.SMTP,
+    relay: System.get_env("SMTP_HOST"),
+    username: System.get_env("SMTP_USER"),
+    password: System.get_env("SMTP_PASSWORD"),
+    # 587
+    port: System.get_env("SMTP_PORT")
+
+  # ssl: true,
+  # tls: :always,
+  # auth: :always,
+  # dkim: [
+  #   s: "default",
+  #   d: "domain.com",
+  #   private_key: {:pem_plain, File.read!("priv/keys/domain.private")}
+  # ],
+  # retries: 2,
+  # no_mx_lookups: false
 
   #
   # For this example you need include a HTTP client required by Swoosh API client.
