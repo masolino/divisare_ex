@@ -41,6 +41,7 @@ defmodule Divisare.MixProject do
       # {:heroicons, "~> 0.5"},
       {:phoenix_live_dashboard, "~> 0.7.2"},
       {:swoosh, "~> 1.15"},
+      {:gen_smtp, "~> 1.2"},
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
