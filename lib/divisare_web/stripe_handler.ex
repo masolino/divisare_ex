@@ -37,9 +37,22 @@ defmodule DivisareWeb.StripeHandler do
           }
         }
       }) do
-    Logger.info("Subscription: #{subscription_id} renewed")
+    Logger.info("Stripe subscription: #{subscription_id} renewed")
     Subscriptions.cycle_subscription(subscription_id)
     Invoices.add_history_invoice(subscription_id)
+    :ok
+  end
+
+  def handle_event(%Stripe.Event{
+        type: "invoice.payment_succeeded",
+        data: %{
+          object: %Stripe.Invoice{
+            billing_reason: "subscription_create",
+            subscription: subscription_id
+          }
+        }
+      }) do
+    Logger.info("Stripe subscription: #{subscription_id} created")
     :ok
   end
 
