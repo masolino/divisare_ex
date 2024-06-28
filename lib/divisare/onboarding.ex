@@ -10,7 +10,7 @@ defmodule Divisare.Onboarding do
   def get_stripe_subscription_client_secret(name, email, price_id) do
     case StripeService.subscribe_customer(name, email, price_id) do
       {:ok, subscription} -> extract_client_secret_from_subscription(subscription)
-      {:error, reason} -> {:error, reason}
+      {:error, err} -> {:error, err.message}
     end
   end
 

@@ -11,11 +11,12 @@ defmodule DivisareWeb.DivisareComponents do
 
       <.stripe api_key={Application.get_env(:divisare, :stripe_publishable)}></.stripe>
   """
-  attr :api_key, :string, required: true 
+  attr :api_key, :string, required: true
 
   def stripe(assigns) do
     ~H"""
-    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://js.stripe.com/v3/">
+    </script>
     <span id="stripe-key" data-stripe={@api_key}></span>
     """
   end
