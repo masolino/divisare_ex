@@ -12,6 +12,7 @@ defmodule Divisare.Invoices do
   """
   def get_user_current_history_invoice(user_id) do
     HistoryInvoice.by_user_id(user_id)
+    |> HistoryInvoice.is_latest()
     |> Repo.one()
     |> case do
       nil -> {:error, :history_invoice_not_found}
