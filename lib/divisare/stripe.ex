@@ -50,8 +50,9 @@ defmodule Divisare.Stripe do
       Logger.info("Divisare.Stripe.get_payment_intent OK")
       {:ok, payment_intent}
     else
-      Logger.warn("Divisare.Stripe.get_payment_intent FAIL")
-      {:error, err} -> {:error, err.message}
+      {:error, err} ->
+        Logger.warn("Divisare.Stripe.get_payment_intent FAIL")
+        {:error, err.message}
     end
   end
 

@@ -7,6 +7,8 @@ defmodule Divisare.Subscriptions do
   alias Divisare.Stripe, as: StripeService
   alias Divisare.Repo
 
+  require Logger
+
   def find_or_create_subscription(%{stripe_customer_id: customer_id} = params) do
     customer_id
     |> Subscription.by_customer_id()

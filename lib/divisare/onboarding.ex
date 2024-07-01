@@ -5,6 +5,8 @@ defmodule Divisare.Onboarding do
   alias Divisare.Stripe, as: StripeService
   alias Divisare.Accounts.UserNotifier
 
+  require Logger
+
   alias Divisare.Repo
 
   def get_stripe_subscription_client_secret(name, email, price_id) do
