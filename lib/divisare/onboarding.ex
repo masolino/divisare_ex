@@ -5,6 +5,8 @@ defmodule Divisare.Onboarding do
   alias Divisare.Stripe, as: StripeService
   alias Divisare.Accounts.UserNotifier
 
+  require Logger
+
   alias Divisare.Repo
 
   def get_stripe_subscription_client_secret(name, email, price_id) do
@@ -15,7 +17,7 @@ defmodule Divisare.Onboarding do
   end
 
   def onboard_customer(name, email, payment_intent_id) do
-    with {:ok, payment_intent} = StripeService.get_payment_intent(payment_intent_id),
+    with {:ok, payment_intent} <- StripeService.get_payment_intent(payment_intent_id),
          {:ok, %Stripe.Invoice{subscription: stripe_subscription_id}} <-
            StripeService.get_invoice(payment_intent.invoice),
          {:ok, is_new, user} <- find_or_onboard_user(name, email),
@@ -40,7 +42,9 @@ defmodule Divisare.Onboarding do
          {:ok, _} <- send_welcome_email(is_new, user) do
       {:ok, user, subscription}
     else
-      {:error, error} -> error
+      {:error, error} ->
+        Logger.error("Something went wrong during customer onboarding: #{inspect(error)}")
+        error
     end
   end
 
@@ -54,8 +58,17 @@ defmodule Divisare.Onboarding do
     {:ok, client_secret}
   end
 
-  defp send_welcome_email(false, _user), do: {:ok, nil}
-  defp send_welcome_email(true, user), do: UserNotifier.deliver_welcome_email(user)
+  defp send_welcome_email(false, _user) do
+    {:ok, nil}
+  end
+
+  defp send_welcome_email(true, user) do
+    Logger.info("Divisare.Onboarding.send_welcome_email SENDING EMAIL #{inspect(user.email)}")
+    # res = UserNotifier.deliver_welcome_email(user)
+    Logger.info("Divisare.Onboarding.send_welcome_email EMAIL SENT")
+
+    {:ok, nil}
+  end
 
   defp find_or_onboard_user(name, email) do
     case Accounts.find_user_by_email(email) do

@@ -1,4 +1,5 @@
 defmodule Divisare.Stripe do
+  require Logger
   alias Stripe.Customer
   alias Stripe.Subscription
   alias Stripe.Invoice

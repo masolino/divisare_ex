@@ -25,11 +25,14 @@ defmodule DivisareWeb.OnboardingController do
           "redirect_status" => status
         } = _params
       ) do
-    if status == "failed" do
-      render(conn, :failed)
-    else
-      {:ok, user, _subscription} = Onboarding.onboard_customer(name, email, payment_intent_id)
-      render(conn, :confirm, user: user)
+    case status do
+      "failed" ->
+        render(conn, :failed)
+
+      _ ->
+        {:ok, user, _subscription} = Onboarding.onboard_customer(name, email, payment_intent_id)
+
+        render(conn, :confirm, user: user)
     end
   end
 end

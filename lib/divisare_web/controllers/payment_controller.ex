@@ -13,7 +13,7 @@ defmodule DivisareWeb.PaymentController do
         render(conn, :info, token: token, client_secret: client_secret, current: current)
 
       {:error, err} ->
-        Logger.error(IO.inspect(err))
+        Logger.error("Error retrieving setup intent #{inspect(err)}")
         redirect(conn, external: Application.get_env(:divisare, :main_host))
     end
   end
