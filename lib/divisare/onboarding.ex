@@ -94,6 +94,10 @@ defmodule Divisare.Onboarding do
          stripe_customer_id
        ) do
     with {:ok, subscription} <- StripeService.get_subscription(stripe_subscription_id) do
+      Logger.info(
+        "Divisare.Onboarding.insert_invoice_history: (GET STRIPE SUBSCRIPTION) #{inspect(subscription)}"
+      )
+
       res =
         Invoices.create_history_invoice(%{
           user_id: user_id,
@@ -104,7 +108,9 @@ defmodule Divisare.Onboarding do
           paid_at: NaiveDateTime.utc_now()
         })
 
-      Logger.info("Divisare.Onboarding.insert_invoice_history: #{inspect(res)}")
+      Logger.info(
+        "Divisare.Onboarding.insert_invoice_history (CREATE HISTORY INVOICE): #{inspect(res)}"
+      )
 
       res
     end
