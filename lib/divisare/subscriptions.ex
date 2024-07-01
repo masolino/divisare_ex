@@ -16,11 +16,22 @@ defmodule Divisare.Subscriptions do
       nil ->
         params = Map.merge(params, %{type: "ReaderSubscription"})
 
-        %Subscription{}
-        |> Subscription.changeset(params)
-        |> Repo.insert()
+        res =
+          %Subscription{}
+          |> Subscription.changeset(params)
+          |> Repo.insert()
+
+        Logger.info(
+          "Divisare.Subscriptions.find_or_create_subscription: CREATED -> #{IO.inspect(res)}"
+        )
+
+        res
 
       subscription ->
+        Logger.info(
+          "Divisare.Subscriptions.find_or_create_subscription: FOUND -> #{subscription.id}"
+        )
+
         {:ok, subscription}
     end
   end

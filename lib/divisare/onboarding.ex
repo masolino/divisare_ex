@@ -38,9 +38,12 @@ defmodule Divisare.Onboarding do
              payment_intent.customer
            ),
          {:ok, _} <- send_welcome_email(is_new, user) do
+      Logger.info("Divisare.Onboarding.onboard_customer ALL SEEMS OK")
       {:ok, user, subscription}
     else
-      {:error, error} -> error
+      {:error, error} ->
+        Logger.info("Divisare.Onboarding.onboard_customer END ERROR #{inspect(error)}")
+        error
     end
   end
 
@@ -54,8 +57,17 @@ defmodule Divisare.Onboarding do
     {:ok, client_secret}
   end
 
-  defp send_welcome_email(false, _user), do: {:ok, nil}
-  defp send_welcome_email(true, user), do: UserNotifier.deliver_welcome_email(user)
+  defp send_welcome_email(false, _user) do
+    Logger.info("Divisare.Onboarding.send_welcome_email NO MAIL TO SEND")
+    {:ok, nil}
+  end
+
+  defp send_welcome_email(true, user) do
+    res = UserNotifier.deliver_welcome_email(user)
+    Logger.info("Divisare.Onboarding.send_welcome_email SEND MAIL #{inspect(res)}")
+
+    res
+  end
 
   defp find_or_onboard_user(name, email) do
     case Accounts.find_user_by_email(email) do
@@ -80,14 +92,19 @@ defmodule Divisare.Onboarding do
          stripe_customer_id
        ) do
     with {:ok, subscription} <- StripeService.get_subscription(stripe_subscription_id) do
-      Invoices.create_history_invoice(%{
-        user_id: user_id,
-        subscription_id: subscription_id,
-        stripe_customer_id: stripe_customer_id,
-        stripe_subscription_id: stripe_subscription_id,
-        stripe_payment_method_id: subscription.default_payment_method,
-        paid_at: NaiveDateTime.utc_now()
-      })
+      res =
+        Invoices.create_history_invoice(%{
+          user_id: user_id,
+          subscription_id: subscription_id,
+          stripe_customer_id: stripe_customer_id,
+          stripe_subscription_id: stripe_subscription_id,
+          stripe_payment_method_id: subscription.default_payment_method,
+          paid_at: NaiveDateTime.utc_now()
+        })
+
+      Logger.info("Divisare.Onboarding.insert_invoice_history: #{inspect(res)}")
+
+      res
     end
   end
 end

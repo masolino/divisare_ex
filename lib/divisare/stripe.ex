@@ -1,4 +1,5 @@
 defmodule Divisare.Stripe do
+  require Logger
   alias Stripe.Customer
   alias Stripe.Subscription
   alias Stripe.Invoice
@@ -46,14 +47,20 @@ defmodule Divisare.Stripe do
 
   def get_payment_intent(payment_intent_id) do
     with {:ok, payment_intent} <- Stripe.PaymentIntent.retrieve(payment_intent_id) do
+      Logger.info("Divisare.Stripe.get_payment_intent OK")
       {:ok, payment_intent}
     else
+      Logger.warn("Divisare.Stripe.get_payment_intent FAIL")
       {:error, err} -> {:error, err.message}
     end
   end
 
   def get_invoice(invoice_id) do
-    Invoice.retrieve(invoice_id)
+    res = Invoice.retrieve(invoice_id)
+
+    Logger.info("Divisare.Stripe.get_invoice #{IO.inspect(res)}")
+
+    res
   end
 
   def cancel_stripe_subscription(subscription_id) do
