@@ -24,7 +24,7 @@ defmodule Divisare.Subscriptions do
           |> Repo.insert()
 
         Logger.info(
-          "Divisare.Subscriptions.find_or_create_subscription: CREATED -> #{IO.inspect(res)}"
+          "Divisare.Subscriptions.find_or_create_subscription: CREATED -> #{inspect(res)}"
         )
 
         res

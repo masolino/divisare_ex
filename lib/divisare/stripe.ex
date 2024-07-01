@@ -59,7 +59,7 @@ defmodule Divisare.Stripe do
   def get_invoice(invoice_id) do
     res = Invoice.retrieve(invoice_id)
 
-    Logger.info("Divisare.Stripe.get_invoice #{IO.inspect(res)}")
+    Logger.info("Divisare.Stripe.get_invoice #{inspect(res)}")
 
     res
   end
