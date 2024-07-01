@@ -17,7 +17,7 @@ defmodule Divisare.Onboarding do
   end
 
   def onboard_customer(name, email, payment_intent_id) do
-    with {:ok, payment_intent} = StripeService.get_payment_intent(payment_intent_id),
+    with {:ok, payment_intent} <- StripeService.get_payment_intent(payment_intent_id),
          {:ok, %Stripe.Invoice{subscription: stripe_subscription_id}} <-
            StripeService.get_invoice(payment_intent.invoice),
          {:ok, is_new, user} <- find_or_onboard_user(name, email),
