@@ -115,7 +115,7 @@ if config_env() == :prod do
 
   config :divisare, Divisare.Mailer,
     adapter: Swoosh.Adapters.Mandrill,
-    api_key: System.env!("MANDRILL_API_KEY")
+    api_key: env!("MANDRILL_API_KEY")
 
   # adapter: Swoosh.Adapters.SMTP,
   # relay: env!("SMTP_HOST"),
