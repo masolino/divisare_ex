@@ -114,12 +114,14 @@ if config_env() == :prod do
   #
 
   config :divisare, Divisare.Mailer,
-    adapter: Swoosh.Adapters.SMTP,
-    relay: env!("SMTP_HOST"),
-    username: env!("SMTP_USER"),
-    password: env!("SMTP_PASSWORD"),
-    # 587
-    port: env!("SMTP_PORT")
+    adapter: Swoosh.Adapters.Mandrill,
+    api_key: System.env!("MANDRILL_API_KEY"),
+    # adapter: Swoosh.Adapters.SMTP,
+    # relay: env!("SMTP_HOST"),
+    # username: env!("SMTP_USER"),
+    # password: env!("SMTP_PASSWORD"),
+    # # 587
+    # port: env!("SMTP_PORT")
 
   # ssl: true,
 
