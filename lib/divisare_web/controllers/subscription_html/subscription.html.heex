@@ -21,7 +21,9 @@
           </li>
 
           <li class="edit-subscription">
-            <.cancel_subscription_link token={@token} />
+            <a href={"#{Application.get_env(:divisare, :main_host)}/subscription/cancel"}>
+              Cancel your subscription
+            </a>
           </li>
         <% end %>
       </ul>
