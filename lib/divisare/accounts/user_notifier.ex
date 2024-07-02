@@ -22,7 +22,7 @@ defmodule Divisare.Accounts.UserNotifier do
 
     case Mailer.deliver(email) do
       {:ok, _} -> {:ok, email}
-      error -> error
+      {:error, _} = error -> error
     end
   end
 
