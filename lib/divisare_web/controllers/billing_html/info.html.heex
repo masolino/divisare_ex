@@ -32,46 +32,37 @@
 
   <div class="row">
     <div class="small-12 columns">
-      <h3 class="subtitle">These informations will be used to emit your invoice</h3>
+      <h3 class="subtitle">This information will be used for your invoice</h3>
       <p>
         <strong><%= @billing.heading %></strong> <br />
         <%= @billing.address %><br />
-        <%= @billing.postal_code %> <%= @billing.city %>, <%= @billing.state_code %> (<%= @billing.country_code %>)
+        <%= @billing.postal_code %> <%= @billing.city %>, <%= @billing.state_code %> (<%= @billing.country_code %>)<br />
+        <%= if @billing.business do %>
+          <strong>VAT:</strong>
+          <%= @billing.vat %><br />
+
+          <%= if @billing.country_code == "IT" do %>
+            <%= if not is_nil(@billing.pec) do %>
+              <strong>PEC:</strong>
+              <%= @billing.pec %><br />
+            <% end %>
+
+            <%= if not is_nil(@billing.sdi_code) do %>
+              <strong>SDI:</strong>
+              <%= @billing.sdi_code %><br />
+            <% end %>
+          <% end %>
+        <% else %>
+          <%= if @billing.country_code == "IT" do %>
+            <strong>CF:</strong>
+            <%= @billing.cf %>
+          <% end %>
+        <% end %>
       </p>
     </div>
 
-    <%= if @billing.business do %>
-      <div class="small-12 columns">
-        <strong>VAT:</strong>
-        <%= @billing.vat %>
-      </div>
-
-      <%= if @billing.country_code == "IT" do %>
-        <%= if not is_nil(@billing.pec) do %>
-          <div class="small-12 columns">
-            <strong>PEC:</strong>
-            <%= @billing.pec %>
-          </div>
-        <% end %>
-
-        <%= if not is_nil(@billing.sdi_code) do %>
-          <div class="small-12 columns">
-            <strong>SDI:</strong>
-            <%= @billing.sdi_code %>
-          </div>
-        <% end %>
-      <% end %>
-    <% else %>
-      <%= if @billing.country_code == "IT" do %>
-        <div class="small-12 columns">
-          <strong>CF:</strong>
-          <%= @billing.cf %>
-        </div>
-      <% end %>
-    <% end %>
-
-    <div class="small-12 columns" style="margin-top: 3rem">
-      <.link navigate={~p"/billing/#{@token}/edit"}>Edit</.link>
+    <div class="small-12 columns">
+      <p><.link navigate={~p"/billing/#{@token}/edit"}>Edit Billing info</.link></p>
     </div>
   </div>
 </div>
