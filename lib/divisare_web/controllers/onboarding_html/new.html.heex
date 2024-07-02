@@ -1,22 +1,23 @@
 <div class="account">
   <div class="row">
-    <div class="small-12 columns">
-      <h1>Subscribe for 75€/year VAT included</h1>
-      <h2 class="subtitle">
-        Subscribing you will have full access to divisare projects archive.
-      </h2>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="small-12 medium-6 columns onboarding-description">
+    <div class="small-12 medium-6 columns">
       <.stripe api_key={Application.get_env(:divisare, :stripe_publishable_key)} />
+      <h1>Subscribe for 72€/year VAT included</h1>
+      <p>HELP US SWIM AGAINST THE TIDE.</p>
+
       <p>
-        You will be sent directly to the site after the payment and you will
-        receive an email with your credentials at the email you will write
-        below. After the payment, you can ask for a receipt or a VAT invoice
-        directly in the user preferences site, a link to which will also be in
-        the email you will receive.
+        Join us in taking a stand against the short attention architecture media.
+        Divisare is a place to perceive architecture slowly, without distractions.
+        No click — like — tweet — share, no advertising, banners, pop-ups.
+        Just architecture, no more and no less.
+      </p>
+
+      <p>If you like what we’re doing, please Subscribe.</p>
+      <p>You will get full access to divisare archive and you will help us keep the lights on.</p>
+
+      <p>
+        Once payment is complete, you will have the option of requesting a receipt
+        or VAT invoicedirectly from your account page.
       </p>
 
       <.onboarding_form data={@data} action={~p"/onboarding"} />
@@ -24,13 +25,21 @@
   </div>
 
   <div class="row">
-    <div class="small-12 columns">
-      <a
-        href={"#{Application.get_env(:divisare, :main_host)}/subscriptions"}
-        class="subscription-options"
-      >
-        Other subscription options
-      </a>
+    <div class="small-12 medium-6 columns">
+      <div class="subscriptions-options">
+        <p>
+          Divisare is free for architecture teachers & students
+          and for members of selected architects associations.<br /> See our
+          <a href={"#{Application.get_env(:divisare, :main_host)}/subscriptions"}>
+            other subscription options
+          </a>
+        </p>
+
+        <p>
+          Already a subscriber?
+          <a href={"#{Application.get_env(:divisare, :main_host)}/login"}>Please login</a>
+        </p>
+      </div>
     </div>
   </div>
 </div>

@@ -4,6 +4,19 @@
     color: #999;
 }
 
+.account p {
+    font-size: 0.875rem;
+}
+
+.account .subscriptions-options {
+    margin-top: 1.5rem;
+}
+
+.account .subscriptions-options a:hover,
+.account .subscriptions-options a:focus {
+    color: #0078ff;
+}
+
 .account #account-form .button,
 .account #billing-form .button,
 .account #payment-form .button {
@@ -35,6 +48,7 @@
         0px 1px 1px rgba(0, 0, 0, 0.03),
         0px 3px 6px rgba(0, 0, 0, 0.02);
 }
+
 .account #payment-form #payment-form_name:focus {
     outline: 0px;
     border-color: hsla(210, 96%, 45%, 50%);
@@ -44,6 +58,7 @@
         0 0 0 3px hsla(210, 96%, 45%, 25%),
         0 1px 1px 0 rgba(0, 0, 0, 0.08);
 }
+
 a {
     color: #0078ff;
 }
@@ -54,8 +69,12 @@ a {
 }
 
 .account h1 {
+    margin: 1.5rem 0;
     font-size: 1.125rem;
-    /* margin: 3rem 0 0; */
+
+    @media only screen and (min-width: 40.0625em) {
+        margin: 3rem 0;
+    }
 }
 
 .account h2.subtitle {
