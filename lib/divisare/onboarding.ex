@@ -65,8 +65,9 @@ defmodule Divisare.Onboarding do
   end
 
   defp send_welcome_email(true, user) do
+    Logger.info("Divisare.Onboarding.send_welcome_email SENDING EMAIL #{inspect(user)}")
     res = UserNotifier.deliver_welcome_email(user)
-    Logger.info("Divisare.Onboarding.send_welcome_email SEND MAIL #{inspect(res)}")
+    Logger.info("Divisare.Onboarding.send_welcome_email EMAIL SENT #{inspect(res)}")
 
     res
   end
