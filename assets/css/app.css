@@ -1,108 +1,133 @@
 .account #account-form label,
 .account #billing-form label {
-  font-size: 0.75rem;
-  color: #999;
+    font-size: 0.75rem;
+    color: #999;
 }
 
 .account #account-form .button,
 .account #billing-form .button,
 .account #payment-form .button {
-  -moz-box-shadow: 1px 1px 4px 0px #999;
-  -webkit-box-shadow: 1px 1px 4px 0px #999;
-  box-shadow: 1px 1px 4px 0px #999;
-  margin-top: 0.6rem;
-  border: 1px solid #999;
-  background: #fff;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  color: #000;
-  padding: 0.75rem;
+    -moz-box-shadow: 1px 1px 4px 0px #999;
+    -webkit-box-shadow: 1px 1px 4px 0px #999;
+    box-shadow: 1px 1px 4px 0px #999;
+    margin-top: 0.6rem;
+    border: 1px solid #999;
+    background: #fff;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #000;
+    padding: 0.75rem;
 }
 
+.account #payment-form #payment-form_name {
+    padding: 0.75rem;
+    font-size: 1rem;
+    line-height: 24px;
+    background-color: #fff;
+    border-radius: 5px;
+    transition:
+        background 0.15s ease,
+        border 0.15s ease,
+        box-shadow 0.15s ease,
+        color 0.15s ease;
+    border: 1px solid #e6e6e6;
+    box-shadow:
+        0px 1px 1px rgba(0, 0, 0, 0.03),
+        0px 3px 6px rgba(0, 0, 0, 0.02);
+}
+.account #payment-form #payment-form_name:focus {
+    outline: 0px;
+    border-color: hsla(210, 96%, 45%, 50%);
+    box-shadow:
+        0px 1px 1px rgba(0, 0, 0, 0.03),
+        0px 3px 6px rgba(0, 0, 0, 0.02),
+        0 0 0 3px hsla(210, 96%, 45%, 25%),
+        0 1px 1px 0 rgba(0, 0, 0, 0.08);
+}
 a {
-  color: #0078ff;
+    color: #0078ff;
 }
 
 .onboarding-description p {
-  font-size: 0.875rem !important;
-  margin-top: 2rem;
+    font-size: 0.875rem !important;
+    margin-top: 2rem;
 }
 
 .account h1 {
-  font-size: 1.125rem;
-  /* margin: 3rem 0 0; */
+    font-size: 1.125rem;
+    /* margin: 3rem 0 0; */
 }
 
 .account h2.subtitle {
-  font-size: 0.875rem;
-  line-height: normal;
-  letter-spacing: normal;
-  font-weight: 400;
-  color: #999;
-  margin: 0;
+    font-size: 0.875rem;
+    line-height: normal;
+    letter-spacing: normal;
+    font-weight: 400;
+    color: #999;
+    margin: 0;
 }
 
 .account h3.subtitle {
-  font-size: 0.875rem;
-  line-height: normal;
-  letter-spacing: normal;
-  font-weight: 400;
-  color: #999;
-  margin-bottom: 1.2rem;
-  text-transform: uppercase;
+    font-size: 0.875rem;
+    line-height: normal;
+    letter-spacing: normal;
+    font-weight: 400;
+    color: #999;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
 }
 
 .account #payment-form {
-  margin-top: 2rem;
+    margin-top: 2rem;
 }
 
 .account #payment-form button {
-  margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .account a.subscription-options {
-  text-transform: uppercase;
-  font-size: 0.75rem;
+    text-transform: uppercase;
+    font-size: 0.75rem;
 }
 
 .error_field {
-  color: red;
-  font-size: 0.75rem;
-  padding: 0;
-  margin-top: -0.8rem;
+    color: red;
+    font-size: 0.75rem;
+    padding: 0;
+    margin-top: -0.8rem;
 }
 
 /* Loading spinner */
 .spinner {
-  width: 20px;
-  height: 20px;
-  margin: 0 auto;
-  background-color: #333;
-  border-radius: 100%;
-  -webkit-animation: sk-scaleout 1s infinite ease-in-out;
-  animation: sk-scaleout 1s infinite ease-in-out;
+    width: 20px;
+    height: 20px;
+    margin: 0 auto;
+    background-color: #333;
+    border-radius: 100%;
+    -webkit-animation: sk-scaleout 1s infinite ease-in-out;
+    animation: sk-scaleout 1s infinite ease-in-out;
 }
 
 @-webkit-keyframes sk-scaleout {
-  0% {
-    -webkit-transform: scale(0);
-  }
+    0% {
+        -webkit-transform: scale(0);
+    }
 
-  100% {
-    -webkit-transform: scale(1);
-    opacity: 0;
-  }
+    100% {
+        -webkit-transform: scale(1);
+        opacity: 0;
+    }
 }
 
 @keyframes sk-scaleout {
-  0% {
-    -webkit-transform: scale(0);
-    transform: scale(0);
-  }
+    0% {
+        -webkit-transform: scale(0);
+        transform: scale(0);
+    }
 
-  100% {
-    -webkit-transform: scale(1);
-    transform: scale(1);
-    opacity: 0;
-  }
+    100% {
+        -webkit-transform: scale(1);
+        transform: scale(1);
+        opacity: 0;
+    }
 }
