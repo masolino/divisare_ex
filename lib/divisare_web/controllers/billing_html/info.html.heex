@@ -36,32 +36,34 @@
         This information will be used to issue a VAT invoice for registered EU companies
       </h3>
       <p>Please allow 3-5 business days to process your request.</p>
-      <p class="edited-billing-info">
-        <strong><%= @billing.heading %></strong> <br />
+      <div class="edited-billing-info">
+        <div class="heading"><%= @billing.heading %></div>
         <%= @billing.address %><br />
         <%= @billing.postal_code %> <%= @billing.city %>, <%= @billing.state_code %> (<%= @billing.country_code %>)<br />
-        <%= if @billing.business do %>
-          <strong>VAT:</strong>
-          <%= @billing.vat %><br />
+        <div class="business-details">
+          <%= if @billing.business do %>
+            <strong>VAT:</strong>
+            <%= @billing.vat %><br />
 
-          <%= if @billing.country_code == "IT" do %>
-            <%= if not is_nil(@billing.pec) do %>
-              <strong>PEC:</strong>
-              <%= @billing.pec %><br />
+            <%= if @billing.country_code == "IT" do %>
+              <%= if not is_nil(@billing.pec) do %>
+                <strong>PEC:</strong>
+                <%= @billing.pec %><br />
+              <% end %>
+
+              <%= if not is_nil(@billing.sdi_code) do %>
+                <strong>SDI:</strong>
+                <%= @billing.sdi_code %><br />
+              <% end %>
             <% end %>
-
-            <%= if not is_nil(@billing.sdi_code) do %>
-              <strong>SDI:</strong>
-              <%= @billing.sdi_code %><br />
+          <% else %>
+            <%= if @billing.country_code == "IT" do %>
+              <strong>CF:</strong>
+              <%= @billing.cf %>
             <% end %>
           <% end %>
-        <% else %>
-          <%= if @billing.country_code == "IT" do %>
-            <strong>CF:</strong>
-            <%= @billing.cf %>
-          <% end %>
-        <% end %>
-      </p>
+        </div>
+      </div>
     </div>
 
     <div class="small-12 columns">

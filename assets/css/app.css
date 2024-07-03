@@ -144,8 +144,18 @@ a {
     line-height: normal;
 }
 
-.account .billing p.edited-billing-info {
-    line-height: 1.6;
+.account .billing .edited-billing-info {
+    border: 1px solid #ccc;
+    padding: 0.25rem 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.account .billing .edited-billing-info .heading {
+    font-weight: bold;
+}
+
+.account .billing .edited-billing-info .business-details {
+    margin-top: 1rem;
 }
 
 .account #payment-form {
