@@ -4,6 +4,11 @@
     color: #999;
 }
 
+.account .sections .inline-list li,
+.account .sections .inline-list a {
+    font-size: 0.75rem;
+}
+
 .account p {
     font-size: 0.875rem;
 }
