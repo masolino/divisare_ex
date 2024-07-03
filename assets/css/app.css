@@ -1,5 +1,5 @@
 footer.sessions p {
-    font-size: .75rem;
+    font-size: 0.75rem;
 }
 
 .account #account-form label,
@@ -90,16 +90,19 @@ a {
 
     @media only screen and (min-width: 40.0625em) {
         margin-top: 3rem;
-        margin-bottom: 0:
     }
 }
 
+.account .onboarding h1 {
+    margin-bottom: 0;
+}
+
 .account h3 {
-    font-size: .875rem;
+    font-size: 0.875rem;
 }
 
 .account h2 {
-    font-size: .875rem;
+    font-size: 0.875rem;
     margin-top: 2.5rem;
 }
 
@@ -119,6 +122,20 @@ a {
     font-weight: 400;
     margin-bottom: 1.2rem;
     text-transform: uppercase;
+}
+
+.account .billing h3.subtitle {
+    text-transform: none;
+    font-size: 1rem;
+}
+
+.account .billing p {
+    font-size: 1rem;
+    line-height: normal;
+}
+
+.account .billing p.edited-billing-info {
+    line-height: 1.6;
 }
 
 .account #payment-form {

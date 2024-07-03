@@ -1,6 +1,6 @@
 <div class="account">
   <div class="row">
-    <div class="small-12 medium-6 columns">
+    <div class="small-12 medium-6 columns onboarding">
       <.stripe api_key={Application.get_env(:divisare, :stripe_publishable_key)} />
       <h1>Subscribe for 72€/year VAT included</h1>
       <h3>Cancel anytime</h3>
@@ -17,8 +17,8 @@
       <p>You will get full access to divisare archive and you will help us keep the lights on.</p>
 
       <p>
-        Once payment is complete, you will have the option of requesting a receipt
-        or VAT invoice directly from your account page.
+        Once payment is complete, you will have the option of requesting a
+        VAT invoice directly from your account page.
       </p>
 
       <.onboarding_form data={@data} action={~p"/onboarding"} />
