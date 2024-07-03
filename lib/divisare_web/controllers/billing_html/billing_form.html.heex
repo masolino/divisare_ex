@@ -17,6 +17,7 @@
   data-opts={Jason.encode!(@subdivisions)}
   data-selected={Map.get(@changeset.changes, :state_code, Map.get(@changeset.data, :state_code))}
   options={[]}
+  required
 />
 
 <.input field={{@form, :heading}} name="billing[heading]" type="text" label="Name or Company" />

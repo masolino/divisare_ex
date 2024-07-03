@@ -28,7 +28,7 @@ defmodule Divisare.PaymentMethods do
     end
   end
 
-  def update_default_paymment_method(customer_id, payment_method_id) do
+  def update_default_payment_method(customer_id, payment_method_id) do
     with {:ok, _} <- StripeService.update_customer_payment_method(customer_id, payment_method_id),
          {:ok, %{stripe_subscription_id: subscription_id}} <-
            Subscriptions.find_subscription_by_stripe_customer(customer_id),

@@ -12,7 +12,7 @@ defmodule DivisareWeb.StripeHandler do
         type: "payment_method.attached",
         data: %{object: %Stripe.PaymentMethod{id: pm_id, customer: customer_id}}
       }) do
-    PaymentMethods.update_default_paymment_method(customer_id, pm_id)
+    PaymentMethods.update_default_payment_method(customer_id, pm_id)
     :ok
   end
 

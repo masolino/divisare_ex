@@ -53,6 +53,7 @@ function billingForm() {
     }
 
     updateEuBusiness(selectedCountry);
+    stateCodes.value = "--";
   });
 
   isBusiness.addEventListener("change", (e) => {
