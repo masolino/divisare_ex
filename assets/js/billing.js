@@ -79,10 +79,10 @@ function billingForm() {
     stateCodes.innerText = null;
 
     stateCodesOpts[country].forEach((state) => {
-      let [key, value] = Object.entries(state).flat();
+      let [key, _value] = Object.entries(state).flat();
       let option = document.createElement("option");
       option.text = key;
-      option.value = value;
+      option.value = key;
       stateCodes.appendChild(option);
     });
   }
