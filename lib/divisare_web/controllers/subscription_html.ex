@@ -65,7 +65,7 @@ defmodule DivisareWeb.SubscriptionHTML do
 
     if Timex.compare(expiration_date, Date.utc_today()) >= 0 do
       ~H"""
-      <p>Your subscription allows you to have full access to divisare projects archive.</p>
+      <p>Your subscription allows you to have full access to Divisare projects archive.</p>
       <p>
         Your subscription <b>as <%= @sub_label %></b>
         is active until <%= Calendar.strftime(@subscription.expire_on, "%B %d, %Y") %>.
@@ -108,7 +108,7 @@ defmodule DivisareWeb.SubscriptionHTML do
       assigns = assign(assigns, :sub_label, "Friend")
 
       ~H"""
-      <p>Your subscription allows you to have full access to divisare projects archive.</p>
+      <p>Your subscription allows you to have full access to Divisare projects archive.</p>
       <p>
         Your subscription <b>as <%= @sub_label %></b>
         is active until <%= Calendar.strftime(@subscription.expire_on, "%B %d, %Y") %>.
@@ -128,7 +128,7 @@ defmodule DivisareWeb.SubscriptionHTML do
       ) do
     if Timex.compare(expiration_date, Date.utc_today()) >= 0 do
       ~H"""
-      <p>Your subscription allows you to have full access to divisare projects archive.</p>
+      <p>Your subscription allows you to have full access to Divisare projects archive.</p>
       <p>
         Your subscription is active and will <%= if @subscription.auto_renew,
           do: "auto-renew",
