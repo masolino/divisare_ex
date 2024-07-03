@@ -4,6 +4,13 @@
     color: #999;
 }
 
+.subscription.status .sections .inline-list li,
+.subscription.status .sections .inline-list a,
+.account .sections .inline-list li,
+.account .sections .inline-list a {
+    font-size: 0.75rem;
+}
+
 .account .sections .inline-list li,
 .account .sections .inline-list a {
     font-size: 0.75rem;

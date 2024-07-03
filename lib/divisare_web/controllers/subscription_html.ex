@@ -16,7 +16,7 @@ defmodule DivisareWeb.SubscriptionHTML do
     ~H"""
     <div class="row">
       <div class="auto_renew">
-        <div class="small-3 columns">
+        <div class="small-12 medium-4 columns">
           <.simple_form
             :let={_f}
             for={%{}}
@@ -32,7 +32,7 @@ defmodule DivisareWeb.SubscriptionHTML do
             />
           </.simple_form>
         </div>
-        <div class="small-4 columns end">
+        <div class="small-12 medium-4 columns end">
           If you turn off auto-renew now, you can still access your subscription until <%= Calendar.strftime(
             @subscription.expire_on,
             "%B %d, %Y"
