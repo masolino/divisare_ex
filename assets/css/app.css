@@ -1,3 +1,7 @@
+footer.sessions p {
+    font-size: .75rem;
+}
+
 .account #account-form label,
 .account #billing-form label {
     font-size: 0.75rem;
