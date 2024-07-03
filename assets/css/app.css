@@ -2,6 +2,14 @@ footer.sessions p {
     font-size: 0.75rem;
 }
 
+.account .billing #billing-form .error_field {
+    background: #da0202;
+    color: #fff !important;
+    padding: 0.25rem 0.5rem;
+    transform: translate(0, -1rem);
+    font-size: 0.75rem;
+}
+
 .account #account-form label,
 .account #billing-form label {
     font-size: 0.75rem;
