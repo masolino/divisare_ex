@@ -32,7 +32,12 @@
   label="Are you a business?"
 />
 <div id="business-form">
-  <.input field={{@form, :vat}} name="billing[vat]" type="text" label="P.IVA / VAT (VIES)" />
+  <.input
+    field={{@form, :vat}}
+    name="billing[vat]"
+    type="text"
+    label="P.IVA / EU VAT number (Must validate via VIES)"
+  />
 </div>
 
 <div id="italian-form">
