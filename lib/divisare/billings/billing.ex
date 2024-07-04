@@ -37,7 +37,15 @@ defmodule Divisare.Billings.Billing do
   def changeset(%__MODULE__{} = billing \\ %__MODULE__{}, attrs) do
     billing
     |> cast(attrs, @required_fields ++ @optional_fields)
+    |> check_state_code()
     |> validate_required(@required_fields)
+    |> validate_length(:heading, min: 3, message: "is too short (minimum is %{count} characters)")
+    |> validate_length(:address, min: 6, message: "is too short (minimum is %{count} characters)")
+    |> validate_length(:city, min: 3, message: "is too short (minimum is %{count} characters)")
+    |> validate_length(:postal_code,
+      min: 2,
+      message: "is too short (minimum is %{count} characters)"
+    )
     |> apply_validations()
   end
 
@@ -52,11 +60,8 @@ defmodule Divisare.Billings.Billing do
         |> validate_ita_vat()
         |> validate_sdi()
 
-      is_eu_business(changeset) ->
-        validate_vies_vat(changeset)
-
       true ->
-        changeset
+        validate_vies_vat(changeset)
     end
   end
 
@@ -67,24 +72,29 @@ defmodule Divisare.Billings.Billing do
   end
 
   defp validate_vies_vat(cs) do
-    vat = get_field(cs, :vat)
-    country = get_field(cs, :country_code)
-    vat_country = String.split_at(vat, 2) |> elem(0)
-
     cs = put_change(cs, :business, true)
 
-    with {:country, true} <- {:country, vat_country == country},
+    vat = get_field(cs, :vat)
+    country = get_field(cs, :country_code)
+    {vat_country, vat_number} = String.split_at(vat, 2)
+
+    with {:vat, true} <- {:vat, String.length(vat_number) > 0},
+         {:country, true} <- {:country, vat_country == country},
          {:vies, true} <- {:vies, Viex.valid?(vat)} do
       cs
     else
-      {:country, false} -> add_error(cs, :vat, "VAT and country are different")
+      {:vat, false} -> add_error(cs, :vat, "required")
+      {:country, false} -> add_error(cs, :vat, "is not a valid #{country} VAT number")
       {:vies, false} -> add_error(cs, :vat, "invalid VAT for VIES")
     end
   end
 
   defp validate_sdi(%Ecto.Changeset{changes: %{sdi_code: sdi_code}} = changeset)
        when not is_nil(sdi_code) do
-    validate_length(changeset, :sdi_code, is: 7)
+    validate_length(changeset, :sdi_code,
+      is: 7,
+      message: "is the wrong length (should be 7 characters)"
+    )
   end
 
   defp validate_sdi(changeset), do: changeset
@@ -93,14 +103,14 @@ defmodule Divisare.Billings.Billing do
     if String.length(cf) == 16 or String.length(cf) == 11 do
       changeset
     else
-      add_error(changeset, :cf, "invalid length")
+      add_error(changeset, :cf, "invalid length (should be 11 or 16 characters)")
     end
   end
 
   defp validate_cf(changeset), do: validate_required(changeset, [:cf])
 
   defp validate_pec(%Ecto.Changeset{changes: %{pec: pec}} = changeset) when not is_nil(pec) do
-    validate_format(changeset, :pec, @email_regex)
+    validate_format(changeset, :pec, @email_regex, message: "is invalid")
   end
 
   defp validate_pec(changeset), do: changeset
@@ -113,8 +123,23 @@ defmodule Divisare.Billings.Billing do
     get_field(cs, :country_code) == "IT" and get_field(cs, :business, false)
   end
 
-  defp is_eu_business(cs) do
-    vat_number = get_field(cs, :vat, "") |> String.split_at(2) |> elem(1)
-    String.length(vat_number) > 0
+  defp check_state_code(cs) do
+    with {:country, country} when not is_nil(country) <-
+           {:country, get_field(cs, :country_code, nil)},
+         {:state, state} when not is_nil(state) <- {:state, get_field(cs, :state_code, nil)},
+         state_codes <- get_country_state_codes(country),
+         {:check, true} <- {:check, state in state_codes} do
+      cs
+    else
+      {:country, _} -> put_change(cs, :state_code, nil)
+      {:state, _} -> add_error(cs, :state_code, "can't be blank")
+      {:check, false} -> add_error(cs, :state_code, "invalid")
+    end
+  end
+
+  defp get_country_state_codes(country) do
+    Divisare.Utils.Countries.countries_subdivisions()
+    |> Keyword.get(String.to_atom(country))
+    |> Enum.map(fn c -> Map.keys(c) |> List.first() end)
   end
 end
