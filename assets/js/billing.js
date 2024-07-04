@@ -20,12 +20,11 @@ function billingForm() {
 
   const currentCountry = countryCodes.value;
 
-  autocompleteFormVat(currentCountry)
-
-  loadStateCodesOpts(currentCountry);
   stateCodes.value = stateCodes.getAttribute("data-selected");
+  autocompleteFormVat(currentCountry, false)
 
   updateEuBusiness(currentCountry);
+  loadStateCodesOpts(currentCountry);
 
   // show business checkbox if country is Italy
   toggleForm(isIta, isBusinessLabel);
@@ -41,7 +40,7 @@ function billingForm() {
     let selectedCountry = e.target.value;
     isIta = selectedCountry === "IT";
 
-    autocompleteFormVat(selectedCountry)
+    autocompleteFormVat(selectedCountry, true)
 
     if (!isIta && isBusiness.checked) {
       isBusiness.checked = false;
@@ -89,8 +88,8 @@ function billingForm() {
     });
   }
 
-  function autocompleteFormVat(countryCode) {
-    if (!isIta || (isIta && isBusiness.checked)) {
+  function autocompleteFormVat(countryCode, override) {
+    if ((!isIta || (isIta && isBusiness.checked)) && (override || formVat.value.length == 0)) {
       formVat.value = countryCode;
     }
   }

@@ -26,7 +26,6 @@ defmodule Divisare.Billings.Billing do
 
   @required_fields ~w(user_id heading address postal_code country_code state_code city)a
   @optional_fields ~w(business cf pec vat sdi_code)a
-  @eu_countries Divisare.Utils.Countries.all() |> Enum.map(fn {_, v} -> v end)
 
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
@@ -67,16 +66,21 @@ defmodule Divisare.Billings.Billing do
     |> validate_length(:vat, is: 13)
   end
 
-  defp validate_vies_vat(%Ecto.Changeset{changes: %{vat: vat}} = changeset)
-       when not is_nil(vat) do
-    if Viex.valid?(vat) do
-      changeset
+  defp validate_vies_vat(cs) do
+    vat = get_field(cs, :vat)
+    country = get_field(cs, :country_code)
+    vat_country = String.split_at(vat, 2) |> elem(0)
+
+    cs = put_change(cs, :business, true)
+
+    with {:country, true} <- {:country, vat_country == country},
+         {:vies, true} <- {:vies, Viex.valid?(vat)} do
+      cs
     else
-      add_error(changeset, :vat, "invalid")
+      {:country, false} -> add_error(cs, :vat, "VAT and country are different")
+      {:vies, false} -> add_error(cs, :vat, "invalid VAT for VIES")
     end
   end
-
-  defp validate_vies_vat(changeset), do: validate_required(changeset, [:vat])
 
   defp validate_sdi(%Ecto.Changeset{changes: %{sdi_code: sdi_code}} = changeset)
        when not is_nil(sdi_code) do
@@ -110,7 +114,7 @@ defmodule Divisare.Billings.Billing do
   end
 
   defp is_eu_business(cs) do
-    country = get_field(cs, :country_code)
-    get_field(cs, :business, false) and country in @eu_countries and country != "IT"
+    vat_number = get_field(cs, :vat, "") |> String.split_at(2) |> elem(1)
+    String.length(vat_number) > 0
   end
 end
