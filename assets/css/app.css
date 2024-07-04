@@ -2,6 +2,14 @@ footer.sessions p {
     font-size: 0.75rem;
 }
 
+.account .payment-method h3 {
+    margin-top: 3rem;
+}
+
+.account .payment-method p {
+    font-size: 1rem;
+}
+
 .account .billing #billing-form .error_field {
     background: #da0202;
     color: #fff !important;
@@ -94,17 +102,24 @@ a {
     margin-top: 2rem;
 }
 
-.account h1 {
-    margin-top: 1.5rem;
-    font-size: 1.125rem;
+.subscription.status h1 {
+    margin: 1.5rem 0 1rem 0 !important;
 
     @media only screen and (min-width: 40.0625em) {
-        margin-top: 3rem;
+        margin: 3rem 0 !important;
+    }
+}
+
+.account h1 {
+    margin: 1.5rem 0 1rem 0;
+
+    @media only screen and (min-width: 40.0625em) {
+        margin: 3rem 0;
     }
 }
 
 .account .onboarding h1 {
-    margin-bottom: 0;
+    /* margin-bottom: 0; */
 }
 
 .account h3 {
