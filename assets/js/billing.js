@@ -1,10 +1,11 @@
 function billingForm() {
   const mainForm = document.querySelector("#billing-form");
-  let isIta = false;
-
   if (!!!mainForm) {
     return;
   }
+
+  let isIta = false;
+  let formVat = document.querySelector("#billing-form_vat");
 
   const countryCodes = document.querySelector("#billing-form_country_code");
   const stateCodes = document.querySelector("#billing-form_state_code");
@@ -19,17 +20,19 @@ function billingForm() {
 
   const currentCountry = countryCodes.value;
 
+  autocompleteFormVat(currentCountry)
+
   loadStateCodesOpts(currentCountry);
   stateCodes.value = stateCodes.getAttribute("data-selected");
 
   updateEuBusiness(currentCountry);
 
-  // show business checkbox if country is in EU
+  // show business checkbox if country is Italy
   toggleForm(isIta, isBusinessLabel);
   toggleForm(!isIta || (isIta && isBusiness.checked), businessForm);
-  // toggle italian fields for italian non-business
+  // toggle business checkbox for italians
   toggleForm(isIta, isBusiness);
-
+  // toggle italian fields for italian non-business
   toggleForm(isIta && !isBusiness.checked, italianForm);
   // toggle italian fields for italian business
   toggleForm(isIta && isBusiness.checked, italianBusinessForm);
@@ -37,6 +40,8 @@ function billingForm() {
   countryCodes.addEventListener("change", (e) => {
     let selectedCountry = e.target.value;
     isIta = selectedCountry === "IT";
+
+    autocompleteFormVat(selectedCountry)
 
     if (!isIta && isBusiness.checked) {
       isBusiness.checked = false;
@@ -82,6 +87,12 @@ function billingForm() {
       option.value = key;
       stateCodes.appendChild(option);
     });
+  }
+
+  function autocompleteFormVat(countryCode) {
+    if (!isIta || (isIta && isBusiness.checked)) {
+      formVat.value = countryCode;
+    }
   }
 
   function toggleForm(condition, form) {
