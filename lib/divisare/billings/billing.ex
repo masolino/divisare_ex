@@ -39,12 +39,25 @@ defmodule Divisare.Billings.Billing do
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> check_state_code()
     |> validate_required(@required_fields)
-    |> validate_length(:heading, min: 3, message: "is too short (minimum is %{count} characters)")
-    |> validate_length(:address, min: 6, message: "is too short (minimum is %{count} characters)")
-    |> validate_length(:city, min: 3, message: "is too short (minimum is %{count} characters)")
+    |> validate_length(:heading,
+      min: 3,
+      max: 70,
+      message: "invalid length (should be between 3 and 70 characters)"
+    )
+    |> validate_length(:address,
+      min: 6,
+      max: 255,
+      message: "invalid length (should be between 6 and 255 characters)"
+    )
+    |> validate_length(:city,
+      min: 3,
+      max: 70,
+      message: "invalid length (should be between 2 and 70 characters)"
+    )
     |> validate_length(:postal_code,
       min: 2,
-      message: "is too short (minimum is %{count} characters)"
+      max: 20,
+      message: "invalid length (should be between 2 and 20 characters)"
     )
     |> apply_validations()
   end
@@ -68,7 +81,7 @@ defmodule Divisare.Billings.Billing do
   defp validate_ita_vat(changeset) do
     changeset
     |> validate_required([:vat])
-    |> validate_length(:vat, is: 13)
+    |> validate_length(:vat, is: 13, message: "invalid length (must be 13 characters)")
   end
 
   defp validate_vies_vat(cs) do
@@ -93,7 +106,7 @@ defmodule Divisare.Billings.Billing do
        when not is_nil(sdi_code) do
     validate_length(changeset, :sdi_code,
       is: 7,
-      message: "is the wrong length (should be 7 characters)"
+      message: "invalid length (must be 7 characters)"
     )
   end
 
@@ -103,7 +116,7 @@ defmodule Divisare.Billings.Billing do
     if String.length(cf) == 16 or String.length(cf) == 11 do
       changeset
     else
-      add_error(changeset, :cf, "invalid length (should be 11 or 16 characters)")
+      add_error(changeset, :cf, "invalid length (must be 11 or 16 characters)")
     end
   end
 
