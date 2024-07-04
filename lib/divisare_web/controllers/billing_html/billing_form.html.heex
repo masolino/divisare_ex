@@ -6,7 +6,6 @@
   type="select"
   label="Country"
   options={@countries}
-  data-eu-countries={Jason.encode!(@eu_countries)}
 />
 
 <.input
@@ -25,20 +24,16 @@
 <.input field={{@form, :postal_code}} name="billing[postal_code]" type="text" label="Postal Code" />
 <.input field={{@form, :city}} name="billing[city]" type="text" label="City" />
 
+<div id="business-form">
+  <.input field={{@form, :vat}} name="billing[vat]" type="text" label="P.IVA / EU VAT number (Must validate via VIES)" />
+</div>
+
 <.input
   field={{@form, :business}}
   name="billing[business]"
   type="checkbox"
   label="Are you a business?"
 />
-<div id="business-form">
-  <.input
-    field={{@form, :vat}}
-    name="billing[vat]"
-    type="text"
-    label="P.IVA / EU VAT number (Must validate via VIES)"
-  />
-</div>
 
 <div id="italian-form">
   <.input field={{@form, :cf}} name="billing[cf]" type="text" label="CF" />

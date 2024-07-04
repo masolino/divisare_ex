@@ -26,7 +26,7 @@ defmodule Divisare.Billings.Billing do
 
   @required_fields ~w(user_id heading address postal_code country_code state_code city)a
   @optional_fields ~w(business cf pec vat sdi_code)a
-  @eu_countries Divisare.Utils.Countries.by_region("Europe") |> Enum.map(fn {_, v} -> v end)
+  @eu_countries Divisare.Utils.Countries.all() |> Enum.map(fn {_, v} -> v end)
 
   @email_regex ~r/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
 
