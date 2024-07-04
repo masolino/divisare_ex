@@ -19,7 +19,7 @@
               Subscription
             </.link>
           </li>
-          <li>Billing information</li>
+          <li>VAT invoice</li>
           <li>
             <.link navigate={~p"/payments/#{@data.token}"}>
               Payment Method
@@ -33,7 +33,7 @@
   <div class="row">
     <div class="small-12 medium-4 columns billing">
       <h3 class="subtitle">
-        This information will be used to issue a VAT invoice for registered EU companies
+        If you are a registered EU business, and you need a VAT invoice, please compile the fields below to request it
       </h3>
       <.simple_form :let={f} for={@changeset} action={~p"/billing"} method="put" id="billing-form">
         <.billing_form
