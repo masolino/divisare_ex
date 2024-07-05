@@ -5,6 +5,8 @@ defmodule DivisareWeb.OnboardingController do
 
   require Logger
 
+  plug DivisareWeb.Plugs.PageTitle, title: "Subscribe"
+
   def new(conn, _params) do
     render(conn, :new, data: %{"email" => nil})
   end

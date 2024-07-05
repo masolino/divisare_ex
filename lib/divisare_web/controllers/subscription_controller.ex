@@ -6,6 +6,8 @@ defmodule DivisareWeb.SubscriptionController do
 
   require Logger
 
+  plug DivisareWeb.Plugs.PageTitle, title: "Your subscription"
+
   def info(conn, %{"token" => token} = _params) do
     {:ok, user} = Accounts.find_user_by_token(token)
 

@@ -7,6 +7,8 @@ defmodule DivisareWeb.BillingController do
 
   require Logger
 
+  plug DivisareWeb.Plugs.PageTitle, title: "VAT invoice"
+
   def info(conn, %{"token" => token}) do
     with {:ok, user} <- Accounts.find_user_by_token(token),
          {:ok, billing} <- Billings.find_user_billing_info(user.id) do

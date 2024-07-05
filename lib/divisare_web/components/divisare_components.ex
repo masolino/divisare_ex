@@ -20,4 +20,15 @@ defmodule DivisareWeb.DivisareComponents do
     <span id="stripe-key" data-stripe={@api_key}></span>
     """
   end
+
+  attr :page_title, :string, required: true
+
+  def page_title(assigns) do
+    page_title = assigns.page_title <> " · Divisare"
+    assigns = assign(assigns, page_title: page_title)
+
+    ~H"""
+    <title><%= @page_title %></title>
+    """
+  end
 end
