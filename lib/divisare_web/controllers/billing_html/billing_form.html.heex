@@ -6,6 +6,7 @@
   type="select"
   label="Country"
   options={@countries}
+  data-vies={Jason.encode!(@vies_countries)}
 />
 
 <.input
@@ -13,7 +14,7 @@
   name="billing[state_code]"
   type="select"
   label="State"
-  data-opts={Jason.encode!(@subdivisions)}
+  data-subdivisions={Jason.encode!(@subdivisions)}
   data-selected={Map.get(@changeset.changes, :state_code, Map.get(@changeset.data, :state_code))}
   options={[]}
 />

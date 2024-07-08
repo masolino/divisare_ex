@@ -8,8 +8,10 @@ function billingForm() {
   let formVat = document.querySelector("#billing-form_vat");
 
   const countryCodes = document.querySelector("#billing-form_country_code");
+  const countryVies = JSON.parse(countryCodes.getAttribute("data-vies"));
   const stateCodes = document.querySelector("#billing-form_state_code");
-  const stateCodesOpts = JSON.parse(stateCodes.getAttribute("data-opts"));
+  const stateCodesOpts = JSON.parse(stateCodes.getAttribute("data-subdivisions"));
+
 
   const isBusiness = document.querySelector("#billing-form_business");
   const isBusinessLabel = isBusiness.closest("label");
@@ -90,7 +92,7 @@ function billingForm() {
 
   function autocompleteFormVat(countryCode, override) {
     if ((!isIta || (isIta && isBusiness.checked)) && (override || formVat.value.length == 0)) {
-      formVat.value = countryCode;
+      formVat.value = countryVies[countryCode];
     }
   }
 

@@ -79,8 +79,9 @@ defmodule DivisareWeb.BillingController do
     %{
       changeset: changeset,
       data: %{token: token},
-      countries: Utils.Countries.all(),
-      subdivisions: Utils.Countries.countries_subdivisions() |> Enum.into(%{}),
+      countries: Utils.Countries.eu_countries(),
+      vies_countries: Utils.Countries.eu_countries_vies() |> Enum.into(%{}),
+      subdivisions: Utils.Countries.eu_countries_subdivisions() |> Enum.into(%{}),
       errors: errors
     }
   end

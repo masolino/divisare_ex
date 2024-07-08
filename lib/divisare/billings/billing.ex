@@ -151,7 +151,7 @@ defmodule Divisare.Billings.Billing do
   end
 
   defp get_country_state_codes(country) do
-    Divisare.Utils.Countries.countries_subdivisions()
+    Divisare.Utils.Countries.eu_countries_subdivisions()
     |> Keyword.get(String.to_atom(country))
     |> Enum.map(fn c -> Map.keys(c) |> List.first() end)
   end
