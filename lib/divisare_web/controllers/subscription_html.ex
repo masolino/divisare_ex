@@ -49,6 +49,7 @@ defmodule DivisareWeb.SubscriptionHTML do
 
   attr :subscription, Divisare.Subscriptions.Subscription, required: true
   attr :token, :string, required: true
+  attr :invoice_url, :string
 
   def subscription_type(%{subscription: %{type: sub_type, expire_on: expiration_date}} = assigns)
       when sub_type in [
@@ -187,6 +188,7 @@ defmodule DivisareWeb.SubscriptionHTML do
 
   attr :enrollment, :any
   attr :token, :string
+  attr :invoice_url, :string
 
   def user_enrollment_type(assigns) do
     case assigns.enrollment do
@@ -194,7 +196,7 @@ defmodule DivisareWeb.SubscriptionHTML do
         assigns = assign(assigns, :subscription, subscription)
 
         ~H"""
-        <.subscription subscription={@subscription} token={@token} />
+        <.subscription subscription={@subscription} token={@token} invoice_url={@invoice_url} />
         """
 
       {:board, membership} ->

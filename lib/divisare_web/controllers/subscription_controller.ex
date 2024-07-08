@@ -3,18 +3,23 @@ defmodule DivisareWeb.SubscriptionController do
 
   alias Divisare.Accounts
   alias Divisare.Subscriptions
+  alias Divisare.Stripe, as: StripeService
 
   require Logger
 
   plug DivisareWeb.Plugs.PageTitle, title: "Your subscription"
 
   def info(conn, %{"token" => token} = _params) do
-    {:ok, user} = Accounts.find_user_by_token(token)
-
-    case find_user_enrollment(conn, user) do
-      #  redirect to home page?
-      {:error, _} -> redirect(conn, to: ~p"/subscription/#{token}")
-      enrollment -> render(conn, :info, token: token, enrollment: enrollment)
+    with {:ok, user} <- Accounts.find_user_by_token(token),
+         {:ok, %{stripe_subscription_id: stripe_subscription_id}} <-
+           Subscriptions.find_subscription_by_user_token(token),
+         {:ok, %{latest_invoice: invoice_id}} <-
+           StripeService.get_subscription(stripe_subscription_id),
+         {:ok, %{hosted_invoice_url: invoice_url}} <- StripeService.get_invoice(invoice_id) do
+      enrollment = find_user_enrollment(conn, user)
+      render(conn, :info, token: token, enrollment: enrollment, invoice_url: invoice_url)
+    else
+      _ -> redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}")
     end
   end
 
@@ -34,17 +39,10 @@ defmodule DivisareWeb.SubscriptionController do
 
   defp find_user_enrollment(conn, user) do
     case find_user_subscription(user) do
-      {:subscription, sub} ->
-        {:subscription, sub}
-
-      {:team, team} ->
-        {:team, team}
-
-      {:board, board} ->
-        {:board, board}
-
-      :error ->
-        redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/subscriptions")
+      {:subscription, sub} -> {:subscription, sub}
+      {:team, team} -> {:team, team}
+      {:board, board} -> {:board, board}
+      :error -> redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}")
     end
   end
 
