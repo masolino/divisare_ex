@@ -14,8 +14,15 @@ defmodule Divisare.Stripe do
     end
   end
 
-  def get_customer_payment_method(customer_id, payment_method_id) do
-    Customer.retrieve_payment_method(customer_id, payment_method_id)
+  def get_customer_payment_method(customer_id) do
+    with {:ok, customer} <-
+           Customer.retrieve(customer_id),
+         pm_id when not is_nil(pm_id) <-
+           get_in(customer, [Access.key!(:invoice_settings), Access.key!(:default_payment_method)]) do
+      Stripe.PaymentMethod.retrieve(pm_id)
+    else
+      _ -> {:error, :payment_method_not_found}
+    end
   end
 
   def get_subscription(subscription_id) do
