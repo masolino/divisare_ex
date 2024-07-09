@@ -5,6 +5,7 @@ defmodule DivisareWeb.PaymentController do
 
   require Logger
 
+  plug DivisareWeb.Plugs.RequireUserMembership
   plug DivisareWeb.Plugs.PageTitle, title: "Change payment method"
 
   def info(conn, %{"token" => token} = _params) do

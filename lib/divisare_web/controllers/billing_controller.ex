@@ -7,6 +7,7 @@ defmodule DivisareWeb.BillingController do
 
   require Logger
 
+  plug DivisareWeb.Plugs.RequireUserMembership
   plug DivisareWeb.Plugs.PageTitle, title: "VAT invoice"
 
   def info(conn, %{"token" => token}) do

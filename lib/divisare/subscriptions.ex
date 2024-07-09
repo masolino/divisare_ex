@@ -3,6 +3,7 @@ defmodule Divisare.Subscriptions do
   The Subscriptions context.
   """
 
+  alias Divisare.Accounts
   alias Divisare.Subscriptions.Subscription
   alias Divisare.Stripe, as: StripeService
   alias Divisare.Repo
@@ -94,6 +95,31 @@ defmodule Divisare.Subscriptions do
     |> case do
       nil -> {:error, :subscription_not_found}
       subscription -> {:ok, subscription}
+    end
+  end
+
+  def guess_user_enrollment(user) do
+    find_user_subscription(user)
+  end
+
+  defp find_user_subscription(user) do
+    case find_subscription_by_user_token(user.token) do
+      {:ok, sub} -> {:subscription, sub}
+      _ -> find_user_team_membership(user)
+    end
+  end
+
+  defp find_user_team_membership(user) do
+    case Accounts.find_user_team_membership(user.email) do
+      {:ok, team} -> {:team, team}
+      _ -> find_user_board_membership(user)
+    end
+  end
+
+  defp find_user_board_membership(user) do
+    case Accounts.find_user_board_membership(user.id) do
+      {:ok, board} -> {:board, board}
+      _ -> {:error, :no_user_enrollment}
     end
   end
 end

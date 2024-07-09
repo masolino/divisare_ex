@@ -7,6 +7,7 @@ defmodule DivisareWeb.SubscriptionController do
 
   require Logger
 
+  plug DivisareWeb.Plugs.RequireUserMembership when action not in [:info]
   plug DivisareWeb.Plugs.PageTitle, title: "Your subscription"
 
   def info(conn, %{"token" => token} = _params) do
@@ -19,7 +20,7 @@ defmodule DivisareWeb.SubscriptionController do
       enrollment = find_user_enrollment(conn, user)
       render(conn, :info, token: token, enrollment: enrollment, invoice_url: invoice_url)
     else
-      _ -> redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}")
+      _ -> redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/subscriptions")
     end
   end
 
@@ -38,32 +39,18 @@ defmodule DivisareWeb.SubscriptionController do
   end
 
   defp find_user_enrollment(conn, user) do
-    case find_user_subscription(user) do
-      {:subscription, sub} -> {:subscription, sub}
-      {:team, team} -> {:team, team}
-      {:board, board} -> {:board, board}
-      :error -> redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}")
-    end
-  end
+    case Subscriptions.guess_user_enrollment(user) do
+      {:subscription, sub} ->
+        {:subscription, sub}
 
-  defp find_user_subscription(user) do
-    case Subscriptions.find_subscription_by_user_token(user.token) do
-      {:ok, sub} -> {:subscription, sub}
-      _ -> find_user_team_membership(user)
-    end
-  end
+      {:team, team} ->
+        {:team, team}
 
-  defp find_user_team_membership(user) do
-    case Accounts.find_user_team_membership(user.email) do
-      {:ok, team} -> {:team, team}
-      _ -> find_user_board_membership(user)
-    end
-  end
+      {:board, board} ->
+        {:board, board}
 
-  defp find_user_board_membership(user) do
-    case Accounts.find_user_board_membership(user.id) do
-      {:ok, board} -> {:board, board}
-      _ -> :error
+      {:error, _} ->
+        redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/subscriptions")
     end
   end
 end
