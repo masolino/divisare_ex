@@ -1,9 +1,11 @@
 defmodule DivisareWeb.BillingController do
   use DivisareWeb, :controller
 
+  alias Divisare.Subscriptions
   alias Divisare.Accounts
   alias Divisare.Billings
   alias Divisare.Utils
+  alias Divisare.Invoices
 
   require Logger
 
@@ -13,7 +15,8 @@ defmodule DivisareWeb.BillingController do
   def info(conn, %{"token" => token}) do
     with {:ok, user} <- Accounts.find_user_by_token(token),
          {:ok, billing} <- Billings.find_user_billing_info(user.id) do
-      render(conn, :info, billing: billing, token: token)
+      message = invoicing_message(user.id, billing, token)
+      render(conn, :info, billing: billing, token: token, message: message)
     else
       {:error, :billing_not_found} ->
         changeset = Billings.Billing.new_changeset()
@@ -85,5 +88,29 @@ defmodule DivisareWeb.BillingController do
       subdivisions: Utils.Countries.eu_countries_subdivisions() |> Enum.into(%{}),
       errors: errors
     }
+  end
+
+  defp invoicing_message(user_id, billing, token) do
+    {:ok, subscription} = Subscriptions.find_subscription_by_user_token(token)
+    {:ok, invoice} = Invoices.get_user_current_history_invoice(user_id)
+
+    build_invoice_message(subscription, invoice, billing)
+  end
+
+  defp build_invoice_message(subscription, %{invoiced_at: nil}, billing) do
+    subscription_date_limit = DateTime.add(subscription.created_at, 12, :day)
+    diff = Timex.Comparable.diff(subscription_date_limit, billing.inserted_at, :days)
+
+    cond do
+      diff >= 0 ->
+        "Please allow 3-5 business days to process your request."
+
+      diff < 0 ->
+        "Your subscription was paid more than 12 days ago. This information will be used for your next invoice (if any)."
+    end
+  end
+
+  defp build_invoice_message(_, %{invoiced_at: invoiced_at}, _) do
+    "The invoice was sent on #{Calendar.strftime(invoiced_at, "%B %d, %Y")}, this information will be used for the next invoice (if any)."
   end
 end
