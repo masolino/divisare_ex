@@ -31,12 +31,31 @@ defmodule Divisare.Subscriptions do
   @doc """
   Renew a subscription.
   """
-  def cycle_subscription(stripe_subscription_id) do
+  def cycle_subscription(stripe_subscription_id, expiration_datetime) do
+    expire_on = DateTime.to_date(expiration_datetime)
+
     Subscription.by_subscription_id(stripe_subscription_id)
     |> Repo.one()
     |> case do
-      nil -> {:error, :subscription_not_found}
-      subscription -> subscription |> Subscription.changeset_cycle() |> Repo.update()
+      nil ->
+        {:error, :subscription_not_found}
+
+      subscription ->
+        subscription
+        |> Subscription.changeset_cycle(expire_on)
+        |> Repo.update()
+    end
+    |> case do
+      {:ok, subscription} ->
+        Logger.info("Stripe subscription: #{stripe_subscription_id} renewed")
+        {:ok, subscription}
+
+      {:error, err} ->
+        Logger.error(
+          "Stripe subscription: #{stripe_subscription_id} wasn't renewed: #{inspect(err)}"
+        )
+
+        {:error, err}
     end
   end
 

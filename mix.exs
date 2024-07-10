@@ -50,7 +50,7 @@ defmodule Divisare.MixProject do
       {:plug_cowboy, "~> 2.7"},
       {:timex, "~> 3.7.11"},
       {:bcrypt_elixir, "~> 3.0"},
-      {:stripity_stripe, ">= 3.1.1"},
+      {:stripity_stripe, "~> 3.2"},
       {:countries, "~> 1.6"},
       {:viex, "~> 0.1.0"},
 

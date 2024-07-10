@@ -22,6 +22,7 @@ defmodule Divisare.Invoices do
 
   @doc """
   Adds a new history invoice based on the previous one and the actual billing info. This is used when a subscription is renewed.
+  NOTE: if there isn't any billing information, it means user doesn't need an invoice, so it won't add any history invoices.
   """
   def add_history_invoice(sub_id) do
     with {:ok, hi} <- find_history_invoice_by_stripe_subscription(sub_id),

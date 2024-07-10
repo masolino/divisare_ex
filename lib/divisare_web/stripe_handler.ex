@@ -33,12 +33,13 @@ defmodule DivisareWeb.StripeHandler do
         data: %{
           object: %Stripe.Invoice{
             billing_reason: "subscription_cycle",
-            subscription: subscription_id
+            subscription: subscription_id,
+            period_end: period_end
           }
         }
       }) do
-    Logger.info("Stripe subscription: #{subscription_id} renewed")
-    Subscriptions.cycle_subscription(subscription_id)
+    {:ok, expiration_datetime} = DateTime.from_unix(period_end)
+    Subscriptions.cycle_subscription(subscription_id, expiration_datetime)
     Invoices.add_history_invoice(subscription_id)
     :ok
   end

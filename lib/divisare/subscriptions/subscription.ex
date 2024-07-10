@@ -61,10 +61,8 @@ defmodule Divisare.Subscriptions.Subscription do
     |> put_change(:auto_renew, false)
   end
 
-  def changeset_cycle(%__MODULE__{} = subscription) do
-    subscription
-    |> cast(%{}, [])
-    |> put_change(:expire_on, Timex.shift(Date.utc_today(), years: 1))
+  def changeset_cycle(%__MODULE__{} = subscription, %Date{} = expire_on) do
+    cast(subscription, %{expire_on: expire_on}, [:expire_on])
   end
 
   def by_subscription_id(query \\ __MODULE__, subscription_id) do
