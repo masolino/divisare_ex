@@ -17,6 +17,8 @@ defmodule DivisareWeb.Plugs.DeviseSession do
 
       with {:ok, session_data} <- verify_and_decrypt(session_cookie),
            {:ok, user_id} <- extract_user_id(session_data) do
+        Logger.info("===== User is logged in with ID: #{user_id}")
+
         conn
         |> put_session(:data, session_data)
         |> assign(:current_user_id, user_id)
