@@ -24,12 +24,17 @@ if System.get_env("PHX_SERVER") do
   config :divisare, DivisareWeb.Endpoint, server: true
 end
 
+# Stripe
 config :stripity_stripe, api_key: env!("STRIPE_SECRET")
 config :divisare, stripe_webhook_secret: env!("STRIPE_WEBHOOK_SECRET")
 config :divisare, stripe_publishable_key: env!("STRIPE_PUBLISHABLE")
 config :divisare, stripe_price_id: env!("STRIPE_PRICE_ID")
 
+# Rails app and sessions
 config :divisare, main_host: env!("DIVISARE_MAIN_HOST") || "http://localhost:3000"
+config :divisare, session_secret_key_base: env!("SESSION_SECRET_KEY_BASE")
+config :divisare, session_cookie_salt: env!("SESSION_ENCRYPTED_COOKIE_SALT")
+config :divisare, session_signed_cookie_salt: env!("SESSION_ENCRYPTED_SIGNED_COOKIE_SALT")
 
 if config_env() == :prod do
   database_url =

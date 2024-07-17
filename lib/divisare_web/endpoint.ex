@@ -7,7 +7,7 @@ defmodule DivisareWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_divisare_key",
-    signing_salt: "qv+02b0U",
+    signing_salt: "",
     same_site: "Lax"
   ]
 

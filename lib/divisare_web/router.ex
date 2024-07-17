@@ -9,6 +9,7 @@ defmodule DivisareWeb.Router do
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug DivisareWeb.Plugs.PageTitle, title: "Divisare"
+    plug DivisareWeb.Plugs.DeviseSession
   end
 
   pipeline :api do
