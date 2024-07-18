@@ -14,16 +14,12 @@ defmodule DivisareWeb.Plugs.RequireUserMembership do
   def init(opts), do: opts
 
   def call(conn, _opts) do
-    with {:ok, user} <- Accounts.find_user_by_token(conn.params["token"]) do
-      case Subscriptions.guess_user_enrollment(user) do
-        {:error, _} ->
-          redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/subscriptions")
+    case Subscriptions.guess_user_enrollment(conn.assigns.current_user) do
+      {:error, _} ->
+        redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/subscriptions")
 
-        _ ->
-          conn
-      end
-    else
-      _ -> redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}")
+      _ ->
+        conn
     end
   end
 end

@@ -43,11 +43,10 @@ function paymentMethodForm() {
     e.preventDefault();
     setLoading(true);
 
-    const token = pmForm.getAttribute("data-token");
     const { error } = await stripe.confirmSetup({
       elements,
       confirmParams: {
-        return_url: `${window.location.origin}/payments/${token}/complete`,
+        return_url: `${window.location.origin}/payments/complete`,
       },
     });
 

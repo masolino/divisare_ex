@@ -8,9 +8,8 @@ defmodule Divisare.Billings do
   alias Divisare.Invoices
   alias Divisare.Repo
 
-  def add_user_billing_info(params) do
-    with {:ok, user} <- Accounts.find_user_by_token(params["token"]),
-         billing_params <- Map.merge(params["billing"], %{"user_id" => user.id}),
+  def add_user_billing_info(user, params) do
+    with billing_params <- Map.merge(params["billing"], %{"user_id" => user.id}),
          {:ok, billing} <- Billing.changeset(billing_params) |> Repo.insert() do
       # NOTE: this returns ok UNLESS already invoiced. We'll just ignore the error otherwise.
       # (At this stage, we SHOULDN'T have any invoiced yet, but that's not 100% granted)
@@ -21,9 +20,8 @@ defmodule Divisare.Billings do
     end
   end
 
-  def update_user_billing_info(params) do
-    with {:ok, user} <- Accounts.find_user_by_token(params["token"]),
-         {:ok, billing} <- find_user_billing_info(user.id),
+  def update_user_billing_info(user, params) do
+    with {:ok, billing} <- find_user_billing_info(user.id),
          {:ok, billing} <- Billing.changeset(billing, params["billing"]) |> Repo.update() do
       # NOTE: this returns ok UNLESS already invoiced. We'll just ignore the error otherwise.
       Invoices.update_history_invoice_billing_data(user.id, Map.from_struct(billing))

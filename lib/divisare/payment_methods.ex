@@ -4,9 +4,9 @@ defmodule Divisare.PaymentMethods do
 
   require Logger
 
-  def get_customer_current_payment_method(user_token) do
+  def get_customer_current_payment_method(user_id) do
     with {:ok, %{stripe_customer_id: customer_id}} <-
-           Subscriptions.find_subscription_by_user_token(user_token),
+           Subscriptions.find_subscription_by_user_id(user_id),
          {:ok, payment_method} <-
            StripeService.get_customer_payment_method(customer_id) do
       parse_payment_method(payment_method)
@@ -15,9 +15,9 @@ defmodule Divisare.PaymentMethods do
     end
   end
 
-  def get_setup_intent(user_token) do
+  def get_setup_intent(user_id) do
     with {:ok, %{stripe_customer_id: customer_id}} <-
-           Subscriptions.find_subscription_by_user_token(user_token),
+           Subscriptions.find_subscription_by_user_id(user_id),
          {:ok, setup_intent} <- StripeService.create_setup_intent(customer_id) do
       {:ok, setup_intent}
     end

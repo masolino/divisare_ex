@@ -15,12 +15,12 @@
             </.link>
           </li>
           <li>
-            <.link navigate={~p"/subscription/#{@token}"}>
+            <.link navigate={~p"/subscription"}>
               Subscription
             </.link>
           </li>
           <li>
-            <.link navigate={~p"/billing/#{@token}"}>
+            <.link navigate={~p"/billing"}>
               VAT invoice
             </.link>
           </li>
@@ -35,8 +35,10 @@
       <div class="payment-method">
         <div class="row">
           <div class="small-12 medium-6 columns">
-            <p>Your actual payment method is <b><%= @current %></b>.<br>
-            Your next payment (if any) will be processed using this method.</p>
+            <p>
+              Your actual payment method is <b><%= @current %></b>.<br />
+              Your next payment (if any) will be processed using this method.
+            </p>
 
             <h3 class="subtitle">Change payment method</h3>
 
@@ -46,11 +48,10 @@
               <.simple_form
                 :let={_f}
                 for={%{}}
-                action={~p"/payments/#{@token}"}
+                action={~p"/payments"}
                 method="put"
                 id="payment-method-form"
                 data-secret={@client_secret}
-                data-token={@token}
               >
                 <div id="payment-element">
                   <!--Stripe.js injects the Payment Element-->

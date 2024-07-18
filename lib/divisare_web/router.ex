@@ -6,7 +6,7 @@ defmodule DivisareWeb.Router do
     plug :fetch_session
     plug :fetch_live_flash
     plug :put_root_layout, {DivisareWeb.Layouts, :root}
-    plug :protect_from_forgery
+    # plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug DivisareWeb.Plugs.PageTitle, title: "Divisare"
     plug DivisareWeb.Plugs.DeviseSession
@@ -25,17 +25,16 @@ defmodule DivisareWeb.Router do
     post "/onboarding", OnboardingController, :create
     get "/onboarding/confirm", OnboardingController, :confirm
 
-    get "/billing/:token", BillingController, :info
-    get "/billing/:token/edit", BillingController, :edit
+    get "/billing", BillingController, :info
+    get "/billing/edit", BillingController, :edit
     post "/billing/", BillingController, :add
     put "/billing/", BillingController, :update
 
-    get "/payments/:token", PaymentController, :info
-    get "/payments/:token/complete", PaymentController, :complete
+    get "/payments", PaymentController, :info
+    get "/payments/complete", PaymentController, :complete
 
-    get "/subscription/:token", SubscriptionController, :info
-    post "/subscription/:token/toggle", SubscriptionController, :toggle
-    put "/subscription/:token/cancel", SubscriptionController, :cancel
+    get "/subscription/", SubscriptionController, :info
+    post "/subscription/toggle", SubscriptionController, :toggle
   end
 
   # Other scopes may use custom stacks.

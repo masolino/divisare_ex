@@ -73,7 +73,7 @@ defmodule Divisare.Subscriptions.Subscription do
     from(q in query, where: q.stripe_customer_id == ^customer_id)
   end
 
-  def by_user_token(query \\ __MODULE__, user_token) do
-    from(q in query, join: u in User, on: u.id == q.person_id and u.token == ^user_token)
+  def by_user_id(query \\ __MODULE__, user_id) do
+    from(q in query, where: q.person_id == ^user_id)
   end
 end

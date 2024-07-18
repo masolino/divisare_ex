@@ -10,7 +10,6 @@ defmodule DivisareWeb.SubscriptionHTML do
   """
 
   attr :subscription, Divisare.Subscriptions.Subscription, required: true
-  attr :token, :string, required: true
 
   def toggle_subscription_button(assigns) do
     ~H"""
@@ -20,7 +19,7 @@ defmodule DivisareWeb.SubscriptionHTML do
           <.simple_form
             :let={_f}
             for={%{}}
-            action={~p"/subscription/#{@token}/toggle"}
+            action={~p"/subscription/toggle"}
             class="button_to"
             method="post"
           >
@@ -48,7 +47,6 @@ defmodule DivisareWeb.SubscriptionHTML do
   """
 
   attr :subscription, Divisare.Subscriptions.Subscription, required: true
-  attr :token, :string, required: true
   attr :invoice_url, :string
 
   def subscription_type(%{subscription: %{type: sub_type, expire_on: expiration_date}} = assigns)
@@ -139,7 +137,7 @@ defmodule DivisareWeb.SubscriptionHTML do
         ) %>.
       </p>
 
-      <.toggle_subscription_button subscription={@subscription} token={@token} />
+      <.toggle_subscription_button subscription={@subscription} />
       """
     else
       ~H"""
@@ -148,20 +146,6 @@ defmodule DivisareWeb.SubscriptionHTML do
       } />
       """
     end
-  end
-
-  @doc """
-  Renders a link to cancel the subscription.
-  """
-
-  attr :token, :string, required: true
-
-  def cancel_subscription_link(assigns) do
-    ~H"""
-    <.link href={~p"/subscription/#{@token}/cancel"} method="put" data-confirm="Are you sure?">
-      Cancel Your Subscription
-    </.link>
-    """
   end
 
   @doc """
@@ -187,7 +171,6 @@ defmodule DivisareWeb.SubscriptionHTML do
   end
 
   attr :enrollment, :any
-  attr :token, :string
   attr :invoice_url, :string
 
   def user_enrollment_type(assigns) do
@@ -196,7 +179,7 @@ defmodule DivisareWeb.SubscriptionHTML do
         assigns = assign(assigns, :subscription, subscription)
 
         ~H"""
-        <.subscription subscription={@subscription} token={@token} invoice_url={@invoice_url} />
+        <.subscription subscription={@subscription} invoice_url={@invoice_url} />
         """
 
       {:board, membership} ->

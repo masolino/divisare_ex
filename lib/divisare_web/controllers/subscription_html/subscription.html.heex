@@ -10,12 +10,12 @@
         <li>Subscription</li>
         <%= if @subscription.type == "ReaderSubscription" do %>
           <li>
-            <.link href={~p"/billing/#{@token}"}>
+            <.link href={~p"/billing/"}>
               VAT invoice
             </.link>
           </li>
           <li>
-            <.link href={~p"/payments/#{@token}"}>
+            <.link href={~p"/payments/"}>
               Payment
             </.link>
           </li>
@@ -37,7 +37,7 @@
       <a href={@invoice_url} target="_blank">Download your invoice/receipt</a>
     </div>
     <div class="current">
-      <.subscription_type subscription={@subscription} token={@token} />
+      <.subscription_type subscription={@subscription} />
     </div>
   </div>
 </div>

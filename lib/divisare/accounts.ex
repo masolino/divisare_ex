@@ -34,13 +34,6 @@ defmodule Divisare.Accounts do
     end
   end
 
-  def find_user_by_token(token) do
-    case Repo.get_by(User, token: token) do
-      nil -> {:error, :user_not_found}
-      user -> {:ok, user}
-    end
-  end
-
   def find_user_by_id(id) do
     case Repo.get_by(User, id: id) do
       nil -> {:error, :user_not_found}

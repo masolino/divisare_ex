@@ -11,7 +11,7 @@ defmodule Divisare.Accounts.UserNotifier do
     statics: DivisareWeb.static_paths()
 
   def deliver_welcome_email(user) do
-    url = url(~p"/subscription/#{user.token}")
+    url = url(~p"/subscription/")
 
     email =
       new()

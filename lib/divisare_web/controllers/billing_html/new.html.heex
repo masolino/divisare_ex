@@ -15,13 +15,13 @@
             </.link>
           </li>
           <li>
-            <.link navigate={~p"/subscription/#{@data.token}"}>
+            <.link navigate={~p"/subscription"}>
               Subscription
             </.link>
           </li>
           <li>VAT invoice</li>
           <li>
-            <.link navigate={~p"/payments/#{@data.token}"}>
+            <.link navigate={~p"/payments"}>
               Payment
             </.link>
           </li>
@@ -43,7 +43,6 @@
         id="billing-form"
       >
         <.billing_form
-          data={@data}
           form={f}
           countries={@countries}
           changeset={@changeset}
