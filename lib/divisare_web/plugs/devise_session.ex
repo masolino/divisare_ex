@@ -17,7 +17,7 @@ defmodule DivisareWeb.Plugs.DeviseSession do
 
       with {:ok, session_data} <- verify_and_decrypt(session_cookie),
            {:ok, user_id} <- extract_user_id(session_data) do
-        Logger.info("===== User is logged in with ID: #{user_id}")
+        Logger.info("======= User is logged in with ID: #{user_id}")
 
         conn
         |> put_session(:data, session_data)
@@ -55,6 +55,7 @@ defmodule DivisareWeb.Plugs.DeviseSession do
 
   defp verify_and_decrypt(cookie) do
     cookie = URI.decode_www_form(cookie)
+    Logger.info("======= Decoded cookie: #{inspect(cookie)}")
 
     secret_key_base = Application.get_env(:divisare, :session_secret_key_base)
     encrypted_cookie_salt = Application.get_env(:divisare, :session_cookie_salt)
@@ -69,6 +70,9 @@ defmodule DivisareWeb.Plugs.DeviseSession do
     sign_secret =
       :crypto.pbkdf2_hmac(:sha, secret_key_base, signed_cookie_salt, @iterations, @key_size)
 
+    Logger.info("======= Encryption key: #{Base.encode64(secret)}")
+    Logger.info("======= Signing key: #{Base.encode64(sign_secret)}")
+
     # Verify
     [data, digest] = String.split(cookie, "--")
     computed_digest = :crypto.mac(:hmac, :sha, sign_secret, data) |> Base.encode16(case: :lower)
@@ -82,6 +86,7 @@ defmodule DivisareWeb.Plugs.DeviseSession do
 
       with {:ok, decrypted_data} <- decrypt(encrypted_data, secret, iv),
            {:ok, session_data} <- Jason.decode(decrypted_data) do
+        Logger.info("======= Decrypted data: #{decrypted_data}")
         {:ok, session_data}
       else
         error -> error

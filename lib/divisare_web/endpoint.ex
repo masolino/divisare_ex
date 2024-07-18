@@ -7,8 +7,10 @@ defmodule DivisareWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_divisare_key",
-    signing_salt: "",
-    same_site: "Lax"
+    signing_salt: {Application, :get_env, :divisare, :session_signed_cookie_salt},
+    encryption_salt: {Application, :get_env, :divisare, :session_cookie_salt},
+    same_site: "None",
+    domain: ".divisare.com"
   ]
 
   socket("/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]])
