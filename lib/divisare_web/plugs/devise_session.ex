@@ -37,6 +37,7 @@ defmodule DivisareWeb.Plugs.DeviseSession do
     conn
     |> get_req_header("cookie")
     |> List.first()
+    |> IO.inspect(label: "======== COOKIE HEADER ========")
     |> parse_cookies()
     |> Map.get(cookie_name)
   end

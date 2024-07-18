@@ -6,9 +6,9 @@ defmodule DivisareWeb.Endpoint do
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_divisare_key",
-    signing_salt: {Application, :get_env, :divisare, :session_signed_cookie_salt},
-    encryption_salt: {Application, :get_env, :divisare, :session_cookie_salt},
+    key: "_divisare_com_session",
+    signing_salt: {Application, :get_env, [:divisare, :session_cookie_salt]},
+    encryption_salt: {Application, :get_env, [:divisare, :session_signed_cookie_salt]},
     same_site: "None",
     domain: ".divisare.com"
   ]
