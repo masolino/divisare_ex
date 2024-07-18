@@ -10,6 +10,7 @@ defmodule DivisareWeb.Router do
     plug :put_secure_browser_headers
     plug DivisareWeb.Plugs.PageTitle, title: "Divisare"
     plug DivisareWeb.Plugs.DeviseSession
+    plug DivisareWeb.Plugs.AuthenticateUser
   end
 
   pipeline :api do
