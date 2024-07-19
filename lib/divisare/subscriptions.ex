@@ -90,6 +90,7 @@ defmodule Divisare.Subscriptions do
 
   def find_subscription_by_user_id(user_id) do
     Subscription.by_user_id(user_id)
+    |> Subscription.is_active()
     |> Repo.one()
     |> case do
       nil -> {:error, :subscription_not_found}

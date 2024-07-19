@@ -76,4 +76,8 @@ defmodule Divisare.Subscriptions.Subscription do
   def by_user_id(query \\ __MODULE__, user_id) do
     from(q in query, where: q.person_id == ^user_id)
   end
+
+  def is_active(query \\ __MODULE__) do
+    from(q in query, where: q.expire_on >= ^Date.utc_today())
+  end
 end

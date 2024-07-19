@@ -9,10 +9,13 @@ defmodule Divisare.Onboarding do
 
   alias Divisare.Repo
 
-  def get_stripe_subscription_client_secret(name, email, price_id) do
-    case StripeService.subscribe_customer(name, email, price_id) do
-      {:ok, subscription} -> extract_client_secret_from_subscription(subscription)
-      {:error, err} -> {:error, err.message}
+  def get_stripe_subscription_client_secret(name, email, price_id, user) do
+    with :ok <- maybe_update_user_email(user, email),
+         {:ok, subscription} <- StripeService.subscribe_customer(name, email, price_id) do
+      extract_client_secret_from_subscription(subscription)
+    else
+      {:error, %{message: msg}} -> {:error, msg}
+      {:error, reason} when is_binary(reason) -> {:error, reason}
     end
   end
 
@@ -90,6 +93,21 @@ defmodule Divisare.Onboarding do
 
     {:ok, user} = Accounts.User.onboarding_changeset(params) |> Repo.insert()
     {:ok, true, user}
+  end
+
+  defp maybe_update_user_email(user, email) do
+    with {:user, true} <- {:user, not is_nil(user)},
+         {:email, false} <- {:email, email == user.email},
+         {:ok, _user} <- update_user_email(user, email) do
+      :ok
+    else
+      {:error, _} -> {:error, "can't update user email"}
+      _ -> :ok
+    end
+  end
+
+  defp update_user_email(user, email) do
+    Accounts.User.email_changeset(user, %{email: email}) |> Repo.update()
   end
 
   # we need to create history invoice using as much data as possible

@@ -59,6 +59,16 @@ defmodule Divisare.Accounts.User do
   end
 
   @doc false
+  def email_changeset(%__MODULE__{} = user, attrs) do
+    user
+    |> cast(attrs, [:email])
+    |> validate_required([:email])
+    |> validate_format(:email, Utils.email_regex())
+    |> downcase_email
+    |> unsafe_validate_unique([:email], Divisare.Repo)
+  end
+
+  @doc false
   def password_changeset(%__MODULE__{} = user \\ %__MODULE__{}, attrs) do
     user
     |> cast(attrs, @password_fields)

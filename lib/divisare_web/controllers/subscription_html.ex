@@ -72,11 +72,14 @@ defmodule DivisareWeb.SubscriptionHTML do
       """
     else
       ~H"""
-      <.renew_expired_subscription link={
-        URI.parse(
-          "#{Application.get_env(:divisare, :main_host)}/subscription/academic/#{String.downcase(@sub_label)}/renew"
-        )
-      } />
+      <.renew_expired_subscription
+        link={
+          URI.parse(
+            "#{Application.get_env(:divisare, :main_host)}/subscription/academic/#{String.downcase(@sub_label)}/renew"
+          )
+        }
+        subscription={@subscription}
+      />
       """
     end
   end
@@ -115,9 +118,10 @@ defmodule DivisareWeb.SubscriptionHTML do
       """
     else
       ~H"""
-      <.renew_expired_subscription link={
-        URI.parse("#{Application.get_env(:divisare, :main_host)}/subscriptions")
-      } />
+      <.renew_expired_subscription
+        link={URI.parse("#{Application.get_env(:divisare, :main_host)}/subscriptions")}
+        subscription={@subscription}
+      />
       """
     end
   end
@@ -141,9 +145,10 @@ defmodule DivisareWeb.SubscriptionHTML do
       """
     else
       ~H"""
-      <.renew_expired_subscription link={
-        URI.parse("#{Application.get_env(:divisare, :main_host)}/subscriptions")
-      } />
+      <.renew_expired_subscription
+        link={URI.parse("#{Application.get_env(:divisare, :main_host)}/subscriptions")}
+        subscription={@subscription}
+      />
       """
     end
   end
@@ -152,6 +157,7 @@ defmodule DivisareWeb.SubscriptionHTML do
   Renders a button link to renew the subscription.
   """
   attr :link, :string, required: true
+  attr :subscription, Divisare.Subscriptions.Subscription, required: true
 
   def renew_expired_subscription(assigns) do
     ~H"""
