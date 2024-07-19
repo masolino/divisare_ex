@@ -13,8 +13,9 @@ defmodule DivisareWeb.Plugs.RequireUserMembership do
   def init(opts), do: opts
 
   def call(conn, _opts) do
-    with {:user, user} <- {:user, conn.assigns.current_user},
-         {res, _} when res != :error <- Subscriptions.guess_user_enrollment(user) do
+    with {:user, user} when not is_nil(user) <- {:user, conn.assigns.current_user},
+         {kind, sub} <- Subscriptions.guess_user_enrollment(user),
+         true <- Subscriptions.check_user_enrollment_is_active({kind, sub}) do
       conn
     else
       _ -> redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/subscriptions")

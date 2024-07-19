@@ -110,6 +110,25 @@ defmodule Divisare.Subscriptions do
     find_user_subscription(user)
   end
 
+  def check_user_enrollment_is_active({:subscription, sub}) do
+    case Date.compare(sub.expire_on, Date.utc_today()) do
+      :gt -> true
+      :eq -> true
+      :lt -> false
+    end
+  end
+
+  def check_user_enrollment_is_active({:team, team}) do
+    case Date.compare(team.expire_on, Date.utc_today()) do
+      :gt -> true
+      :eq -> true
+      :lt -> false
+    end
+  end
+
+  def check_user_enrollment_is_active({:board, board}), do: board.status == :active
+  def check_user_enrollment_is_active(_), do: false
+
   defp find_user_subscription(user) do
     case find_subscription_by_user_id(user.id) do
       {:ok, sub} -> {:subscription, sub}
