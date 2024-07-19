@@ -2,7 +2,6 @@ defmodule DivisareWeb.BillingController do
   use DivisareWeb, :controller
 
   alias Divisare.Subscriptions
-  alias Divisare.Accounts
   alias Divisare.Billings
   alias Divisare.Utils
   alias Divisare.Invoices
@@ -33,7 +32,8 @@ defmodule DivisareWeb.BillingController do
   def edit(conn, _) do
     with {:ok, billing} <- Billings.find_user_billing_info(conn.assigns.current_user_id) do
       changeset = Billings.Billing.new_changeset(billing)
-      assigns = form_assigns(changeset, [])
+      message = invoicing_message(conn.assigns.current_user_id, billing)
+      assigns = form_assigns(changeset, []) |> Map.merge(%{message: message})
       render(conn, :edit, assigns)
     else
       {:error, :billing_not_found} ->
@@ -68,7 +68,8 @@ defmodule DivisareWeb.BillingController do
     Billings.update_user_billing_info(conn.assigns.current_user, params)
     |> case do
       {:ok, billing} ->
-        render(conn, :info, billing: billing)
+        message = invoicing_message(conn.assigns.current_user_id, billing)
+        render(conn, :info, billing: billing, message: message)
 
       {:error, %Ecto.Changeset{errors: errs} = changeset} ->
         errors = Enum.map(errs, fn {k, {e, _}} -> "#{k}: #{e}" end)
