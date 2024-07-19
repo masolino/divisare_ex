@@ -8,18 +8,16 @@ defmodule DivisareWeb.Plugs.RequireUserMembership do
   """
 
   alias Divisare.Subscriptions
-  alias Divisare.Accounts
   import Phoenix.Controller
 
   def init(opts), do: opts
 
   def call(conn, _opts) do
-    case Subscriptions.guess_user_enrollment(conn.assigns.current_user) do
-      {:error, _} ->
-        redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/subscriptions")
-
-      _ ->
-        conn
+    with {:user, user} <- {:user, conn.assigns.current_user},
+         {res, _} when res != :error <- Subscriptions.guess_user_enrollment(user) do
+      conn
+    else
+      _ -> redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/subscriptions")
     end
   end
 end

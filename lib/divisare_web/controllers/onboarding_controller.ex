@@ -2,8 +2,11 @@ defmodule DivisareWeb.OnboardingController do
   use DivisareWeb, :controller
 
   alias Divisare.Onboarding
+  alias Divisare.Subscriptions
 
   require Logger
+
+  plug :check_user_subscription when action in [:new]
 
   plug DivisareWeb.Plugs.PageTitle, title: "Subscribe"
 
@@ -35,6 +38,15 @@ defmodule DivisareWeb.OnboardingController do
         {:ok, user, _subscription} = Onboarding.onboard_customer(name, email, payment_intent_id)
 
         render(conn, :confirm, user: user)
+    end
+  end
+
+  defp check_user_subscription(conn, _) do
+    with {:user, user} <- {:user, conn.assigns.current_user},
+         {sub, _} when sub != :error <- Subscriptions.guess_user_enrollment(user) do
+      redirect(conn, to: ~p"/subscription")
+    else
+      _ -> conn
     end
   end
 end
