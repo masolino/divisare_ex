@@ -46,7 +46,7 @@ defmodule DivisareWeb.OnboardingController do
   end
 
   defp check_user_subscription(conn, _) do
-    with {:user, user} when not is_nil(user) <- {:user, conn.assigns.current_user},
+    with {:user, user} when not is_nil(user) <- {:user, Map.get(conn.assigns, :current_user)},
          {kind, sub} <- Subscriptions.guess_user_enrollment(user),
          true <- Subscriptions.check_user_enrollment_is_active({kind, sub}) do
       redirect(conn, to: ~p"/subscription")
