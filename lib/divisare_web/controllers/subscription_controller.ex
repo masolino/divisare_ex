@@ -1,7 +1,6 @@
 defmodule DivisareWeb.SubscriptionController do
   use DivisareWeb, :controller
 
-  alias Divisare.Accounts
   alias Divisare.Subscriptions
   alias Divisare.Stripe, as: StripeService
 
