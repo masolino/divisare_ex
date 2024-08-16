@@ -19,7 +19,7 @@ defmodule DivisareWeb.OnboardingController do
            name,
            email,
            price_id,
-           conn.assigns.current_user
+           Map.get(conn.assigns, :current_user)
          ) do
       {:ok, client_secret} -> json(conn, %{client_secret: client_secret})
       {:error, reason} -> conn |> put_status(:bad_request) |> json(%{error: reason})

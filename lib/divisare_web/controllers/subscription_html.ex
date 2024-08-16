@@ -153,6 +153,20 @@ defmodule DivisareWeb.SubscriptionHTML do
     end
   end
 
+  attr :invoice_url, :string
+
+  def subscription_invoice_url(%{invoice_url: invoice_url} = assigns) do
+    case invoice_url do
+      nil -> ~H"""
+                """
+      _ -> ~H"""
+              <div class="download-receipt">
+              <a href={@invoice_url} target="_blank">Download your invoice/receipt</a>
+              </div>
+          """
+      end
+  end
+
   @doc """
   Renders a button link to renew the subscription.
   """

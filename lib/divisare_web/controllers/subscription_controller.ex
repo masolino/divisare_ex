@@ -13,13 +13,9 @@ defmodule DivisareWeb.SubscriptionController do
   plug DivisareWeb.Plugs.PageTitle, title: "Your subscription"
 
   def info(conn, _params) do
-    with {:ok, %{stripe_subscription_id: stripe_subscription_id}} <-
-           Subscriptions.find_subscription_by_user_id(conn.assigns.current_user_id),
-         {:ok, %{latest_invoice: invoice_id}} <-
-           StripeService.get_subscription(stripe_subscription_id),
-         {:ok, %{hosted_invoice_url: invoice_url}} <- StripeService.get_invoice(invoice_id) do
-      enrollment = find_user_enrollment(conn, conn.assigns.current_user)
-      render(conn, :info, enrollment: enrollment, invoice_url: invoice_url)
+    with {:ok, enrollment} <- find_user_enrollment(conn.assigns.current_user),
+         {:ok, data} <- build_enrollment_data(enrollment) do
+          render(conn, :info, data)
     else
       _ -> redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/subscriptions")
     end
@@ -34,19 +30,27 @@ defmodule DivisareWeb.SubscriptionController do
     end
   end
 
-  defp find_user_enrollment(conn, user) do
+  defp find_user_enrollment(user) do
     case Subscriptions.guess_user_enrollment(user) do
-      {:subscription, sub} ->
-        {:subscription, sub}
-
-      {:team, team} ->
-        {:team, team}
-
-      {:board, board} ->
-        {:board, board}
-
-      {:error, _} ->
-        redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/subscriptions")
+      {:subscription, sub} -> {:ok, {:subscription, sub}}
+      {:team, team} -> {:ok, {:team, team}}
+      {:board, board} -> {:ok, {:board, board}}
+      {:error, reason} -> {:error, "can't determine user enrollment: #{inspect(reason)}"}
     end
+  end
+
+  defp build_enrollment_data({:subscription, %{stripe_subscription_id: stripe_subscription_id, type: "ReaderSubscription"}} = enrollment) do
+    with {:ok, %{latest_invoice: invoice_id}} <-
+            StripeService.get_subscription(stripe_subscription_id),
+          {:ok, %{hosted_invoice_url: invoice_url}} <- StripeService.get_invoice(invoice_id) do
+        {:ok, %{enrollment: enrollment, invoice_url: invoice_url}}
+    else
+      _ -> {:error, "invoice url not found"}
+    end
+    |> IO.inspect(label: "==== what the fuck")
+  end
+
+  defp build_enrollment_data(enrollment) do
+    {:ok, %{enrollment: enrollment, invoice_url: nil}}
   end
 end

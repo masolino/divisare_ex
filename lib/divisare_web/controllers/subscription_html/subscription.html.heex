@@ -33,9 +33,7 @@
 
 <div class="row">
   <div class="small-12 columns">
-    <div class="download-receipt">
-      <a href={@invoice_url} target="_blank">Download your invoice/receipt</a>
-    </div>
+    <.subscription_invoice_url invoice_url={@invoice_url} />
     <div class="current">
       <.subscription_type subscription={@subscription} />
     </div>
