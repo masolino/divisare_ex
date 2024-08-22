@@ -3,10 +3,12 @@ defmodule DivisareWeb.OnboardingController do
 
   alias Divisare.Onboarding
   alias Divisare.Subscriptions
+  alias Divisare.Accounts
 
   require Logger
 
   plug :check_user_subscription when action in [:new]
+  plug :check_existing_user when action in [:create]
 
   plug DivisareWeb.Plugs.PageTitle, title: "Subscribe"
 
@@ -42,6 +44,13 @@ defmodule DivisareWeb.OnboardingController do
       _ ->
         {:ok, user, _subscription} = Onboarding.onboard_customer(name, email, payment_intent_id)
         render(conn, :confirm, user: user)
+    end
+  end
+
+  defp check_existing_user(conn, %{"email" => email}) do
+    case Accounts.find_user_by_email(email) do
+      {:ok, _} -> redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/login")
+      _ -> conn
     end
   end
 
