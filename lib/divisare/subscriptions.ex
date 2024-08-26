@@ -13,6 +13,7 @@ defmodule Divisare.Subscriptions do
   def find_or_create_subscription(%{stripe_customer_id: customer_id} = params) do
     customer_id
     |> Subscription.by_customer_id()
+    |> Subscription.is_active()
     |> Repo.all()
     |> List.first()
     |> case do

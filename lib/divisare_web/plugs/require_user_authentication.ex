@@ -14,10 +14,10 @@ defmodule DivisareWeb.Plugs.RequireUserAuthentication do
   def init(opts), do: opts
 
   def call(conn, opts) do
-    case conn.assigns.current_user do
+    case Map.get(conn.assigns, :current_user, nil) do
       nil ->
         conn
-        |> redirect(to: opts[:not_logged_in_url])
+        |> redirect(external: opts[:not_logged_in_url])
         |> halt
 
       _user ->

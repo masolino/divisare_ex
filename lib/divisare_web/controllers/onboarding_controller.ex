@@ -7,8 +7,8 @@ defmodule DivisareWeb.OnboardingController do
 
   require Logger
 
-  plug :check_user_subscription when action in [:new]
-  plug :check_existing_user when action in [:create]
+  plug :check_logged_user_subscription when action in [:new, :create]
+  plug :check_existing_user_subscription when action in [:create]
 
   plug DivisareWeb.Plugs.PageTitle, title: "Subscribe"
 
@@ -47,18 +47,21 @@ defmodule DivisareWeb.OnboardingController do
     end
   end
 
-  defp check_existing_user(conn, %{"email" => email}) do
-    case Accounts.find_user_by_email(email) do
-      {:ok, _} -> redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/login")
+  defp check_logged_user_subscription(conn, _) do
+    with {:user, user} when not is_nil(user) <- {:user, Map.get(conn.assigns, :current_user)},
+         {kind, sub} when kind not in [:error] <- Subscriptions.guess_user_enrollment(user),
+         true <- Subscriptions.check_user_enrollment_is_active({kind, sub}) do
+      redirect(conn, to: ~p"/subscription")
+    else
       _ -> conn
     end
   end
 
-  defp check_user_subscription(conn, _) do
-    with {:user, user} when not is_nil(user) <- {:user, Map.get(conn.assigns, :current_user)},
-         {kind, sub} <- Subscriptions.guess_user_enrollment(user),
+  defp check_existing_user_subscription(%{body_params: %{"email" => email}} = conn, _) do
+    with {:user, {:ok, user}} <- {:user, Accounts.find_user_by_email(email)},
+         {kind, sub} when kind not in [:error] <- Subscriptions.guess_user_enrollment(user),
          true <- Subscriptions.check_user_enrollment_is_active({kind, sub}) do
-      redirect(conn, to: ~p"/subscription")
+      json(conn, %{redirect: true}) |> halt
     else
       _ -> conn
     end

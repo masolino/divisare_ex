@@ -21,7 +21,7 @@ defmodule DivisareWeb.StripeHandler do
         type: "invoice.payment_failed",
         data: %{object: %Stripe.Invoice{subscription: subscription_id}}
       }) do
-    Logger.warn("Payment failed. Cancelling subscription : #{subscription_id}")
+    Logger.warning("Payment failed. Cancelling subscription : #{subscription_id}")
     Subscriptions.cancel_subscription(subscription_id)
     Invoices.remove_history_invoice_subscription(subscription_id)
     :ok

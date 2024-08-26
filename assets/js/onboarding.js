@@ -82,7 +82,12 @@ function onboardingForm() {
     });
 
     const data = await res.json();
-    const { type, client_secret } = data;
+    const { type, client_secret, redirect } = data;
+
+    if (redirect) {
+      return window.location.replace(`${window.location.origin}/subscription`);
+    }
+
     const confirmIntent =
       type === "setup" ? stripe.confirmSetup : stripe.confirmPayment;
 
