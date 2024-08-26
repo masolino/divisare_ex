@@ -47,7 +47,6 @@ defmodule DivisareWeb.SubscriptionController do
     else
       _ -> {:error, "invoice url not found"}
     end
-    |> IO.inspect(label: "==== what the fuck")
   end
 
   defp build_enrollment_data(enrollment) do
