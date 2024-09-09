@@ -61,7 +61,19 @@ defmodule Divisare.Onboarding do
     {:ok, client_secret}
   end
 
-  defp send_welcome_email(false, _user) do
+  defp send_welcome_email(false, user) do
+    Logger.info("Sending welcome-back email to: #{inspect(user.email)}")
+
+    case UserNotifier.deliver_welcome_back_email(user) do
+      {:ok, _} ->
+        Logger.info("Welcome-back email sent to: #{inspect(user.email)}")
+
+      {:error, err} ->
+        Logger.info(
+          "A problem occurred while sending welcome-back email to #{inspect(user.email)}: #{inspect(err)}"
+        )
+    end
+
     {:ok, nil}
   end
 

@@ -26,6 +26,22 @@ defmodule Divisare.Accounts.UserNotifier do
     end
   end
 
+  def deliver_welcome_back_email(user) do
+    url = url(~p"/subscription/")
+
+    email =
+      new()
+      |> to(user.email)
+      |> from({"Divisare", "divisare@divisare.com"})
+      |> subject("Welcome back to Divisare")
+      |> render_body(:welcome_back, %{url: url})
+
+    case Mailer.deliver(email) do
+      {:ok, _} -> {:ok, email}
+      {:error, _} = error -> error
+    end
+  end
+
   defp render_body(email, template, assigns) do
     html_heex = apply(EmailHTML, String.to_atom("#{template}_html"), [assigns])
 

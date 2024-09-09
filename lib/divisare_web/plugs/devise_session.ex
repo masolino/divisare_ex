@@ -20,7 +20,6 @@ defmodule DivisareWeb.Plugs.DeviseSession do
         Logger.info("User is logged in with ID: #{user_id}")
 
         conn
-        # |> put_session(:data, session_data)
         |> assign(:current_user_id, user_id)
       else
         {:error, reason} ->
