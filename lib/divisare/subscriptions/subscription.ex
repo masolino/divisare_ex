@@ -77,6 +77,16 @@ defmodule Divisare.Subscriptions.Subscription do
     from(q in query, where: q.person_id == ^user_id)
   end
 
+  def order_by_id(query \\ __MODULE__, dir)
+
+  def order_by_id(query, :desc) do
+    order_by(query, [q], desc: q.id)
+  end
+
+  def order_by_id(query, :asc) do
+    order_by(query, [q], asc: q.id)
+  end
+
   def is_active(query \\ __MODULE__) do
     from(q in query, where: q.expire_on >= ^Date.utc_today())
   end

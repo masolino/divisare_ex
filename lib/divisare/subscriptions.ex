@@ -91,11 +91,11 @@ defmodule Divisare.Subscriptions do
 
   def find_subscription_by_user_id(user_id) do
     Subscription.by_user_id(user_id)
-    |> Subscription.is_active()
-    |> Repo.one()
+    |> Subscription.order_by_id(:desc)
+    |> Repo.all()
     |> case do
-      nil -> {:error, :subscription_not_found}
-      subscription -> {:ok, subscription}
+      [] -> {:error, :subscription_not_found}
+      [subscription | _] -> {:ok, subscription}
     end
   end
 

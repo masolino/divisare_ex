@@ -6,16 +6,14 @@ defmodule DivisareWeb.SubscriptionController do
 
   require Logger
 
-  plug DivisareWeb.Plugs.RequireUserAuthentication,
-    not_logged_in_url: "#{Application.get_env(:divisare, :main_host)}/login"
-
+  plug DivisareWeb.Plugs.RequireUserAuthentication
   plug DivisareWeb.Plugs.RequireUserMembership when action not in [:info]
   plug DivisareWeb.Plugs.PageTitle, title: "Your subscription"
 
   def info(conn, _params) do
     with {:ok, enrollment} <- find_user_enrollment(conn.assigns.current_user),
          {:ok, data} <- build_enrollment_data(enrollment) do
-          render(conn, :info, data)
+      render(conn, :info, data)
     else
       _ -> redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/subscriptions")
     end
@@ -39,11 +37,15 @@ defmodule DivisareWeb.SubscriptionController do
     end
   end
 
-  defp build_enrollment_data({:subscription, %{stripe_subscription_id: stripe_subscription_id, type: "ReaderSubscription"}} = enrollment) do
+  defp build_enrollment_data(
+         {:subscription,
+          %{stripe_subscription_id: stripe_subscription_id, type: "ReaderSubscription"}} =
+           enrollment
+       ) do
     with {:ok, %{latest_invoice: invoice_id}} <-
-            StripeService.get_subscription(stripe_subscription_id),
-          {:ok, %{hosted_invoice_url: invoice_url}} <- StripeService.get_invoice(invoice_id) do
-        {:ok, %{enrollment: enrollment, invoice_url: invoice_url}}
+           StripeService.get_subscription(stripe_subscription_id),
+         {:ok, %{hosted_invoice_url: invoice_url}} <- StripeService.get_invoice(invoice_id) do
+      {:ok, %{enrollment: enrollment, invoice_url: invoice_url}}
     else
       _ -> {:error, "invoice url not found"}
     end

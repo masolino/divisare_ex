@@ -4,7 +4,6 @@ defmodule Divisare.Billings do
   """
 
   alias Divisare.Billings.Billing
-  alias Divisare.Accounts
   alias Divisare.Invoices
   alias Divisare.Repo
 

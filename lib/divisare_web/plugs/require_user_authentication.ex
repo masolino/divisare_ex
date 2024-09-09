@@ -1,11 +1,11 @@
 defmodule DivisareWeb.Plugs.RequireUserAuthentication do
   @moduledoc """
   Checks for authenticated users, in case the user is not logged in, it will
-  redirect the request to the option :not_logged_in_url.
+  redirect the request to the option :not_logged_in_path.
 
   ## Examples
 
-      plug MyApp.Plugs.RequireUserAuthentication, not_logged_in_url: "/login"
+      plug DivisareWeb.Plugs.RequireUserAuthentication
   """
 
   import Plug.Conn
@@ -13,11 +13,13 @@ defmodule DivisareWeb.Plugs.RequireUserAuthentication do
 
   def init(opts), do: opts
 
-  def call(conn, opts) do
+  def call(conn, _opts) do
     case Map.get(conn.assigns, :current_user, nil) do
       nil ->
+        url = Path.join(Application.get_env(:divisare, :main_host, ""), "login")
+
         conn
-        |> redirect(external: opts[:not_logged_in_url])
+        |> redirect(external: url)
         |> halt
 
       _user ->

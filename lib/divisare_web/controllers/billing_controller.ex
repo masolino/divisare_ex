@@ -8,10 +8,8 @@ defmodule DivisareWeb.BillingController do
 
   require Logger
 
-  plug DivisareWeb.Plugs.RequireUserAuthentication,
-    not_logged_in_url: "#{Application.get_env(:divisare, :main_host)}/login"
-
-  plug DivisareWeb.Plugs.RequireUserMembership
+  plug DivisareWeb.Plugs.RequireUserAuthentication
+  plug DivisareWeb.Plugs.RequireUserActiveMembership
   plug DivisareWeb.Plugs.PageTitle, title: "VAT invoice"
 
   def info(conn, _) do
