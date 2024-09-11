@@ -45,11 +45,16 @@ defmodule DivisareWeb.SubscriptionController do
             type: "ReaderSubscription",
             stripe_customer_id: customer_id
           }} = enrollment
-       ) when is_nil(stripe_subscription_id) or stripe_subscription_id == ""  do
-    # sub_1Pxm9mCoZsrgQwX9SuaWLtMt
+       )
+       when is_nil(stripe_subscription_id) or stripe_subscription_id == "" do
+    Logger.warning("ENROLLMENT DATA WITH LEGACY")
+
     with {:ok, %{id: stripe_subscription_id}} <-
            StripeService.get_subscription_by_customer(customer_id),
-           {:ok, _} <- Subscriptions.update_legacy_subscription(subscription_id, %{stripe_subscription_id: stripe_subscription_id}),
+         {:ok, _} <-
+           Subscriptions.update_legacy_subscription(subscription_id, %{
+             stripe_subscription_id: stripe_subscription_id
+           }),
          {:ok, %{latest_invoice: invoice_id}} <-
            StripeService.get_subscription(stripe_subscription_id),
          {:ok, %{hosted_invoice_url: invoice_url}} <- StripeService.get_invoice(invoice_id) do
@@ -63,7 +68,10 @@ defmodule DivisareWeb.SubscriptionController do
          {:subscription,
           %{stripe_subscription_id: stripe_subscription_id, type: "ReaderSubscription"}} =
            enrollment
-       ) when not is_nil(stripe_subscription_id) and length(stripe_subscription_id) > 0 do
+       )
+       when not is_nil(stripe_subscription_id) and length(stripe_subscription_id) > 0 do
+    Logger.warning("ENROLLMENT DATA NO LEGACY")
+
     with {:ok, %{latest_invoice: invoice_id}} <-
            StripeService.get_subscription(stripe_subscription_id),
          {:ok, %{hosted_invoice_url: invoice_url}} <- StripeService.get_invoice(invoice_id) do
@@ -74,6 +82,7 @@ defmodule DivisareWeb.SubscriptionController do
   end
 
   defp build_enrollment_data(enrollment) do
+    Logger.warning("ENROLLMENT DATA NO INVOICE")
     {:ok, %{enrollment: enrollment, invoice_url: nil}}
   end
 end
