@@ -15,7 +15,9 @@ defmodule DivisareWeb.SubscriptionController do
          {:ok, data} <- build_enrollment_data(enrollment) do
       render(conn, :info, data)
     else
-      _ -> redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/subscriptions")
+      err ->
+        Logger.warning("SUBSCRIPTION INFO ERROR #{inspect(err)}")
+        redirect(conn, external: "#{Application.get_env(:divisare, :main_host)}/subscriptions")
     end
   end
 
