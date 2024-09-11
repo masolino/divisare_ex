@@ -44,7 +44,7 @@ defmodule DivisareWeb.SubscriptionController do
           %{
             stripe_subscription_id: stripe_subscription_id,
             type: "ReaderSubscription",
-            stripe_customer_token: customer_id
+            stripe_customer_id: customer_id
           }} = enrollment
        ) when is_nil(stripe_subscription_id) or stripe_subscription_id == ""  do
     # sub_1Pxm9mCoZsrgQwX9SuaWLtMt
