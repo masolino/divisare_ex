@@ -5,9 +5,6 @@ defmodule DivisareWeb.BillingController do
   alias Divisare.Billings
   alias Divisare.Utils
   alias Divisare.Invoices
-  alias Divisare.Stripe, as: StripeService
-
-  require Logger
 
   plug DivisareWeb.Plugs.RequireUserAuthentication
   plug DivisareWeb.Plugs.RequireUserActiveMembership
@@ -17,21 +14,16 @@ defmodule DivisareWeb.BillingController do
   plug DivisareWeb.Plugs.PageTitle, title: "VAT invoice"
 
   def info(conn, _) do
-    Logger.info("BILLING INFO")
-
     with {:ok, billing} <- Billings.find_user_billing_info(conn.assigns.current_user_id) do
       message = invoicing_message(conn.assigns.current_user_id, billing)
-      Logger.info("BILLING INFO OK")
       render(conn, :info, billing: billing, message: message)
     else
       {:error, :billing_not_found} ->
-        Logger.info("BILLING INFO NOT FOUND")
         changeset = Billings.Billing.new_changeset()
         assigns = form_assigns(changeset, [])
         render(conn, :new, assigns)
 
       _ ->
-        Logger.info("BILLING INFO ERROR")
         redirect(conn, external: Application.get_env(:divisare, :main_host))
     end
   end
@@ -65,8 +57,7 @@ defmodule DivisareWeb.BillingController do
         assigns = form_assigns(changeset, errors)
         render(conn, :new, assigns)
 
-      {:error, err} ->
-        Logger.error(inspect(err))
+      _ ->
         redirect(conn, to: ~p"/billing")
     end
   end
@@ -83,8 +74,7 @@ defmodule DivisareWeb.BillingController do
         assigns = form_assigns(changeset, errors)
         render(conn, :edit, assigns)
 
-      {:error, err} ->
-        Logger.error(inspect(err))
+      _ ->
         redirect(conn, to: ~p"/billing")
     end
   end
@@ -100,17 +90,11 @@ defmodule DivisareWeb.BillingController do
   end
 
   defp invoicing_message(user_id, billing) do
-    Logger.info("INVOICE MSG 1")
-
     {:ok, subscription} = Subscriptions.find_subscription_by_user_id(user_id)
-
-    {:ok, stripe_subscription} =
-      StripeService.get_subscription(subscription.stripe_subscription_id)
 
     {:ok, invoice} =
       case Invoices.get_user_current_history_invoice(user_id) do
         {:ok, invoice} ->
-          Logger.info("INVOICE MSG FOUND")
           {:ok, invoice}
 
         _ ->
@@ -119,15 +103,12 @@ defmodule DivisareWeb.BillingController do
             subscription_id: subscription.id,
             stripe_customer_id: subscription.stripe_customer_id,
             stripe_subscription_id: subscription.stripe_subscription_id,
-            stripe_payment_method_id: stripe_subscription.default_payment_method,
-            paid_at: subscription.created_at
+            paid_at: subscription.created_at,
+            invoiced_at: subscription.created_at
           }
 
-          Logger.warning("INVOICE MSG CREATED")
           Invoices.create_history_invoice(attrs)
       end
-
-    Logger.info("INVOICE MSG 2: #{inspect(invoice)}")
 
     build_invoice_message(subscription, invoice, billing)
   end
