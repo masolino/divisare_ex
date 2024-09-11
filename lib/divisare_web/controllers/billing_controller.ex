@@ -10,6 +10,9 @@ defmodule DivisareWeb.BillingController do
 
   plug DivisareWeb.Plugs.RequireUserAuthentication
   plug DivisareWeb.Plugs.RequireUserActiveMembership
+
+  plug :verify_user_current_history_invoice
+
   plug DivisareWeb.Plugs.PageTitle, title: "VAT invoice"
 
   def info(conn, _) do
@@ -92,7 +95,12 @@ defmodule DivisareWeb.BillingController do
 
   defp invoicing_message(user_id, billing) do
     {:ok, subscription} = Subscriptions.find_subscription_by_user_id(user_id)
-    {:ok, invoice} = Invoices.get_user_current_history_invoice(user_id)
+
+    {:ok, invoice} =
+      case Invoices.get_user_current_history_invoice(user_id) do
+        {:ok, invoice} -> {:ok, invoice}
+        _ -> Invoices.add_history_invoice(subscription.stripe_subscription_id)
+      end
 
     build_invoice_message(subscription, invoice, billing)
   end
@@ -112,5 +120,12 @@ defmodule DivisareWeb.BillingController do
 
   defp build_invoice_message(_, %{invoiced_at: invoiced_at}, _) do
     "The invoice was sent on #{Calendar.strftime(invoiced_at, "%B %d, %Y")}, this information will be used for the next invoice (if any)."
+  end
+
+  defp verify_user_current_history_invoice(conn, _) do
+    case Invoices.get_user_current_history_invoice(conn.assigns.current_user_id) do
+      {:ok, _} -> conn
+      _ -> redirect(conn, to: ~p"/subscription") |> halt()
+    end
   end
 end
