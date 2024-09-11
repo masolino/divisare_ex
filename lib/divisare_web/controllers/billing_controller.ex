@@ -99,7 +99,7 @@ defmodule DivisareWeb.BillingController do
     {:ok, invoice} =
       case Invoices.get_user_current_history_invoice(user_id) do
         {:ok, invoice} -> {:ok, invoice}
-        _ -> Invoices.add_history_invoice(subscription.stripe_subscription_id)
+        _ -> Invoices.create_history_invoice(subscription)
       end
 
     build_invoice_message(subscription, invoice, billing)
