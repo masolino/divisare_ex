@@ -98,19 +98,27 @@ defmodule DivisareWeb.BillingController do
           {:ok, invoice}
 
         _ ->
+
           attrs = %{
             user_id: subscription.person_id,
             subscription_id: subscription.id,
             stripe_customer_id: subscription.stripe_customer_id,
             stripe_subscription_id: subscription.stripe_subscription_id,
             paid_at: subscription.created_at,
-            invoiced_at: subscription.created_at
+            invoiced_at: maybe_subscription_invoiced_at(subscription)
           }
 
           Invoices.create_history_invoice(attrs)
       end
 
     build_invoice_message(subscription, invoice, billing)
+  end
+
+  defp maybe_subscription_invoiced_at(subscription) do
+    case subscription.business do
+      true -> subscription.created_at
+      false -> nil
+    end
   end
 
   defp build_invoice_message(subscription, %{invoiced_at: nil}, billing) do
