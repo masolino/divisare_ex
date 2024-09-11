@@ -37,24 +37,29 @@ defmodule DivisareWeb.SubscriptionController do
     end
   end
 
-
-
   defp build_enrollment_data(
          {:subscription,
-          %{stripe_subscription_id: nil, type: "ReaderSubscription", stripe_customer_token: customer_id}} =
-           enrollment
+          %{
+            stripe_subscription_id: nil,
+            type: "ReaderSubscription",
+            stripe_customer_token: customer_id
+          }} = enrollment
        ) do
-         #sub_1Pxm9mCoZsrgQwX9SuaWLtMt
-    with {:ok, %{id: stripe_subscription_id}} <- StripeService.get_subscription_by_customer(customer_id),
-        {:ok, %{latest_invoice: invoice_id}} <-
+    # sub_1Pxm9mCoZsrgQwX9SuaWLtMt
+    Logger.info("FALLBACK CUSTOMER TOKEN #{customer_id} START")
+
+    with {:ok, %{id: stripe_subscription_id}} <-
+           StripeService.get_subscription_by_customer(customer_id),
+         {:ok, %{latest_invoice: invoice_id}} <-
            StripeService.get_subscription(stripe_subscription_id),
          {:ok, %{hosted_invoice_url: invoice_url}} <- StripeService.get_invoice(invoice_id) do
       {:ok, %{enrollment: enrollment, invoice_url: invoice_url}}
     else
-      _ -> {:error, "invoice url not found"}
+      err ->
+        Logger.warning("FALLBACK CUSTOMER TOKEN ERROR #{inspect(err)}")
+        {:error, "invoice url not found"}
     end
   end
-
 
   defp build_enrollment_data(
          {:subscription,
