@@ -73,7 +73,9 @@ defmodule DivisareWeb.SubscriptionController do
          {:ok, %{hosted_invoice_url: invoice_url}} <- StripeService.get_invoice(invoice_id) do
       {:ok, %{enrollment: enrollment, invoice_url: invoice_url}}
     else
-      _ -> {:error, "invoice url not found"}
+      err ->
+        Logger.warning("ENROLLMENT DATA ERROR #{inspect(err)}")
+        {:error, "invoice url not found"}
     end
   end
 
