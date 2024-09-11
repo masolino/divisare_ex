@@ -68,8 +68,7 @@ defmodule DivisareWeb.SubscriptionController do
          {:subscription,
           %{stripe_subscription_id: stripe_subscription_id, type: "ReaderSubscription"}} =
            enrollment
-       )
-       when not is_nil(stripe_subscription_id) and length(stripe_subscription_id) > 0 do
+       ) do
     Logger.warning("ENROLLMENT DATA NO LEGACY")
 
     with {:ok, %{latest_invoice: invoice_id}} <-
