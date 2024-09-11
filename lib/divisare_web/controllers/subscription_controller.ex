@@ -44,6 +44,7 @@ defmodule DivisareWeb.SubscriptionController do
           %{stripe_subscription_id: nil, type: "ReaderSubscription", stripe_customer_token: customer_id}} =
            enrollment
        ) do
+         #sub_1Pxm9mCoZsrgQwX9SuaWLtMt
     with {:ok, %{id: stripe_subscription_id}} <- StripeService.get_subscription_by_customer(customer_id),
         {:ok, %{latest_invoice: invoice_id}} <-
            StripeService.get_subscription(stripe_subscription_id),
