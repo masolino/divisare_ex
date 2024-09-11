@@ -117,7 +117,7 @@ defmodule DivisareWeb.BillingController do
 
   defp maybe_invoiced_at(billing) do
     case billing.business do
-      true -> billing.created_at
+      true -> billing.inserted_at
       false -> nil
     end
   end
