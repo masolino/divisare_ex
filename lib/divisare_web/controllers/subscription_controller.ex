@@ -67,7 +67,7 @@ defmodule DivisareWeb.SubscriptionController do
          {:subscription,
           %{stripe_subscription_id: stripe_subscription_id, type: "ReaderSubscription"}} =
            enrollment
-       ) when  not is_nil(stripe_subscription_id) do
+       ) when not is_nil(stripe_subscription_id) and length(stripe_subscription_id) > 0 do
          Logger.warning("ENROLLMENT DATA SUB ID #{inspect(stripe_subscription_id)}")
     with {:ok, %{latest_invoice: invoice_id}} <-
            StripeService.get_subscription(stripe_subscription_id),
