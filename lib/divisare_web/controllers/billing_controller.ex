@@ -123,8 +123,8 @@ defmodule DivisareWeb.BillingController do
   end
 
   defp verify_user_current_history_invoice(conn, _) do
-    case Invoices.get_user_current_history_invoice(conn.assigns.current_user_id) do
-      {:ok, _} -> conn
+    case Subscriptions.find_subscription_by_user_id(conn.assigns.current_user_id) do
+      {:ok, %{stripe_subscription_id: stripe_subscription_id}} when not is_nil(stripe_subscription_id) and stripe_subscription_id != "" -> conn
       _ -> redirect(conn, to: ~p"/subscription") |> halt()
     end
   end
