@@ -113,7 +113,7 @@ defmodule DivisareWeb.BillingController do
 
         _ ->
         attrs = %{
-          user_id: subscription.user_id,
+          user_id: subscription.person_id,
           subscription_id: subscription.id,
           stripe_customer_id: subscription.stripe_customer_id,
           stripe_subscription_id: subscription.stripe_subscription_id,
