@@ -7,6 +7,8 @@ defmodule Divisare.Invoices do
   alias Divisare.Invoices.HistoryInvoice
   alias Divisare.Repo
 
+  require Logger
+
   @doc """
   Retrieve latest history invoice regardless if it has either been invoiced or not.
   """
@@ -50,7 +52,18 @@ defmodule Divisare.Invoices do
   Creates a new history invoice from scratch. This is used when a new subscription is created.
   """
   def create_history_invoice(attrs) do
-    attrs |> HistoryInvoice.changeset() |> Repo.insert()
+    attrs
+    |> HistoryInvoice.changeset()
+    |> Repo.insert()
+    |> case do
+      {:ok, hi} ->
+        Logger.info("INVOICE HISTORY OK")
+        {:ok, hi}
+
+      {:error, err} ->
+        Logger.info("INVOICE HISTORY FAILED")
+        {:error, err}
+    end
   end
 
   @doc """
