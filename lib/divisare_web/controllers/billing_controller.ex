@@ -17,6 +17,7 @@ defmodule DivisareWeb.BillingController do
 
   def info(conn, _) do
     Logger.info("BILLING INFO")
+
     with {:ok, billing} <- Billings.find_user_billing_info(conn.assigns.current_user_id) do
       message = invoicing_message(conn.assigns.current_user_id, billing)
       Logger.info("BILLING INFO OK")
@@ -98,15 +99,22 @@ defmodule DivisareWeb.BillingController do
   end
 
   defp invoicing_message(user_id, billing) do
+    Logger.info("INVOICE MSG 1")
+
     {:ok, subscription} = Subscriptions.find_subscription_by_user_id(user_id)
 
     {:ok, invoice} =
       case Invoices.get_user_current_history_invoice(user_id) do
-        {:ok, invoice} -> {:ok, invoice}
-        _ -> Invoices.create_history_invoice(subscription)
+        {:ok, invoice} ->
+          Logger.info("INVOICE MSG FOUND")
+          {:ok, invoice}
+
+        _ ->
+          Logger.info("INVOICE MSG CREATED")
+          Invoices.create_history_invoice(subscription)
       end
 
-    Logger.info("INVOICE MSG: #{inspect(invoice)}")
+    Logger.info("INVOICE MSG 2: #{inspect(invoice)}")
 
     build_invoice_message(subscription, invoice, billing)
   end
@@ -130,8 +138,12 @@ defmodule DivisareWeb.BillingController do
 
   defp verify_user_current_history_invoice(conn, _) do
     case Subscriptions.find_subscription_by_user_id(conn.assigns.current_user_id) do
-      {:ok, %{stripe_subscription_id: stripe_subscription_id}} when not is_nil(stripe_subscription_id) and stripe_subscription_id != "" -> conn
-      _ -> redirect(conn, to: ~p"/subscription") |> halt()
+      {:ok, %{stripe_subscription_id: stripe_subscription_id}}
+      when not is_nil(stripe_subscription_id) and stripe_subscription_id != "" ->
+        conn
+
+      _ ->
+        redirect(conn, to: ~p"/subscription") |> halt()
     end
   end
 end
