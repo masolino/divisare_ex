@@ -42,11 +42,11 @@ defmodule DivisareWeb.SubscriptionController do
   defp build_enrollment_data(
          {:subscription,
           %{
-            stripe_subscription_id: nil,
+            stripe_subscription_id: stripe_subscription_id,
             type: "ReaderSubscription",
             stripe_customer_token: customer_id
           }} = enrollment
-       ) do
+       ) when is_nil(stripe_subscription_id) or stripe_subscription_id == ""  do
     # sub_1Pxm9mCoZsrgQwX9SuaWLtMt
     Logger.info("FALLBACK CUSTOMER TOKEN #{customer_id} START")
 
