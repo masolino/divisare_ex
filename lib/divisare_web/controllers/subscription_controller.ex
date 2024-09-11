@@ -82,7 +82,7 @@ defmodule DivisareWeb.SubscriptionController do
   end
 
   defp build_enrollment_data(enrollment) do
-    Logger.warning("ENROLLMENT DATA NO INVOICE")
+    Logger.warning("ENROLLMENT DATA NO INVOICE #{inspect(enrollment)}")
     {:ok, %{enrollment: enrollment, invoice_url: nil}}
   end
 end
