@@ -62,6 +62,14 @@ defmodule Divisare.Billings.Billing do
     |> apply_validations()
   end
 
+  def by_user_id(query \\ __MODULE__, user_id) do
+    from(q in query, where: q.user_id == ^user_id)
+  end
+
+  def latest(query \\ __MODULE__) do
+    from(q in query, order_by: [desc: q.updated_at], limit: 1)
+  end
+
   defp apply_validations(changeset) do
     cond do
       is_ita_non_business(changeset) ->

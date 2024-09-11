@@ -31,7 +31,10 @@ defmodule Divisare.Billings do
   end
 
   def find_user_billing_info(user_id) do
-    case Repo.get_by(Billing, user_id: user_id) do
+    Billing.by_user_id(user_id)
+    |> Billing.latest()
+    |> Repo.one()
+    |> case do
       nil -> {:error, :billing_not_found}
       billing -> {:ok, billing}
     end
