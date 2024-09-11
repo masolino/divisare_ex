@@ -61,6 +61,34 @@ defmodule Divisare.Subscriptions do
   end
 
   @doc """
+  Update a legacy subscription to fix its values.
+  """
+  def update_legacy_subscription(subscription_id, params) do
+    Repo.get_by(Subscription, id: subscription_id)
+    |> case do
+      nil ->
+        {:error, :subscription_not_found}
+
+      subscription ->
+        subscription
+        |> Subscription.changeset_upgrade_legacy(params)
+        |> Repo.update()
+    end
+    |> case do
+      {:ok, subscription} ->
+        Logger.info("Stripe legacy subscription: #{subscription_id} updated")
+        {:ok, subscription}
+
+      {:error, err} ->
+        Logger.error(
+          "Stripe legacy subscription: #{subscription_id} wasn't updated: #{inspect(err)}"
+        )
+
+        {:error, err}
+    end
+  end
+
+  @doc """
   Cancel a subscription which might even not started yet. Usually called for payments gone wrong.
   """
   def cancel_subscription(stripe_subscription_id) do

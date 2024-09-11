@@ -65,6 +65,10 @@ defmodule Divisare.Subscriptions.Subscription do
     cast(subscription, %{expire_on: expire_on}, [:expire_on])
   end
 
+  def changeset_upgrade_legacy(%__MODULE__{} = subscription, attrs) do
+    cast(subscription, attrs, [:stripe_subscription_id])
+  end
+
   def by_subscription_id(query \\ __MODULE__, subscription_id) do
     from(q in query, where: q.stripe_subscription_id == ^subscription_id)
   end
