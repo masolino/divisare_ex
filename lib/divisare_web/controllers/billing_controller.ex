@@ -16,16 +16,20 @@ defmodule DivisareWeb.BillingController do
   plug DivisareWeb.Plugs.PageTitle, title: "VAT invoice"
 
   def info(conn, _) do
+    Logger.info("BILLING INFO")
     with {:ok, billing} <- Billings.find_user_billing_info(conn.assigns.current_user_id) do
       message = invoicing_message(conn.assigns.current_user_id, billing)
+      Logger.info("BILLING INFO OK")
       render(conn, :info, billing: billing, message: message)
     else
       {:error, :billing_not_found} ->
+        Logger.info("BILLING INFO NOT FOUND")
         changeset = Billings.Billing.new_changeset()
         assigns = form_assigns(changeset, [])
         render(conn, :new, assigns)
 
       _ ->
+        Logger.info("BILLING INFO ERROR")
         redirect(conn, external: Application.get_env(:divisare, :main_host))
     end
   end
@@ -101,6 +105,8 @@ defmodule DivisareWeb.BillingController do
         {:ok, invoice} -> {:ok, invoice}
         _ -> Invoices.create_history_invoice(subscription)
       end
+
+    Logger.info("INVOICE MSG: #{inspect(invoice)}")
 
     build_invoice_message(subscription, invoice, billing)
   end
