@@ -37,6 +37,24 @@ defmodule DivisareWeb.SubscriptionController do
     end
   end
 
+
+
+  defp build_enrollment_data(
+         {:subscription,
+          %{stripe_subscription_id: nil, type: "ReaderSubscription", stripe_customer_token: customer_id}} =
+           enrollment
+       ) do
+    with {:ok, %{id: stripe_subscription_id}} <- StripeService.get_subscription_by_customer(customer_id),
+        {:ok, %{latest_invoice: invoice_id}} <-
+           StripeService.get_subscription(stripe_subscription_id),
+         {:ok, %{hosted_invoice_url: invoice_url}} <- StripeService.get_invoice(invoice_id) do
+      {:ok, %{enrollment: enrollment, invoice_url: invoice_url}}
+    else
+      _ -> {:error, "invoice url not found"}
+    end
+  end
+
+
   defp build_enrollment_data(
          {:subscription,
           %{stripe_subscription_id: stripe_subscription_id, type: "ReaderSubscription"}} =

@@ -29,6 +29,13 @@ defmodule Divisare.Stripe do
     Stripe.Subscription.retrieve(subscription_id)
   end
 
+  def get_subscription_by_customer(customer_id) do
+    case Stripe.Subscription.list(%{customer: customer_id, status: :active}) do
+      {:ok, [sub | _]} -> {:ok, sub}
+      _ -> {:error, :subscription_not_found}
+    end
+  end
+
   def toggle_subscription_auto_renew(subscription_id, disable_auto_renew) do
     Subscription.update(subscription_id, %{cancel_at_period_end: disable_auto_renew})
   end
