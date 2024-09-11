@@ -32,10 +32,8 @@ defmodule Divisare.Stripe do
   def get_subscription_by_customer(customer_id) do
     case Stripe.Subscription.list(%{customer: customer_id}) do
       {:ok, %Stripe.List{data: [sub | _]}} ->
-        Logger.info("GET SUBSCRIPTION BY CUSTOMER OK")
         {:ok, sub}
       _ ->
-        Logger.warning("GET SUBSCRIPTION BY CUSTOMER error")
         {:error, :subscription_not_found}
     end
   end
