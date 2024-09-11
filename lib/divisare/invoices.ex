@@ -52,6 +52,8 @@ defmodule Divisare.Invoices do
   Creates a new history invoice from scratch. This is used when a new subscription is created.
   """
   def create_history_invoice(attrs) do
+    Logger.error("INVOICE HISTORY CREATE #{inspect(attrs)}")
+
     attrs
     |> HistoryInvoice.changeset()
     |> Repo.insert()
