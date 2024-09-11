@@ -103,7 +103,9 @@ defmodule DivisareWeb.BillingController do
     Logger.info("INVOICE MSG 1")
 
     {:ok, subscription} = Subscriptions.find_subscription_by_user_id(user_id)
-    {:ok, stripe_subscription} = StripeService.get_subscription(subscription.stripe_subscription_id)
+
+    {:ok, stripe_subscription} =
+      StripeService.get_subscription(subscription.stripe_subscription_id)
 
     {:ok, invoice} =
       case Invoices.get_user_current_history_invoice(user_id) do
@@ -112,14 +114,14 @@ defmodule DivisareWeb.BillingController do
           {:ok, invoice}
 
         _ ->
-        attrs = %{
-          user_id: subscription.person_id,
-          subscription_id: subscription.id,
-          stripe_customer_id: subscription.stripe_customer_id,
-          stripe_subscription_id: subscription.stripe_subscription_id,
-          stripe_payment_method_id: stripe_subscription.default_payment_method,
-          paid_at: subscription.inserted_at,
-        }
+          attrs = %{
+            user_id: subscription.person_id,
+            subscription_id: subscription.id,
+            stripe_customer_id: subscription.stripe_customer_id,
+            stripe_subscription_id: subscription.stripe_subscription_id,
+            stripe_payment_method_id: stripe_subscription.default_payment_method,
+            paid_at: subscription.created_at
+          }
 
           Logger.warning("INVOICE MSG CREATED")
           Invoices.create_history_invoice(attrs)
