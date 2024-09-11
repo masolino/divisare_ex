@@ -61,7 +61,7 @@ defmodule Divisare.Invoices do
         {:ok, hi}
 
       {:error, err} ->
-        Logger.info("INVOICE HISTORY FAILED")
+        Logger.error("INVOICE HISTORY FAILED #{inspect(err)}")
         {:error, err}
     end
   end

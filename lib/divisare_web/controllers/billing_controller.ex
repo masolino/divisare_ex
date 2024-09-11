@@ -110,7 +110,7 @@ defmodule DivisareWeb.BillingController do
           {:ok, invoice}
 
         _ ->
-          Logger.info("INVOICE MSG CREATED")
+          Logger.warning("INVOICE MSG CREATED")
           Invoices.create_history_invoice(subscription)
       end
 
