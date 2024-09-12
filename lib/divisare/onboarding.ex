@@ -136,7 +136,6 @@ defmodule Divisare.Onboarding do
         subscription_id: subscription_id,
         stripe_customer_id: stripe_customer_id,
         stripe_subscription_id: stripe_subscription_id,
-        stripe_payment_method_id: subscription.default_payment_method,
         paid_at: NaiveDateTime.utc_now()
       })
     end

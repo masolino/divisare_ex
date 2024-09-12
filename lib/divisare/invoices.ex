@@ -30,7 +30,7 @@ defmodule Divisare.Invoices do
       history_invoice =
         Map.from_keys(
           ~w[heading address postal_code country_code state_code city cf pec vat sdi_code business
-            stripe_customer_id stripe_subscription_id stripe_payment_method_id paid_at subscription_id user_id]a,
+            stripe_customer_id stripe_subscription_id paid_at subscription_id user_id]a,
           hi
         )
 

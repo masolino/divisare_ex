@@ -24,7 +24,6 @@ defmodule Divisare.Invoices.HistoryInvoice do
 
     field(:stripe_customer_id, :string)
     field(:stripe_subscription_id, :string)
-    field(:stripe_payment_method_id, :string)
     field(:paid_at, :utc_datetime)
 
     field(:invoiced_at, :utc_datetime)
@@ -40,7 +39,7 @@ defmodule Divisare.Invoices.HistoryInvoice do
   end
 
   @required_fields ~w(user_id subscription_id stripe_customer_id stripe_subscription_id  )a
-  @optional_fields ~w(stripe_payment_method_id paid_at heading business address postal_code country_code state_code city cf pec vat sdi_code invoiced_at)a
+  @optional_fields ~w(paid_at heading business address postal_code country_code state_code city cf pec vat sdi_code invoiced_at)a
 
   @doc false
   def changeset(%__MODULE__{} = hi \\ %__MODULE__{}, attrs) do
