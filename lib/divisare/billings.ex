@@ -30,6 +30,17 @@ defmodule Divisare.Billings do
     end
   end
 
+  def delete_user_billing_info(user) do
+    with {:ok, billing} <- find_user_billing_info(user.id),
+         {:ok, _} <- Repo.delete(billing) do
+      # NOTE: this returns ok UNLESS already invoiced. We'll just ignore the error otherwise.
+      Invoices.delete_history_invoice_billing_data(user.id)
+      {:ok, billing}
+    else
+      {:error, err} -> {:error, err}
+    end
+  end
+
   def find_user_billing_info(user_id) do
     Billing.by_user_id(user_id)
     |> Billing.latest()

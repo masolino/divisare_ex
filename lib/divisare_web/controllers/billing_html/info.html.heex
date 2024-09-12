@@ -67,7 +67,13 @@
     </div>
 
     <div class="small-12 columns">
-      <p><.link navigate={~p"/billing/edit"}>Edit Billing info</.link></p>
+      <p>
+        <.link navigate={~p"/billing/edit"}>Edit Billing info</.link>
+        |
+        <.link href={~p"/billing/delete"} data-confirm="Are you sure?" method="delete">
+          Remove Billing info
+        </.link>
+      </p>
     </div>
   </div>
 </div>

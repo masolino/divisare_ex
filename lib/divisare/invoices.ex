@@ -69,11 +69,20 @@ defmodule Divisare.Invoices do
   end
 
   @doc """
-  Updates an history invoice with the billing data. This is used when the billing data is updated but the invoice hasn't been emitted yet.
+  Updates an history invoice with the billing data. It's used when the billing data is updated and the invoice hasn't been emitted yet.
   """
   def update_history_invoice_billing_data(user_id, attrs) do
     with {:ok, hi} <- find_history_invoice_by_user(user_id) do
       HistoryInvoice.changeset_update(hi, attrs) |> Repo.update()
+    end
+  end
+
+  @doc """
+  Delete an history invoice with the billing data. It proceeds only when the invoice hasn't been emitted yet.
+  """
+  def delete_history_invoice_billing_data(user_id) do
+    with {:ok, hi} <- find_history_invoice_by_user(user_id) do
+      Repo.delete(hi)
     end
   end
 

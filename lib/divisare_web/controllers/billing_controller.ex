@@ -71,6 +71,12 @@ defmodule DivisareWeb.BillingController do
     end
   end
 
+  def delete(conn, _) do
+    Billings.delete_user_billing_info(conn.assigns.current_user)
+
+    redirect(conn, to: ~p"/billing")
+  end
+
   defp form_assigns(changeset, errors) do
     %{
       changeset: changeset,

@@ -29,6 +29,7 @@ defmodule DivisareWeb.Router do
     get "/billing/edit", BillingController, :edit
     post "/billing/", BillingController, :add
     put "/billing/", BillingController, :update
+    delete "/billing/delete", BillingController, :delete
 
     get "/payments", PaymentController, :info
     get "/payments/complete", PaymentController, :complete
