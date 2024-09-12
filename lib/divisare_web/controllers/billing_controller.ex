@@ -48,10 +48,6 @@ defmodule DivisareWeb.BillingController do
   def add(conn, %{"billing" => _} = params) do
     Billings.add_user_billing_info(conn.assigns.current_user, params)
     |> case do
-      {:ok, billing} ->
-        message = invoicing_message(conn.assigns.current_user_id, billing)
-        render(conn, :info, billing: billing, message: message)
-
       {:error, %Ecto.Changeset{errors: errs} = changeset} ->
         errors = Enum.map(errs, fn {k, {e, _}} -> "#{k}: #{e}" end)
         assigns = form_assigns(changeset, errors)
@@ -65,10 +61,6 @@ defmodule DivisareWeb.BillingController do
   def update(conn, %{"billing" => _} = params) do
     Billings.update_user_billing_info(conn.assigns.current_user, params)
     |> case do
-      {:ok, billing} ->
-        message = invoicing_message(conn.assigns.current_user_id, billing)
-        render(conn, :info, billing: billing, message: message)
-
       {:error, %Ecto.Changeset{errors: errs} = changeset} ->
         errors = Enum.map(errs, fn {k, {e, _}} -> "#{k}: #{e}" end)
         assigns = form_assigns(changeset, errors)
