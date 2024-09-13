@@ -23,7 +23,7 @@ defmodule DivisareWeb.Plugs.DeviseSession do
         |> assign(:current_user_id, user_id)
       else
         {:error, reason} ->
-          Logger.error("Failed to verify and decode session: #{inspect(reason)}")
+          Logger.warning("Failed to verify and decode session: #{inspect(reason)}")
           conn
       end
     else

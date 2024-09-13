@@ -44,7 +44,7 @@ defmodule Divisare.Stripe do
 
   # TODO: when changing email on divisare, update on stripe too.
   def find_or_create_stripe_customer_by_email(name, email) do
-    with {:ok, %{data: []}} <- Customer.search(%{query: "email:'#{email}'", limit: 1}),
+    with {:ok, %{data: []}} <- Customer.list(%{email: email, limit: 1}),
          {:ok, customer} <- Customer.create(%{name: name, email: email}) do
       {:ok, customer.id}
     else

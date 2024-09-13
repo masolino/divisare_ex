@@ -23,8 +23,12 @@ defmodule DivisareWeb.OnboardingController do
            price_id,
            Map.get(conn.assigns, :current_user)
          ) do
-      {:ok, client_secret} -> json(conn, %{client_secret: client_secret})
-      {:error, reason} -> conn |> put_status(:bad_request) |> json(%{error: reason})
+      {:ok, client_secret} ->
+        json(conn, %{client_secret: client_secret})
+
+      {:error, reason} ->
+        Logger.error("Error during onboarding: #{inspect(reason)}")
+        conn |> put_status(:bad_request) |> json(%{error: inspect(reason)})
     end
   end
 
