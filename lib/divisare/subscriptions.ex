@@ -48,7 +48,7 @@ defmodule Divisare.Subscriptions do
     end
     |> case do
       {:ok, subscription} ->
-        Logger.info("Stripe subscription: #{stripe_subscription_id} renewed")
+        Logger.info("Stripe subscription: #{stripe_subscription_id} renewed until #{expire_on}")
         {:ok, subscription}
 
       {:error, err} ->

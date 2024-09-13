@@ -12,6 +12,7 @@ defmodule DivisareWeb.StripeHandler do
         type: "payment_method.attached",
         data: %{object: %Stripe.PaymentMethod{id: pm_id, customer: customer_id}}
       }) do
+    Logger.info("[webhook] Updating payment method for customer #{customer_id}")
     PaymentMethods.update_default_payment_method(customer_id, pm_id)
     :ok
   end
@@ -21,7 +22,7 @@ defmodule DivisareWeb.StripeHandler do
         type: "invoice.payment_failed",
         data: %{object: %Stripe.Invoice{subscription: subscription_id}}
       }) do
-    Logger.warning("Payment failed. Cancelling subscription : #{subscription_id}")
+    Logger.warning("[webhook] Payment failed. Cancelling subscription: #{subscription_id}")
     Subscriptions.cancel_subscription(subscription_id)
     Invoices.remove_history_invoice_subscription(subscription_id)
     :ok
@@ -39,6 +40,7 @@ defmodule DivisareWeb.StripeHandler do
         }
       }) do
     {:ok, expiration_datetime} = DateTime.from_unix(period_end)
+    Logger.info("[webhook] Renewing subscription #{subscription_id} until: #{DateTime.to_date(expiration_datetime)}")
     Subscriptions.cycle_subscription(subscription_id, expiration_datetime)
     Invoices.add_history_invoice(subscription_id)
     :ok
@@ -53,13 +55,13 @@ defmodule DivisareWeb.StripeHandler do
           }
         }
       }) do
-    Logger.info("Stripe subscription: #{subscription_id} created")
+    Logger.info("[webhook] Stripe subscription: #{subscription_id} created")
     :ok
   end
 
   @impl true
   def handle_event(%Stripe.Event{type: evt}) do
-    Logger.info("Unhandled Stripe event: #{evt}")
+    Logger.info("[webhook] Unhandled Stripe event: #{evt}")
     :ok
   end
 end
