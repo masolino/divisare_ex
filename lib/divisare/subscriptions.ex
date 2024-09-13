@@ -129,6 +129,7 @@ defmodule Divisare.Subscriptions do
 
   def find_subscription_by_stripe_customer(customer_id) do
     Subscription.by_customer_id(customer_id)
+    |> Subscription.latest()
     |> Repo.one()
     |> case do
       nil -> {:error, :subscription_not_found}
